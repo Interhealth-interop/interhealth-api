@@ -1,0 +1,25 @@
+{
+    "user": [
+    {
+      "name": "InterHealth Master",
+      "email": "master@interhealth.com",
+      "password": "abcd1234",
+      "primary_document": "89864886045",
+      "type": "MASTER"
+    },
+    {
+      "name": "InterHealth Administrator",
+      "email": "admin@interhealth.com",
+      "password": "abcd1234",
+      "primary_document": "68670976005",
+      "type": "ADMIN"
+    },
+    {
+      "name": "InterHealth User",
+      "email": "user@interhealth.com",
+      "password": "abcd1234",
+      "primary_document": "26482780016",
+      "type": "USER"
+    }
+  ]
+}

@@ -1,0 +1,167 @@
+{
+    "database_transformation": [
+        {
+            "id": "695ee472b82ca274f4d3af7e",
+            "name": "Sexo",
+            "type": "SEX",
+            "value_mappings": {
+                "F": {
+                    "code": "female",
+                    "description": "Feminino"
+                },
+                "M": {
+                    "code": "male",
+                    "description": "Masculino"
+                },
+                "unknow": {
+                    "code": "unknown",
+                    "description": "Desconhecido"
+                },
+                "O": {
+                    "code": "other",
+                    "description": "Outros"
+                }
+            }
+        },
+        {
+            "id": "695ee472b82ca274f4d3af7f",
+            "name": "Mapa de Status do Paciente",
+            "type": "CUSTOM",
+            "value_mappings": {
+                "Ativo": {
+                    "code": "true",
+                    "description": "Ativo"
+                },
+                "Inativo": {
+                    "code": "false",
+                    "description": "Inativo"
+                }
+            }
+        },
+        {
+            "id": "695ee472b82ca274f4d3af81",
+            "name": "Estado Civil",
+            "type": "MARITAL_STATUS",
+            "value_mappings": {
+                "Solteiro(a)": {
+                    "code": "S",
+                    "description": "Nunca casou"
+                },
+                "Casado(a)": {
+                    "code": "M",
+                    "description": "Casado"
+                },
+                "Divorciado(a)": {
+                    "code": "D",
+                    "description": "Divorciado"
+                },
+                "Viúvo(a)": {
+                    "code": "W",
+                    "description": "Viúvo"
+                },
+                "União Estável": {
+                    "code": "C",
+                    "description": "União estável"
+                }
+            }
+        },
+        {
+            "id": "695ee472b82ca274f4d3af82",
+            "name": "Raça/Cor",
+            "type": "RACE",
+            "value_mappings": {
+                "Branca": {
+                    "code": "01",
+                    "description": "Branca"
+                },
+                "Preta": {
+                    "code": "02",
+                    "description": "Preta"
+                },
+                "Parda": {
+                    "code": "03",
+                    "description": "Parda"
+                },
+                "Amarela": {
+                    "code": "04",
+                    "description": "Amarela"
+                },
+                "Indígena": {
+                    "code": "05",
+                    "description": "Indígena"
+                }
+            }
+        },
+        {
+            "id": "695ee472b82ca274f4d3af83",
+            "name": "Identidade de Gênero",
+            "type": "GENDER_IDENTITY",
+            "value_mappings": {
+                "Feminino": {
+                    "code": "446141000124107",
+                    "description": "Identidade de gênero feminina"
+                },
+                "Masculino": {
+                    "code": "446151000124109",
+                    "description": "Identidade de gênero masculina"
+                },
+                "Não-binário": {
+                    "code": "33791000087105",
+                    "description": "Identidade de gênero não binária"
+                }
+            }
+        },
+        {
+            "id": "695ee472b82ca274f4d3af86",
+            "name": "Mapa de Status do Contato Assistencial",
+            "type": "ENCOUNTER_STATUS",
+            "value_mappings": {
+                "C": {
+                    "code": "finished",
+                    "description": "Completed"
+                },
+                "E": {
+                    "code": "entered-in-error",
+                    "description": "Error"
+                }
+            }
+        },
+        {
+            "id": "695ee472b82ca274f4d3af85",
+            "name": "Mapa de Modalidade do Atendimento",
+            "type": "ENCOUNTER_MODALITY",
+            "value_mappings": {
+                "Consulta Ambulatorial": {
+                    "code": "09",
+                    "description": "Assistência Ambulatorial"
+                },
+                "Tratamento": {
+                    "code": "04",
+                    "description": "Atenção Hospitalar"
+                }
+            }
+        },
+        {
+            "id": "695ee472b82ca274f4d3af87",
+            "name": "Caráter da Solicitação",
+            "type": "ENCOUNTER_PRIORITY",
+            "value_mappings": {
+                "Eletivo": {
+                    "code": "EL",
+                    "description": "Elective"
+                }
+            }
+        },
+        {
+            "id": "695ee472b82ca274f4d3af88",
+            "name": "Motivo do Desfecho",
+            "type": "ENCOUNTER_DISCHARGE_DISPOSITION",
+            "value_mappings": {
+                "Alta Automática": {
+                    "code": "01",
+                    "description": "Alta clínica"
+                }
+            }
+        }
+    ]
+}

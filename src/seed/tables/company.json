@@ -1,0 +1,15 @@
+{
+    "company": {
+        "id": "6977af945c5f584ab8f79fd6",
+        "code": "INTERHEALTH",
+        "name": "InterHealth",
+        "email": "master@interhealth.com",
+        "phone": "1234567890",
+        "address": "Avenida Paulista, 123",
+        "city": "São Paulo",
+        "state": "SP",
+        "zipcode": "12345-678",
+        "country": "Brazil",
+        "cnpj": "00.000.000/0000-01"
+    }
+}

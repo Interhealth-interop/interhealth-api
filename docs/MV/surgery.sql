@@ -1,0 +1,65 @@
+CREATE OR REPLACE VIEW "DBAMV"."SURGERY"
+(
+    "surgery_code",
+    "surgery_patient_code",
+    "surgery_encounter_code",
+    "surgery_procedure_code",
+    "surgery_diagnosis_code",
+    "surgery_name",
+    "surgery_observation",
+    "surgery_anesthesia_type",
+    "surgery_provider_code",
+    "surgery_start_date",
+    "surgery_start_time",
+    "surgery_end_date",
+    "surgery_end_time",
+    "surgery_status",
+    "surgery_type",
+    "surgery_access_route",
+    "surgery_date",
+    "surgery_time",
+    "surgery_updated_date",
+    "surgery_updated_time",
+    "surgery_reason",
+    "surgery_responsible"
+) AS
+SELECT AC.CD_AVISO_CIRURGIA AS "surgery_code",
+       AC.CD_PACIENTE AS "surgery_patient_code",
+       AC.CD_ATENDIMENTO AS "surgery_encounter_code",
+       C.CD_PRO_FAT AS "surgery_procedure_code",
+       AC.CD_CID AS "surgery_diagnosis_code",
+       C.DS_CIRURGIA AS "surgery_name",
+       CA.DS_OBSERVACAO AS "surgery_observation",
+       TA.DS_TIP_ANEST AS "surgery_anesthesia_type",
+       P.CD_PRESTADOR AS "surgery_provider_code",
+       TO_CHAR(AC.DT_INICIO_CIRURGIA, 'YYYY-MM-DD') AS "surgery_start_date",
+       TO_CHAR(AC.DT_INICIO_CIRURGIA, 'HH24:MI:SS') AS "surgery_start_time",
+       TO_CHAR(AC.DT_FIM_CIRURGIA, 'YYYY-MM-DD') AS "surgery_end_date",
+       TO_CHAR(AC.DT_FIM_CIRURGIA, 'HH24:MI:SS') AS "surgery_end_time",
+            DECODE(AC.TP_SITUACAO,
+              'A', 'Em Aviso',
+              'R', 'Realizada',
+              'C', 'Cancelada',
+              'G', 'Agendada',
+              'T', 'Controle de Checagem',
+              'P', 'Pre Agendamento',
+              'Situação Desconhecida') AS "surgery_status",
+       DECODE(AC.TP_CIRURGIAS,
+              'E', 'Eletiva',
+              'M', 'Emergência',
+              'U', 'Urgência',
+              'Tipo Desconhecido') AS "surgery_type",
+       VA.DS_VIA_DE_ACESSO AS "surgery_access_route",
+     
+       TO_CHAR(AC.DT_AVISO_CIRURGIA, 'YYYY-MM-DD')  AS "surgery_date", 
+       TO_CHAR(AC.DT_AVISO_CIRURGIA, 'HH24:MI:SS') AS "surgery_time",
+       TO_CHAR(AC.DT_CANCELAMENTO, 'YYYY-MM-DD') AS "surgery_updated_date",
+       TO_CHAR(AC.DT_CANCELAMENTO, 'HH24:MI:SS') AS "surgery_updated_time",
+       AC.DS_MOTIVO_CANCELAMENTO AS "surgery_reason",
+       AC.CD_USUARIO_CANCEL AS "surgery_responsible"
+  FROM DBAMV.AVISO_CIRURGIA AC 
+  LEFT JOIN DBAMV.TIP_ANEST TA ON AC.CD_TIP_ANEST = TA.CD_TIP_ANEST
+  LEFT JOIN DBAMV.CIRURGIA_AVISO CA ON AC.CD_AVISO_CIRURGIA = CA.CD_AVISO_CIRURGIA
+  LEFT JOIN DBAMV.VIA_DE_ACESSO VA ON CA.CD_VIA_DE_ACESSO = VA.CD_VIA_DE_ACESSO
+  LEFT JOIN DBAMV.CIRURGIA C ON CA.CD_CIRURGIA = C.CD_CIRURGIA
+  LEFT JOIN DBAMV.prestador_aviso P ON P.CD_CIRURGIA_AVISO = CA.CD_CIRURGIA_AVISO AND P.SN_PRINCIPAL = 'S';

@@ -1,0 +1,13 @@
+{
+    "database_connection": {
+        "id": "6977af945c5f584ab8f79fd6",
+        "name": "InterHealth Prod",
+        "type": "TASY",
+        "version": "Tasy Delphi",
+        "host": "vps61779.publiccloud.com.br",
+        "port": 1539,
+        "database": "XEPDB1",
+        "username": "TASY",
+        "password": "Fhir2026"
+    }
+}

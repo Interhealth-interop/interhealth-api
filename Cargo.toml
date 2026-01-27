@@ -1,0 +1,39 @@
+[package]
+name = "interhealth-api"
+version = "1.0.0"
+edition = "2021"
+authors = ["Thiago Silveira de Araujo"]
+
+[[bin]]
+name = "interhealth-api"
+path = "src/main.rs"
+
+[dependencies]
+tokio = { version = "1.42", features = ["full"] }
+axum = { version = "0.7", features = ["ws"] }
+tower = "0.5"
+tower-http = { version = "0.6", features = ["cors", "trace"] }
+tokio-tungstenite = "0.21"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+mongodb = { version = "2.8", features = ["tokio-runtime"] }
+bson = { version = "2.9", features = ["chrono-0_4", "uuid-1"] }
+uuid = { version = "1.11", features = ["serde", "v4"] }
+chrono = { version = "0.4", features = ["serde"] }
+dotenvy = "0.15"
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+sha2 = "0.10"
+hex = "0.4"
+validator = { version = "0.18", features = ["derive"] }
+jsonwebtoken = "9.3"
+async-trait = "0.1"
+thiserror = "1.0"
+anyhow = "1.0"
+futures = "0.3"
+oracle = "0.6"
+reqwest = { version = "0.11", features = ["json"] }
+rand = "0.8"
+time = "=0.3.36"
+
+[dev-dependencies]

@@ -1,0 +1,17 @@
+{
+    "database_integration": [{
+        "name": "Migração Pacientes",
+        "description": "Migração completa de Pacientes para o Barramento FHIR",
+        "entityType": "PATIENT",
+        "databaseConfigurationId": "6977af945c5f584ab8f79fd6",
+        "companyId": "6977af945c5f584ab8f79fd6",
+        "status": "pending"
+    },{
+        "name": "Migração Atendimentos",
+        "description": "Migração completa de Atendimentos para o Barramento FHIR",
+        "entityType": "ENCOUNTER",
+        "databaseConfigurationId": "6977af945c5f584ab8f79fd6",
+        "companyId": "6977af945c5f584ab8f79fd6",
+        "status": "pending"
+    }]
+}
