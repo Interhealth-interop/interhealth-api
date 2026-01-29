@@ -227,11 +227,12 @@ pub async fn update_database_model_value_mapping(
 
 pub async fn delete_database_model_value(
     State(state): State<AppState>,
+    auth: AuthUser,
     Path((id, value_id)): Path<(String, String)>,
 ) -> AppResult<(StatusCode, Json<ApiResponse<String>>)> {
     state
         .database_model_value_repository
-        .delete_by_id_and_owner(&id, &value_id)
+        .delete_by_id_and_owner_respecting_type(&id, &value_id, &auth.company_id)
         .await?;
 
     Ok((

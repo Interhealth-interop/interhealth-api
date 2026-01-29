@@ -58,6 +58,57 @@ impl DatabaseModelValueRepository {
         Ok(())
     }
 
+    pub async fn delete_by_id_and_owner_respecting_type(
+        &self,
+        owner_id: &str,
+        value_id: &str,
+        company_id: &str,
+    ) -> Result<(), AppError> {
+        let value = self.find_by_id_and_owner(owner_id, value_id).await?;
+
+        if value.type_field == "CUSTOM" {
+            return self.delete_by_id_and_owner(owner_id, value_id).await;
+        }
+
+        if value.type_field != "DEFAULT" {
+            return Err(AppError::BadRequest(
+                "Only DEFAULT and CUSTOM are supported".to_string(),
+            ));
+        }
+
+        let company_object_id = ObjectId::parse_str(company_id)
+            .map_err(|_| AppError::BadRequest("Invalid company ID format".to_string()))?;
+        let value_object_id = value
+            .id
+            .ok_or_else(|| AppError::Database("DatabaseModelValue has no id".to_string()))?;
+
+        let now = Utc::now();
+        let filter = doc! {
+            "_id": value_object_id,
+            "owner_id": value.owner_id,
+            "clients": { "$elemMatch": { "company_id": company_object_id } }
+        };
+
+        let update = doc! {
+            "$pull": { "clients": { "company_id": company_object_id } },
+            "$set": { "updated_at": now }
+        };
+
+        let result = self
+            .collection
+            .update_one(filter, update, None)
+            .await
+            .map_err(|e| AppError::Database(e.to_string()))?;
+
+        if result.matched_count == 0 {
+            return Err(AppError::NotFound(
+                "database_model_value company mapping not found".to_string(),
+            ));
+        }
+
+        Ok(())
+    }
+
     pub async fn upsert_company_client_mapping_by_value_id(
         &self,
         owner_id: &str,
