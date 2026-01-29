@@ -10,6 +10,7 @@ pub mod database_transformation;
 pub mod sync;
 pub mod metrics_summary;
 pub mod database_model;
+pub mod database_model_values;
 
 pub use company::{CompanyRepository, CreateCompanyDto, UpdateCompanyDto};
 pub use user::{UserRepository, CreateUserDto, UpdateUserDto};
@@ -22,3 +23,4 @@ pub use database_transformation::DatabaseTransformationRepository;
 pub use sync::SyncJobRepository;
 pub use metrics_summary::MetricsSummaryRepository;
 pub use database_model::DatabaseModelRepository;
+pub use database_model_values::DatabaseModelValueRepository;

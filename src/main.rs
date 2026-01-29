@@ -47,6 +47,7 @@ async fn main() -> anyhow::Result<()> {
             app_state.database_view_mapping_repository,
             app_state.database_model_repository,
             app_state.database_transformation_repository,
+            app_state.database_model_value_repository,
         ).await?;
         return Ok(());
     }

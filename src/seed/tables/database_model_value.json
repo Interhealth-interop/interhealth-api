@@ -1,0 +1,349 @@
+{
+    "data": [
+        {
+            "id": "695ee472b82ca274f4d3af90",
+            "owner_id": "695ee472b82ca274f4d3af70",
+            "type": "DEFAULT",
+            "code": "female",
+            "description": "Feminino",
+            "clients": [
+                {
+                    "source_key": "F",
+                    "source_description": "Feminino",
+                    "status": "pending",
+                    "company_id": "6977af945c5f584ab8f79fd6"
+                }
+            ]
+        },
+        {
+            "id": "695ee472b82ca274f4d3af91",
+            "owner_id": "695ee472b82ca274f4d3af70",
+            "type": "DEFAULT",
+            "code": "male",
+            "description": "Masculino",
+            "clients": [
+                {
+                    "source_key": "M",
+                    "source_description": "Masculino",
+                    "status": "pending",
+                    "company_id": "6977af945c5f584ab8f79fd6"
+                }
+            ]
+        },
+        {
+            "id": "695ee472b82ca274f4d3af92",
+            "owner_id": "695ee472b82ca274f4d3af70",
+            "type": "DEFAULT",
+            "code": "unknown",
+            "description": "Desconhecido",
+            "clients": [
+                {
+                    "source_key": "O",
+                    "source_description": "Outros",
+                    "status": "pending",
+                    "company_id": "6977af945c5f584ab8f79fd6"
+                }
+            ]
+        },
+        {
+            "id": "695ee472b82ca274f4d3af93",
+            "owner_id": "695ee472b82ca274f4d3af70",
+            "type": "DEFAULT",
+            "code": "other",
+            "description": "Outros",
+            "clients": [
+                {
+                    "source_key": "other",
+                    "source_description": "Outros",
+                    "status": "pending",
+                    "company_id": "6977af945c5f584ab8f79fd6"
+                }
+            ]
+        },
+        {
+            "id": "695ee472b82ca274f4d3af96",
+            "owner_id": "695ee472b82ca274f4d3b010",
+            "type": "MARITAL_STATUS",
+            "code": "S",
+            "description": "Nunca casou",
+            "clients": [
+                {
+                    "source_key": "Solteiro(a)",
+                    "source_description": "Solteiro(a)",
+                    "status": "pending",
+                    "company_id": "6977af945c5f584ab8f79fd6"
+                }
+            ]
+        },
+        {
+            "id": "695ee472b82ca274f4d3af97",
+            "owner_id": "695ee472b82ca274f4d3b010",
+            "type": "MARITAL_STATUS",
+            "code": "M",
+            "description": "Casado",
+            "clients": [
+                {
+                    "source_key": "Casado(a)",
+                    "source_description": "Casado(a)",
+                    "status": "pending",
+                    "company_id": "6977af945c5f584ab8f79fd6"
+                }
+            ]
+        },
+        {
+            "id": "695ee472b82ca274f4d3af98",
+            "owner_id": "695ee472b82ca274f4d3b010",
+            "type": "MARITAL_STATUS",
+            "code": "D",
+            "description": "Divorciado",
+            "clients": [
+                {
+                    "source_key": "Divorciado(a)",
+                    "source_description": "Divorciado(a)",
+                    "status": "pending",
+                    "company_id": "6977af945c5f584ab8f79fd6"
+                }
+            ]
+        },
+        {
+            "id": "695ee472b82ca274f4d3af99",
+            "owner_id": "695ee472b82ca274f4d3b010",
+            "type": "MARITAL_STATUS",
+            "code": "W",
+            "description": "Viúvo",
+            "clients": [
+                {
+                    "source_key": "Viúvo(a)",
+                    "source_description": "Viúvo(a)",
+                    "status": "pending",
+                    "company_id": "6977af945c5f584ab8f79fd6"
+                }
+            ]
+        },
+        {
+            "id": "695ee472b82ca274f4d3af9a",
+            "owner_id": "695ee472b82ca274f4d3b010",
+            "type": "MARITAL_STATUS",
+            "code": "C",
+            "description": "União estável",
+            "clients": [
+                {
+                    "source_key": "União Estável",
+                    "source_description": "União Estável",
+                    "status": "pending",
+                    "company_id": "6977af945c5f584ab8f79fd6"
+                }
+            ]
+        },
+        {
+            "id": "695ee472b82ca274f4d3af9b",
+            "owner_id": "695d484063aba2288e6c6414",
+            "type": "RACE",
+            "code": "01",
+            "description": "Branca",
+            "clients": [
+                {
+                    "source_key": "Branca",
+                    "source_description": "Branca",
+                    "status": "pending",
+                    "company_id": "6977af945c5f584ab8f79fd6"
+                }
+            ]
+        },
+        {
+            "id": "695ee472b82ca274f4d3af9c",
+            "owner_id": "695d484063aba2288e6c6414",
+            "type": "RACE",
+            "code": "02",
+            "description": "Preta",
+            "clients": [
+                {
+                    "source_key": "Preta",
+                    "source_description": "Preta",
+                    "status": "pending",
+                    "company_id": "6977af945c5f584ab8f79fd6"
+                }
+            ]
+        },
+        {
+            "id": "695ee472b82ca274f4d3af9d",
+            "owner_id": "695d484063aba2288e6c6414",
+            "type": "RACE",
+            "code": "03",
+            "description": "Parda",
+            "clients": [
+                {
+                    "source_key": "Parda",
+                    "source_description": "Parda",
+                    "status": "pending",
+                    "company_id": "6977af945c5f584ab8f79fd6"
+                }
+            ]
+        },
+        {
+            "id": "695ee472b82ca274f4d3af9e",
+            "owner_id": "695d484063aba2288e6c6414",
+            "type": "RACE",
+            "code": "04",
+            "description": "Amarela",
+            "clients": [
+                {
+                    "source_key": "Amarela",
+                    "source_description": "Amarela",
+                    "status": "pending",
+                    "company_id": "6977af945c5f584ab8f79fd6"
+                }
+            ]
+        },
+        {
+            "id": "695ee472b82ca274f4d3af9f",
+            "owner_id": "695d484063aba2288e6c6414",
+            "type": "RACE",
+            "code": "05",
+            "description": "Indígena",
+            "clients": [
+                {
+                    "source_key": "Indígena",
+                    "source_description": "Indígena",
+                    "status": "pending",
+                    "company_id": "6977af945c5f584ab8f79fd6"
+                }
+            ]
+        },
+        {
+            "id": "695ee472b82ca274f4d3afa0",
+            "owner_id": "695d484063aba2288e6c6413",
+            "type": "GENDER_IDENTITY",
+            "code": "446141000124107",
+            "description": "Identidade de gênero feminina",
+            "clients": [
+                {
+                    "source_key": "Feminino",
+                    "source_description": "Feminino",
+                    "status": "pending",
+                    "company_id": "6977af945c5f584ab8f79fd6"
+                }
+            ]
+        },
+        {
+            "id": "695ee472b82ca274f4d3afa1",
+            "owner_id": "695d484063aba2288e6c6413",
+            "type": "GENDER_IDENTITY",
+            "code": "446151000124109",
+            "description": "Identidade de gênero masculina",
+            "clients": [
+                {
+                    "source_key": "Masculino",
+                    "source_description": "Masculino",
+                    "status": "pending",
+                    "company_id": "6977af945c5f584ab8f79fd6"
+                }
+            ]
+        },
+        {
+            "id": "695ee472b82ca274f4d3afa2",
+            "owner_id": "695d484063aba2288e6c6413",
+            "type": "GENDER_IDENTITY",
+            "code": "33791000087105",
+            "description": "Identidade de gênero não binária",
+            "clients": [
+                {
+                    "source_key": "Não-binário",
+                    "source_description": "Não-binário",
+                    "status": "pending",
+                    "company_id": "6977af945c5f584ab8f79fd6"
+                }
+            ]
+        },
+        {
+            "id": "695ee472b82ca274f4d3afa3",
+            "owner_id": "695ee472b82ca274f4d3af81",
+            "type": "ENCOUNTER_STATUS",
+            "code": "finished",
+            "description": "Completed",
+            "clients": [
+                {
+                    "source_key": "C",
+                    "source_description": "C",
+                    "status": "pending",
+                    "company_id": "6977af945c5f584ab8f79fd6"
+                }
+            ]
+        },
+        {
+            "id": "695ee472b82ca274f4d3afa4",
+            "owner_id": "695ee472b82ca274f4d3af81",
+            "type": "ENCOUNTER_STATUS",
+            "code": "entered-in-error",
+            "description": "Error",
+            "clients": [
+                {
+                    "source_key": "E",
+                    "source_description": "E",
+                    "status": "pending",
+                    "company_id": "6977af945c5f584ab8f79fd6"
+                }
+            ]
+        },
+        {
+            "id": "695ee472b82ca274f4d3afa5",
+            "owner_id": "695ee472b82ca274f4d3af80",
+            "type": "ENCOUNTER_MODALITY",
+            "code": "09",
+            "description": "Assistência Ambulatorial",
+            "clients": [
+                {
+                    "source_key": "Consulta Ambulatorial",
+                    "source_description": "Consulta Ambulatorial",
+                    "status": "pending",
+                    "company_id": "6977af945c5f584ab8f79fd6"
+                }
+            ]
+        },
+        {
+            "id": "695ee472b82ca274f4d3afa6",
+            "owner_id": "695ee472b82ca274f4d3af80",
+            "type": "ENCOUNTER_MODALITY",
+            "code": "04",
+            "description": "Atenção Hospitalar",
+            "clients": [
+                {
+                    "source_key": "Tratamento",
+                    "source_description": "Tratamento",
+                    "status": "pending",
+                    "company_id": "6977af945c5f584ab8f79fd6"
+                }
+            ]
+        },
+        {
+            "id": "695ee472b82ca274f4d3afa7",
+            "owner_id": "695ee472b82ca274f4d3af82",
+            "type": "ENCOUNTER_PRIORITY",
+            "code": "EL",
+            "description": "Elective",
+            "clients": [
+                {
+                    "source_key": "Eletivo",
+                    "source_description": "Eletivo",
+                    "status": "pending",
+                    "company_id": "6977af945c5f584ab8f79fd6"
+                }
+            ]
+        },
+        {
+            "id": "695ee472b82ca274f4d3afa8",
+            "owner_id": "695ee472b82ca274f4d3af83",
+            "type": "ENCOUNTER_DISCHARGE_DISPOSITION",
+            "code": "01",
+            "description": "Alta clínica",
+            "clients": [
+                {
+                    "source_key": "Alta Automática",
+                    "source_description": "Alta Automática",
+                    "status": "pending",
+                    "company_id": "6977af945c5f584ab8f79fd6"
+                }
+            ]
+        }
+    ]
+}

@@ -9,6 +9,8 @@ pub mod database_transformation;
 pub mod sync;
 pub mod metrics_summary;
 pub mod database_model;
+pub mod database_model_value;
+pub mod mapping_value;
 
 pub use company::Company;
 pub use user::User;
@@ -21,3 +23,5 @@ pub use database_transformation::{DatabaseTransformation, ValueMappingItem};
 pub use sync::{SyncJobDocument, JobStatus};
 pub use metrics_summary::{MetricsSummary, MetricsSummaryResponse, CategoryStats};
 pub use database_model::{DatabaseModel, ModelValue};
+pub use database_model_value::{DatabaseModelValue, DatabaseModelValueClient};
+pub use mapping_value::MappingValue;

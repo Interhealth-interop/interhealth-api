@@ -6,7 +6,7 @@ use axum::{
 use crate::application::AppState;
 use crate::controllers::{
     user, company, auth, health, database_configuration, database_column,
-    database_table, database_view, database_view_mapping, database_transformation,
+    database_table, database_view, database_view_mapping,
     sync, metrics, database_model
 };
 
@@ -74,14 +74,6 @@ pub fn create_routes(state: AppState) -> Router {
         .route("/database-view-mapping/:id", put(database_view_mapping::update_database_view_mapping))
         .route("/database-view-mapping/:id", delete(database_view_mapping::delete_database_view_mapping))
         
-        // Database Transformation routes
-        .route("/database-transformation", post(database_transformation::create_database_transformation))
-        .route("/database-transformation", get(database_transformation::get_all_database_transformations))
-        .route("/database-transformation/models", get(database_transformation::get_available_models_for_transformation))
-        .route("/database-transformation/:id", get(database_transformation::get_database_transformation_by_id))
-        .route("/database-transformation/:id", put(database_transformation::update_database_transformation))
-        .route("/database-transformation/:id", delete(database_transformation::delete_database_transformation))
-        
         // Sync routes (Background synchronization)
         .route("/sync/init", post(sync::start_sync))  // Inicia novo job ou retoma pausado
         .route("/sync/jobs/:job_id", get(sync::get_sync_status))  // Status de job específico
@@ -100,6 +92,10 @@ pub fn create_routes(state: AppState) -> Router {
         .route("/database-model", post(database_model::create_database_model))
         .route("/database-model", get(database_model::get_all_database_models))
         .route("/database-model/:id", get(database_model::get_database_model_by_id))
+        .route("/database-model/:id/model-values", get(database_model::get_database_model_mapping_values))
+        .route("/database-model/:id/model-values", post(database_model::upsert_database_model_mapping_value))
+        .route("/database-model/:id/model-values/:value_id", put(database_model::update_database_model_value_mapping))
+        .route("/database-model/:id/model-values/:value_id", delete(database_model::delete_database_model_value))
         .route("/database-model/:id", put(database_model::update_database_model))
         .route("/database-model/:id", delete(database_model::delete_database_model))
         

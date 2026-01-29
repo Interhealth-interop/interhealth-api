@@ -1,5 +1,5 @@
 {
-      "database_view_mapping": [
+  "database_view_mapping": [
     {
       "name": "Paciente para FHIR Patient Mapping",
       "description": "Mapeamento de campos para converter dados de paciente de INTERHEALTH para formato FHIR",

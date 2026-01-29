@@ -6,7 +6,7 @@ use crate::infrastructure::repositories::{
     CompanyRepository, UserRepository, DatabaseConfigurationRepository,
     DatabaseColumnRepository, DatabaseTableRepository, DatabaseViewRepository,
     DatabaseViewMappingRepository, DatabaseTransformationRepository, SyncJobRepository,
-    MetricsSummaryRepository, DatabaseModelRepository
+    MetricsSummaryRepository, DatabaseModelRepository, DatabaseModelValueRepository
 };
 use crate::application::usecases::MetricsUseCase;
 use crate::sync::SyncManager;
@@ -28,6 +28,7 @@ pub struct AppState {
     pub sync_manager: Arc<SyncManager>,
     pub metrics_use_case: Arc<MetricsUseCase>,
     pub database_model_repository: Arc<DatabaseModelRepository>,
+    pub database_model_value_repository: Arc<DatabaseModelValueRepository>,
 }
 
 impl AppState {
@@ -67,6 +68,7 @@ impl AppState {
             sync_status,
         ));
         let database_model_repository = DatabaseModelRepository::arc(db.clone());
+        let database_model_value_repository = DatabaseModelValueRepository::arc(db.clone());
 
         Self {
             db,
@@ -84,6 +86,7 @@ impl AppState {
             sync_manager,
             metrics_use_case,
             database_model_repository,
+            database_model_value_repository,
         }
     }
     

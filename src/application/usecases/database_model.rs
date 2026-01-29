@@ -41,12 +41,14 @@ impl DatabaseModelUseCase {
             })
             .collect();
 
+        let values = if dto_values.is_empty() { None } else { Some(dto_values) };
+
         Ok(DatabaseModelEntity {
             id: model.id.unwrap().to_hex(),
             name: model.name,
             type_field: model.type_field,
             description: model.description,
-            values: Some(dto_values),
+            values,
             created_at: model.created_at.to_rfc3339(),
             updated_at: model.updated_at.to_rfc3339(),
         })
@@ -63,12 +65,18 @@ impl DatabaseModelUseCase {
                 })
                 .collect();
 
+            let values = if include_values && !dto_values.is_empty() {
+                Some(dto_values)
+            } else {
+                None
+            };
+
             DatabaseModelEntity {
                 id: m.id.unwrap().to_hex(),
                 name: m.name,
                 type_field: m.type_field,
                 description: m.description,
-                values: if include_values { Some(dto_values) } else { None },
+                values,
                 created_at: m.created_at.to_rfc3339(),
                 updated_at: m.updated_at.to_rfc3339(),
             }
@@ -94,12 +102,14 @@ impl DatabaseModelUseCase {
             })
             .collect();
 
+        let values = if dto_values.is_empty() { None } else { Some(dto_values) };
+
         Ok(DatabaseModelEntity {
             id: model.id.unwrap().to_hex(),
             name: model.name,
             type_field: model.type_field,
             description: model.description,
-            values: Some(dto_values),
+            values,
             created_at: model.created_at.to_rfc3339(),
             updated_at: model.updated_at.to_rfc3339(),
         })
@@ -124,12 +134,14 @@ impl DatabaseModelUseCase {
             })
             .collect();
 
+        let values = if dto_values.is_empty() { None } else { Some(dto_values) };
+
         Ok(DatabaseModelEntity {
             id: updated.id.unwrap().to_hex(),
             name: updated.name,
             type_field: updated.type_field,
             description: updated.description,
-            values: Some(dto_values),
+            values,
             created_at: updated.created_at.to_rfc3339(),
             updated_at: updated.updated_at.to_rfc3339(),
         })

@@ -2,15 +2,16 @@ use std::sync::Arc;
 use std::collections::HashMap;
 use serde::{Deserialize, Serialize};
 use serde::de::DeserializeOwned;
-use mongodb::bson::doc;
+use mongodb::bson::{doc, oid::ObjectId};
 use crate::utils::AppError;
 use crate::infrastructure::repositories::{
     CompanyRepository, UserRepository, DatabaseTableRepository, DatabaseColumnRepository,
     DatabaseViewMappingRepository, DatabaseTransformationRepository, DatabaseModelRepository,
+    DatabaseModelValueRepository,
     DatabaseConfigurationRepository, DatabaseViewRepository,
     CreateCompanyDto,
 };
-use crate::domain::entities::{FieldMapping, ValueMappingItem};
+use crate::domain::entities::{DatabaseModelValue, DatabaseModelValueClient, FieldMapping, ValueMappingItem};
 use crate::utils::AppResult;
 
 fn parse_seed_file<T: DeserializeOwned>(file_name: &str, content: &str) -> AppResult<Option<T>> {
@@ -44,6 +45,12 @@ struct DatabaseViewMappingSeedFile {
 struct DatabaseModelSeedFile {
     #[serde(default)]
     database_model: Vec<DatabaseModelData>,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+struct DatabaseModelValueSeedFile {
+    #[serde(default)]
+    data: Vec<DatabaseModelValueData>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -233,7 +240,28 @@ struct DatabaseModelData {
     #[serde(rename = "type")]
     type_field: String,
     description: String,
-    values: Vec<ModelValueData>,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+struct DatabaseModelValueData {
+    id: String,
+    #[serde(default)]
+    owner_id: Option<String>,
+    #[serde(rename = "type")]
+    type_field: String,
+    code: String,
+    description: String,
+    #[serde(default)]
+    clients: Vec<ClientMappingData>,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+struct ClientMappingData {
+    source_key: String,
+    source_description: String,
+    #[serde(default)]
+    status: Option<String>,
+    company_id: String,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -252,6 +280,7 @@ pub async fn seed_database(
     view_mapping_repo: Arc<DatabaseViewMappingRepository>,
     model_repo: Arc<DatabaseModelRepository>,
     transformation_repo: Arc<DatabaseTransformationRepository>,
+    database_model_value_repo: Arc<DatabaseModelValueRepository>,
 ) -> AppResult<()> {
     println!("🌱 Starting database seeding...");
 
@@ -262,7 +291,7 @@ pub async fn seed_database(
     let tables_json = include_str!("./tables/database_tables.json");
     let view_mapping_json = include_str!("./tables/database_view_mapping.json");
     let model_json = include_str!("./tables/database_model.json");
-    let transformation_json = include_str!("./tables/database_transformation.json");
+    let model_value_json = include_str!("./tables/database_model_value.json");
 
     let company_seed = parse_seed_file::<CompanySeedFile>("tables/company.json", company_json)?
         .ok_or_else(|| AppError::BadRequest("Seed file 'tables/company.json' is empty. It must contain a 'company' object.".to_string()))?;
@@ -282,11 +311,11 @@ pub async fn seed_database(
         .map(|d| d.database_model)
         .unwrap_or_default();
 
-    let database_transformations = parse_seed_file::<DatabaseTransformationSeedFile>(
-        "tables/database_transformation.json",
-        transformation_json,
+    let database_model_values = parse_seed_file::<DatabaseModelValueSeedFile>(
+        "tables/database_model_value.json",
+        model_value_json,
     )?
-    .map(|d| d.database_transformation)
+    .map(|d| d.data)
     .unwrap_or_default();
 
     let database_tables = parse_seed_file::<DatabaseTablesSeedFile>("tables/database_tables.json", tables_json)?
@@ -634,13 +663,7 @@ pub async fn seed_database(
             continue;
         }
 
-        let values: Vec<crate::domain::entities::ModelValue> = model_data.values
-            .into_iter()
-            .map(|v| crate::domain::entities::ModelValue {
-                code: v.code,
-                description: v.description,
-            })
-            .collect();
+        let values: Vec<crate::domain::entities::ModelValue> = Vec::new();
 
         model_repo.create_with_id(
             Some(model_data.id.clone()),
@@ -656,38 +679,50 @@ pub async fn seed_database(
     
     println!("  ✓ Created {} models", model_count);
 
-    println!("\n🔄 Seeding database transformations...");
-    let mut transformation_count = 0;
-
-    for transformation_data in database_transformations {
-        if transformation_repo.find_by_id(&transformation_data.id).await?.is_some() {
-            println!("  ✓ Transformation '{}' already exists, skipping...", transformation_data.id);
+    println!("\n🧩 Seeding database model values (database_model_values)...");
+    let mut model_value_count = 0;
+    for mv in database_model_values {
+        let Some(owner_id) = mv.owner_id.as_deref() else {
             continue;
-        }
+        };
 
-        let value_mappings: HashMap<String, ValueMappingItem> = transformation_data.value_mappings
-            .into_iter()
-            .map(|(key, value)| {
-                (key, ValueMappingItem {
-                    code: value.code,
-                    description: value.description,
+        // Persist nested database_model_values document (as requested)
+        let id = ObjectId::parse_str(&mv.id)
+            .map_err(|_| AppError::BadRequest("Invalid database_model_value id format".to_string()))?;
+        let owner_object_id = ObjectId::parse_str(owner_id)
+            .map_err(|_| AppError::BadRequest("Invalid owner_id format".to_string()))?;
+
+        let clients: Vec<DatabaseModelValueClient> = mv
+            .clients
+            .iter()
+            .map(|c| {
+                let company_object_id = ObjectId::parse_str(&c.company_id)
+                    .map_err(|_| AppError::BadRequest("Invalid company_id format".to_string()))?;
+                Ok(DatabaseModelValueClient {
+                    source_key: c.source_key.clone(),
+                    source_description: c.source_description.clone(),
+                    status: c.status.clone().unwrap_or_else(|| "pending".to_string()),
+                    company_id: company_object_id,
                 })
             })
-            .collect();
+            .collect::<Result<Vec<_>, AppError>>()?;
 
-        transformation_repo.create_with_id(
-            Some(transformation_data.id.clone()),
-            transformation_data.name.clone(),
-            transformation_data.type_field,
-            company_id.clone(),
-            value_mappings,
-        ).await?;
-        
-        transformation_count += 1;
-        println!("  ✓ Transformation '{}' created with ID: {}", transformation_data.name, transformation_data.id);
+        database_model_value_repo
+            .upsert_with_id(DatabaseModelValue {
+                id: Some(id),
+                owner_id: owner_object_id,
+                type_field: mv.type_field.clone(),
+                code: mv.code.clone(),
+                description: mv.description.clone(),
+                clients,
+                created_at: chrono::Utc::now(),
+                updated_at: chrono::Utc::now(),
+            })
+            .await?;
+
+        model_value_count += 1;
     }
-    
-    println!("  ✓ Created {} transformations", transformation_count);
+    println!("  ✓ Seeded {} model values", model_value_count);
 
     println!("\n✅ Database seeding completed successfully!");
     Ok(())

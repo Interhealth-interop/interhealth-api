@@ -8,6 +8,7 @@ pub mod database_view;
 pub mod database_view_mapping;
 pub mod database_transformation;
 pub mod database_model;
+pub mod database_model_value;
 pub mod fhir;
 pub mod sync;
 pub mod metrics;
@@ -27,6 +28,7 @@ pub use database_view_mapping::{
 };
 pub use database_transformation::DatabaseTransformationUseCase;
 pub use database_model::DatabaseModelUseCase;
+pub use database_model_value::MappingValueUseCase;
 pub use fhir::FhirGenerator;
 pub use sync::SyncUseCase;
 pub use metrics::MetricsUseCase;

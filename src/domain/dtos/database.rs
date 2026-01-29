@@ -287,35 +287,6 @@ pub struct DatabaseConfigurationReference {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct CreateDatabaseTransformationDto {
-    pub name: String,
-    #[serde(rename = "type")]
-    pub type_field: String,
-    #[serde(default)]
-    pub company_id: String,
-    pub value_mappings: HashMap<String, ValueMappingItem>,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct UpdateDatabaseTransformationDto {
-    pub name: Option<String>,
-    pub value_mappings: Option<HashMap<String, ValueMappingItem>>,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct DatabaseTransformationEntity {
-    pub id: String,
-    pub name: String,
-    #[serde(rename = "type")]
-    pub type_field: String,
-    pub company_id: Option<String>,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub value_mappings: Option<HashMap<String, ValueMappingItem>>,
-    pub created_at: String,
-    pub updated_at: String,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ModelValue {
     pub code: String,
     pub description: String,
@@ -327,6 +298,7 @@ pub struct CreateDatabaseModelDto {
     #[serde(rename = "type")]
     pub type_field: String,
     pub description: String,
+    #[serde(default)]
     pub values: Vec<ModelValue>,
 }
 
@@ -351,13 +323,38 @@ pub struct DatabaseModelEntity {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct AvailableModelForTransformationDto {
+pub struct MappingValueItemEntity {
+    pub source_key: String,
+    pub source_description: String,
+    pub status: String,
+    pub company_id: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct DatabaseModelValueEntity {
     pub id: String,
-    pub name: String,
+    pub owner_id: String,
     #[serde(rename = "type")]
     pub type_field: String,
+    pub code: String,
     pub description: String,
-    pub is_transformed: bool,
+    pub clients: Vec<MappingValueItemEntity>,
     pub created_at: String,
     pub updated_at: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, Validate)]
+pub struct UpsertDatabaseModelValueDto {
+    #[serde(rename = "type")]
+    pub type_field: String,
+    pub source_key: String,
+    pub source_description: String,
+    pub code: String,
+    pub description: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, Validate)]
+pub struct UpdateDatabaseModelValueClientMappingDto {
+    pub source_key: String,
+    pub source_description: String,
 }

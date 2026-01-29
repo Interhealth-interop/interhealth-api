@@ -389,14 +389,15 @@ impl DatabaseViewMappingUseCase {
         }
 
         // Fetch all transformations
-        let mut transformations = std::collections::HashMap::new();
-        if let Some(transformation_repo) = &self.transformation_repository {
-            for transformation_id in transformation_ids {
-                if let Ok(Some(transformation)) = transformation_repo.find_by_id(&transformation_id).await {
-                    transformations.insert(transformation_id.clone(), transformation);
-                }
-            }
-        }
+        let mut transformations: std::collections::HashMap<String, DatabaseTransformation> =
+             std::collections::HashMap::new();
+         if let Some(transformation_repo) = &self.transformation_repository {
+             for transformation_id in transformation_ids {
+                 if let Ok(Some(transformation)) = transformation_repo.find_by_id(&transformation_id).await {
+                     transformations.insert(transformation_id.clone(), transformation);
+                 }
+             }
+         }
 
         // Check if we should create a bundle based on db_view entity_type
         let should_create_bundle = db_view.entity_type == "BUNDLE";
