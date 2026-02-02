@@ -355,6 +355,9 @@ pub struct UpsertDatabaseModelValueDto {
 
 #[derive(Debug, Clone, Serialize, Deserialize, Validate)]
 pub struct UpdateDatabaseModelValueClientMappingDto {
-    pub source_key: String,
-    pub source_description: String,
+    pub source_key: Option<String>,
+    pub source_description: Option<String>,
+    pub status: Option<String>,
+    pub code: Option<String>,
+    pub description: Option<String>,
 }

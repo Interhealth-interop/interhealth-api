@@ -114,8 +114,11 @@ impl DatabaseModelValueRepository {
         owner_id: &str,
         value_id: &str,
         company_id: &str,
-        source_key: &str,
-        source_description: &str,
+        source_key: Option<&str>,
+        source_description: Option<&str>,
+        status: Option<&str>,
+        code: Option<&str>,
+        description: Option<&str>,
     ) -> Result<(), AppError> {
         let owner_object_id = ObjectId::parse_str(owner_id)
             .map_err(|_| AppError::BadRequest("Invalid owner_id format".to_string()))?;
@@ -125,6 +128,67 @@ impl DatabaseModelValueRepository {
             .map_err(|_| AppError::BadRequest("Invalid company ID format".to_string()))?;
 
         let now = Utc::now();
+
+        let existing = self
+            .collection
+            .find_one(
+                doc! {
+                    "_id": value_object_id,
+                    "owner_id": owner_object_id,
+                },
+                None,
+            )
+            .await
+            .map_err(|e| AppError::Database(e.to_string()))?
+            .ok_or_else(|| AppError::NotFound("database_model_value not found".to_string()))?;
+
+        let existing_client = existing
+            .clients
+            .iter()
+            .find(|c| c.company_id == company_object_id);
+
+        if source_key.is_none() || source_description.is_none() {
+            if existing_client.is_none() {
+                return Err(AppError::BadRequest(
+                    "source_key and source_description are required for the first mapping".to_string(),
+                ));
+            }
+        }
+
+        let new_source_key = source_key
+            .map(|s| s.to_string())
+            .or_else(|| existing_client.map(|c| c.source_key.clone()))
+            .ok_or_else(|| {
+                AppError::BadRequest("source_key is required".to_string())
+            })?;
+
+        let new_source_description = source_description
+            .map(|s| s.to_string())
+            .or_else(|| existing_client.map(|c| c.source_description.clone()))
+            .ok_or_else(|| {
+                AppError::BadRequest("source_description is required".to_string())
+            })?;
+
+        let source_key_changed = match (existing_client, source_key) {
+            (Some(existing_client), Some(incoming_source_key)) => {
+                existing_client.source_key != incoming_source_key
+            }
+            _ => false,
+        };
+
+        let code_changed = existing.type_field == "CUSTOM"
+            && code.is_some_and(|incoming_code| existing.code != incoming_code);
+
+        let existing_status = existing_client.map(|c| c.status.clone());
+
+        let new_status = if source_key_changed || code_changed {
+            "pending".to_string()
+        } else {
+            status
+                .map(|s| s.to_string())
+                .or(existing_status)
+                .unwrap_or_else(|| "pending".to_string())
+        };
 
         // Enforce invariant: a company can only have ONE mapping per database_model_value.
         // We do this by removing all existing entries for this company_id, then inserting one.
@@ -138,20 +202,34 @@ impl DatabaseModelValueRepository {
             "$set": { "updated_at": now }
         };
 
-        let pull_result = self
+        self
             .collection
             .update_one(filter_doc.clone(), pull_update, None)
             .await
             .map_err(|e| AppError::Database(e.to_string()))?;
 
-        if pull_result.matched_count == 0 {
-            return Err(AppError::NotFound("database_model_value not found".to_string()));
+        if existing.type_field == "CUSTOM" {
+            let mut set_doc = doc! { "updated_at": now };
+            if let Some(code) = code {
+                set_doc.insert("code", code);
+            }
+            if let Some(description) = description {
+                set_doc.insert("description", description);
+            }
+
+            if set_doc.len() > 1 {
+                self
+                    .collection
+                    .update_one(filter_doc.clone(), doc! { "$set": set_doc }, None)
+                    .await
+                    .map_err(|e| AppError::Database(e.to_string()))?;
+            }
         }
 
         let new_client = DatabaseModelValueClient {
-            source_key: source_key.to_string(),
-            source_description: source_description.to_string(),
-            status: "pending".to_string(),
+            source_key: new_source_key,
+            source_description: new_source_description,
+            status: new_status,
             company_id: company_object_id,
         };
 

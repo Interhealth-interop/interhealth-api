@@ -182,8 +182,11 @@ pub async fn update_database_model_value_mapping(
             &id,
             &value_id,
             &auth.company_id,
-            &payload.source_key,
-            &payload.source_description,
+            payload.source_key.as_deref(),
+            payload.source_description.as_deref(),
+            payload.status.as_deref(),
+            payload.code.as_deref(),
+            payload.description.as_deref(),
         )
         .await?;
 
