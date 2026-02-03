@@ -1,15 +1,16 @@
 use serde_json::{json, Value};
 use super::database_view_mapping::DatabaseViewMappingEntity;
 use crate::domain::fhir::r4::{bundle, resource};
-use crate::domain::entities::DatabaseTransformation;
+use crate::domain::entities::{DatabaseTransformation, DatabaseModelValue};
 use std::collections::HashMap;
 use uuid::Uuid;
+use bson::oid::ObjectId;
 
 pub struct FhirGenerator;
 
 impl FhirGenerator {
-    pub fn generate_bundle(mappings: &[DatabaseViewMappingEntity]) -> Value {
-        Self::generate_bundle_with_transformations(mappings, &HashMap::new())
+    pub fn generate_bundle(mappings: &[DatabaseViewMappingEntity], company_id: &str) -> Value {
+        Self::generate_bundle_with_model_values(mappings, &HashMap::new(), company_id)
     }
 
     pub fn generate_bundle_with_transformations(
@@ -31,8 +32,28 @@ impl FhirGenerator {
         bundle
     }
 
-    pub fn generate_resource(mapping: &DatabaseViewMappingEntity) -> Value {
-        Self::generate_resource_with_transformations(mapping, &HashMap::new())
+    pub fn generate_bundle_with_model_values(
+        mappings: &[DatabaseViewMappingEntity],
+        model_values: &HashMap<String, DatabaseModelValue>,
+        company_id: &str
+    ) -> Value {
+        let mut bundle = bundle::get_template();
+        let mut entries = Vec::new();
+
+        for mapping in mappings {
+            let resource_entry = Self::generate_resource_with_model_values(mapping, model_values, company_id);
+            entries.push(resource_entry);
+        }
+
+        if let Some(bundle_obj) = bundle.as_object_mut() {
+            bundle_obj.insert("entry".to_string(), json!(entries));
+        }
+
+        bundle
+    }
+
+    pub fn generate_resource(mapping: &DatabaseViewMappingEntity, company_id: &str) -> Value {
+        Self::generate_resource_with_model_values(mapping, &HashMap::new(), company_id)
     }
 
     pub fn generate_resource_with_transformations(
@@ -95,6 +116,125 @@ impl FhirGenerator {
                                             display_value = Some(mapping_value.description.clone());
                                         }
                                     }
+                                }
+                            }
+                            
+                            // If relationshipDestiny exists and field ends with ".reference", prefix the value
+                            if let Some(relationship) = &field_mapping.relationship_destiny {
+                                if field_mapping.field_destiny.ends_with(".reference") && has_value {
+                                    origin_value = format!("{}/{}", relationship, origin_value);
+                                }
+                            }
+                            
+                            // If referenceDestiny exists, merge it with the field value
+                            if let Some(reference_destiny) = &field_mapping.reference_destiny {
+                                Self::set_nested_value_with_reference(data_obj, &field_mapping.field_destiny, json!(origin_value), reference_destiny);
+                                
+                                // If field ends with ".code" and we have a display value, add the display field
+                                if field_mapping.field_destiny.ends_with(".code") {
+                                    if let Some(display) = display_value {
+                                        // Replace ".code" with ".display" in the path
+                                        let display_path = field_mapping.field_destiny.replace(".code", ".display");
+                                        Self::set_nested_value_with_reference(data_obj, &display_path, json!(display), reference_destiny);
+                                    }
+                                }
+                            } else if has_value {
+                                Self::set_nested_value(data_obj, &field_mapping.field_destiny, json!(origin_value));
+                                
+                                // If field ends with ".code" and we have a display value, add the display field
+                                if field_mapping.field_destiny.ends_with(".code") {
+                                    if let Some(display) = display_value {
+                                        let display_path = field_mapping.field_destiny.replace(".code", ".display");
+                                        Self::set_nested_value(data_obj, &display_path, json!(display));
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                
+                if let Some(data_obj) = resource_data.as_object() {
+                    for (key, value) in data_obj {
+                        resource.insert(key.clone(), value.clone());
+                    }
+                }
+            }
+            
+            // Build ifNoneExist before borrowing resource_obj mutably
+            let if_none_exist = Self::build_if_none_exist_from_resource(resource_obj);
+            
+            if let Some(request) = resource_obj.get_mut("request").and_then(|r| r.as_object_mut()) {
+                request.insert("method".to_string(), json!("POST"));
+                request.insert("url".to_string(), json!(resource_type));
+                request.insert("ifNoneExist".to_string(), json!(if_none_exist));
+            }
+        }
+        
+        resource_template
+    }
+
+    pub fn generate_resource_with_model_values(
+        mapping: &DatabaseViewMappingEntity,
+        model_values: &HashMap<String, DatabaseModelValue>,
+        company_id: &str
+    ) -> Value {
+        let mut resource_template = resource::get_template();
+        
+        // Parse company_id to ObjectId for comparison
+        let company_object_id = ObjectId::parse_str(company_id).ok();
+        
+        if let Some(resource_obj) = resource_template.as_object_mut() {
+            let entity_type = &mapping.entity_type;
+            let resource_type = Self::map_entity_type_to_fhir_resource(entity_type);
+            
+            // Generate UUID for fullUrl
+            let uuid = Uuid::new_v4();
+            resource_obj.insert("fullUrl".to_string(), json!(format!("urn:uuid:{}", uuid)));
+            
+            if let Some(resource) = resource_obj.get_mut("resource").and_then(|r| r.as_object_mut()) {
+                resource.insert("resourceType".to_string(), json!(resource_type));
+                
+                // Update meta tags with actual values
+                if let Some(meta) = resource.get_mut("meta").and_then(|m| m.as_object_mut()) {
+                    if let Some(tags) = meta.get_mut("tag").and_then(|t| t.as_array_mut()) {
+                        // Update client-id tag
+                        if let Some(tag) = tags.get_mut(0).and_then(|t| t.as_object_mut()) {
+                            tag.insert("code".to_string(), json!("INTERHEALTH"));
+                        }
+                        // Update data-provider tag
+                        if let Some(tag) = tags.get_mut(1).and_then(|t| t.as_object_mut()) {
+                            tag.insert("code".to_string(), json!("interhealth"));
+                        }
+                        // Update data-type tag
+                        if let Some(tag) = tags.get_mut(2).and_then(|t| t.as_object_mut()) {
+                            tag.insert("code".to_string(), json!(format!("{}-Resource", resource_type)));
+                        }
+                    }
+                }
+                
+                let mut resource_data = json!({});
+                if let Some(data_obj) = resource_data.as_object_mut() {
+                    for field_mapping in &mapping.field_mappings {
+                        // Process field even if origin is empty, but only if referenceDestiny exists
+                        let has_value = !field_mapping.field_origin.is_empty();
+                        let has_reference = field_mapping.reference_destiny.is_some();
+                        
+                        if has_value || has_reference {
+                            let mut origin_value = if has_value {
+                                format!("{}", field_mapping.field_origin)
+                            } else {
+                                String::new()
+                            };
+                            let mut display_value: Option<String> = None;
+                            
+                            // Apply database_model_value transformation if transformation_id exists and we have a value
+                            // Note: At this point, origin_value contains the placeholder like "__PATIENT_SEX__"
+                            // The actual transformation will happen when real data is fetched and replaced
+                            // We just need to mark fields that will need transformation
+                            if has_value {
+                                if let Some(_transformation_id) = &field_mapping.transformation_id {
+                                    // Transformation will be applied during data replacement
+                                    // For now, keep the placeholder value
                                 }
                             }
                             

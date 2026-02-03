@@ -1,6 +1,7 @@
 use std::collections::HashMap;
 use serde_json::Value;
-use crate::domain::entities::{FieldMapping, DatabaseTransformation};
+use bson::oid::ObjectId;
+use crate::domain::entities::{FieldMapping, DatabaseTransformation, DatabaseModelValue};
 
 /// Utility for replacing FHIR placeholder values with real database values
 pub struct Replacer;
@@ -123,6 +124,40 @@ impl Replacer {
         }
     }
 
+    /// Replace placeholders in a single entry with database_model_value transformations applied
+    pub fn replace_in_entry_with_model_values(
+        entry: &mut Value,
+        data: &HashMap<String, String>,
+        field_mappings: &[FieldMapping],
+        model_values: &HashMap<String, DatabaseModelValue>,
+        company_id: &str,
+    ) {
+        // Parse company_id to ObjectId for comparison
+        let company_object_id = ObjectId::parse_str(company_id).ok();
+        
+        // Apply database_model_value transformations to data
+        let transformed_data = Self::apply_model_value_transformations(
+            data, 
+            field_mappings, 
+            model_values, 
+            company_object_id.as_ref()
+        );
+        
+        // Replace with transformed data
+        Self::replace_in_entry(entry, &transformed_data);
+        
+        // Add display attributes for fields that have transformations and end with .code
+        if let Some(resource) = entry.get_mut("resource") {
+            Self::add_model_value_display_attributes(
+                resource, 
+                data, 
+                field_mappings, 
+                model_values, 
+                company_object_id.as_ref()
+            );
+        }
+    }
+
     /// Apply transformations to data values based on field mappings
     fn apply_transformations(
         data: &HashMap<String, String>,
@@ -153,6 +188,86 @@ impl Replacer {
         transformed_data
     }
 
+    /// Apply database_model_value transformations to data values based on field mappings
+    fn apply_model_value_transformations(
+        data: &HashMap<String, String>,
+        field_mappings: &[FieldMapping],
+        model_values: &HashMap<String, DatabaseModelValue>,
+        company_object_id: Option<&ObjectId>,
+    ) -> HashMap<String, String> {
+        let mut transformed_data = data.clone();
+        
+        // For each field mapping with a transformation_id
+        for field_mapping in field_mappings {
+            if let Some(transformation_id) = &field_mapping.transformation_id {
+                // Get the column name (field_origin)
+                let column_name = field_mapping.field_origin.to_lowercase();
+                
+                // Get the actual value from data (e.g., "F")
+                if let Some(original_value) = data.get(&column_name) {
+                    // transformation_id is the database_model owner_id
+                    // Find all database_model_values with matching owner_id
+                    for model_value in model_values.values() {
+                        if model_value.owner_id.to_hex() == *transformation_id {
+                            // Look for company-specific client mapping with matching source_key
+                            if let Some(company_oid) = company_object_id {
+                                if let Some(_client_mapping) = model_value.clients.iter()
+                                    .find(|c| c.company_id == *company_oid && c.source_key == *original_value) {
+                                    // Transform: source_key ("F") -> code ("female")
+                                    transformed_data.insert(column_name.clone(), model_value.code.clone());
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
+        transformed_data
+    }
+
+    /// Add display attributes to code fields that have database_model_value transformations
+    fn add_model_value_display_attributes(
+        resource: &mut Value,
+        data: &HashMap<String, String>,
+        field_mappings: &[FieldMapping],
+        model_values: &HashMap<String, DatabaseModelValue>,
+        company_object_id: Option<&ObjectId>,
+    ) {
+        // For each field mapping with a transformation that ends with .code
+        for field_mapping in field_mappings {
+            if let Some(transformation_id) = &field_mapping.transformation_id {
+                if field_mapping.field_destiny.ends_with(".code") {
+                    // Get the column name (field_origin)
+                    let column_name = field_mapping.field_origin.to_lowercase();
+                    
+                    // Get the actual value from data (e.g., "F")
+                    if let Some(original_value) = data.get(&column_name) {
+                        // transformation_id is the database_model owner_id
+                        // Find database_model_value with matching owner_id
+                        for model_value in model_values.values() {
+                            if model_value.owner_id.to_hex() == *transformation_id {
+                                // Look for company-specific client mapping
+                                if let Some(company_oid) = company_object_id {
+                                    if let Some(_client_mapping) = model_value.clients.iter()
+                                        .find(|c| c.company_id == *company_oid && c.source_key == *original_value) {
+                                        // Create the display path by replacing .code with .display
+                                        let display_path = field_mapping.field_destiny.replace(".code", ".display");
+                                        
+                                        // Set the display value from database_model_value description
+                                        Self::set_value_by_path(resource, &display_path, &model_value.description);
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     /// Add display attributes to code fields that have transformations
     fn add_display_attributes(
         resource: &mut Value,
@@ -178,7 +293,7 @@ impl Replacer {
                                 // Convert path to JSON pointer format and set the value
                                 // e.g., "extension[2].valueCodeableConcept.coding[0].display" 
                                 // becomes "/extension/2/valueCodeableConcept/coding/0/display"
-                                let pointer_path = Self::dot_notation_to_pointer(&display_path);
+                                let _pointer_path = Self::dot_notation_to_pointer(&display_path);
                                 
                                 // Navigate to the parent and set the display field
                                 Self::set_value_by_path(resource, &display_path, &mapped_value.description);

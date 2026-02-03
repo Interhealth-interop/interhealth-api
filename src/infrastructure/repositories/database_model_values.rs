@@ -305,6 +305,38 @@ impl DatabaseModelValueRepository {
         Ok(())
     }
 
+        pub async fn find_by_owner_ids(
+        &self,
+        owner_ids: &[String],
+    ) -> Result<Vec<DatabaseModelValue>, AppError> {
+        let owner_object_ids: Result<Vec<ObjectId>, _> = owner_ids
+            .iter()
+            .map(|id| ObjectId::parse_str(id))
+            .collect();
+        
+        let owner_object_ids = owner_object_ids
+            .map_err(|_| AppError::BadRequest("Invalid owner_id format".to_string()))?;
+        
+        let filter = doc! {
+            "owner_id": { "$in": owner_object_ids }
+        };
+        
+        let mut cursor = self
+            .collection
+            .find(filter, None)
+            .await
+            .map_err(|e| AppError::Database(e.to_string()))?;
+        
+        let mut results = Vec::new();
+        while cursor.advance().await.map_err(|e| AppError::Database(e.to_string()))? {
+            let value = cursor.deserialize_current()
+                .map_err(|e| AppError::Database(e.to_string()))?;
+            results.push(value);
+        }
+        
+        Ok(results)
+    }
+
     pub async fn delete_company_client_mapping(
         &self,
         owner_id: &str,

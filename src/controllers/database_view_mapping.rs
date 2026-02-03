@@ -116,6 +116,7 @@ pub async fn get_database_view_mappings_by_view_id(
 
 pub async fn get_database_view_mappings_preview(
     State(state): State<AppState>,
+    auth: AuthUser,
     Path(view_id): Path<String>,
 ) -> AppResult<Json<ApiResponse<Value>>> {
     let use_case = DatabaseViewMappingUseCase::with_repositories(
@@ -124,8 +125,9 @@ pub async fn get_database_view_mappings_preview(
         state.database_configuration_repository.clone(),
         state.database_table_repository.clone(),
         state.database_transformation_repository.clone(),
+        state.database_model_value_repository.clone(),
     );
-    let result = use_case.generate_fhir_preview(&view_id).await?;
+    let result = use_case.generate_fhir_preview(&view_id, &auth.company_id).await?;
 
     Ok(Json(ApiResponse::success(
         "Prévia FHIR gerada com sucesso",

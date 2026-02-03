@@ -2,8 +2,8 @@ use std::sync::Arc;
 use serde::{Deserialize, Serialize};
 use serde_json::{json, Value};
 
-use crate::domain::entities::{FieldMapping, DatabaseTransformation};
-use crate::infrastructure::repositories::{DatabaseViewMappingRepository, DatabaseViewRepository, DatabaseConfigurationRepository, DatabaseTableRepository, DatabaseTransformationRepository};
+use crate::domain::entities::{FieldMapping, DatabaseTransformation, DatabaseModelValue};
+use crate::infrastructure::repositories::{DatabaseViewMappingRepository, DatabaseViewRepository, DatabaseConfigurationRepository, DatabaseTableRepository, DatabaseTransformationRepository, DatabaseModelValueRepository};
 use crate::infrastructure::adapters::oracledb::OracleConnector;
 use crate::utils::{AppError, AppResult, PaginationResponse, Replacer, Validator};
 use super::fhir::FhirGenerator;
@@ -73,6 +73,7 @@ pub struct DatabaseViewMappingUseCase {
     config_repository: Option<Arc<DatabaseConfigurationRepository>>,
     table_repository: Option<Arc<DatabaseTableRepository>>,
     transformation_repository: Option<Arc<DatabaseTransformationRepository>>,
+    model_value_repository: Option<Arc<DatabaseModelValueRepository>>,
 }
 
 impl DatabaseViewMappingUseCase {
@@ -83,6 +84,7 @@ impl DatabaseViewMappingUseCase {
             config_repository: None,
             table_repository: None,
             transformation_repository: None,
+            model_value_repository: None,
         }
     }
 
@@ -92,6 +94,7 @@ impl DatabaseViewMappingUseCase {
         config_repository: Arc<DatabaseConfigurationRepository>,
         table_repository: Arc<DatabaseTableRepository>,
         transformation_repository: Arc<DatabaseTransformationRepository>,
+        model_value_repository: Arc<DatabaseModelValueRepository>,
     ) -> Self {
         Self {
             repository,
@@ -99,6 +102,7 @@ impl DatabaseViewMappingUseCase {
             config_repository: Some(config_repository),
             table_repository: Some(table_repository),
             transformation_repository: Some(transformation_repository),
+            model_value_repository: Some(model_value_repository),
         }
     }
 
@@ -349,7 +353,8 @@ impl DatabaseViewMappingUseCase {
 
     pub async fn generate_fhir_preview(
         &self,
-        view_id: &str
+        view_id: &str,
+        company_id: &str
     ) -> AppResult<Value> {
 
         // Fetch database view and mappings together at the start
@@ -376,25 +381,28 @@ impl DatabaseViewMappingUseCase {
             return Ok(json!({ "entries": [] }));
         }
 
-        // Collect all transformation IDs from field mappings
-        let mut transformation_ids: Vec<String> = Vec::new();
+        // Collect all transformation IDs (which are database_model owner_ids) from field mappings
+        let mut owner_ids: Vec<String> = Vec::new();
         for mapping in &mappings {
             for field_mapping in &mapping.field_mappings {
                 if let Some(transformation_id) = &field_mapping.transformation_id {
-                    if !transformation_id.is_empty() && !transformation_ids.contains(transformation_id) {
-                        transformation_ids.push(transformation_id.clone());
+                    if !transformation_id.is_empty() && !owner_ids.contains(transformation_id) {
+                        owner_ids.push(transformation_id.clone());
                     }
                 }
             }
         }
 
-        // Fetch all transformations
-        let mut transformations: std::collections::HashMap<String, DatabaseTransformation> =
+        // Fetch all database_model_values by owner_ids
+        let mut model_values: std::collections::HashMap<String, DatabaseModelValue> =
              std::collections::HashMap::new();
-         if let Some(transformation_repo) = &self.transformation_repository {
-             for transformation_id in transformation_ids {
-                 if let Ok(Some(transformation)) = transformation_repo.find_by_id(&transformation_id).await {
-                     transformations.insert(transformation_id.clone(), transformation);
+         if let Some(model_value_repo) = &self.model_value_repository {
+             if !owner_ids.is_empty() {
+                 let values = model_value_repo.find_by_owner_ids(&owner_ids).await?;
+                 for value in values {
+                     if let Some(id) = &value.id {
+                         model_values.insert(id.to_hex(), value);
+                     }
                  }
              }
          }
@@ -402,23 +410,12 @@ impl DatabaseViewMappingUseCase {
         // Check if we should create a bundle based on db_view entity_type
         let should_create_bundle = db_view.entity_type == "BUNDLE";
         
-        // Generate resources for all mappings with their transformations
+        // Generate resources for all mappings with database_model_values
         let mut generated_resources: Vec<Value> = Vec::new();
         
         for mapping in &mappings {
-            // Get transformations specific to this mapping
-            let mapping_transformations: std::collections::HashMap<String, DatabaseTransformation> = 
-                transformations.iter()
-                    .filter(|(id, _)| {
-                        mapping.field_mappings.iter().any(|fm| {
-                            fm.transformation_id.as_ref().map_or(false, |tid| tid == *id)
-                        })
-                    })
-                    .map(|(k, v)| (k.clone(), v.clone()))
-                    .collect();
-            
-            // Generate resource with transformations
-            let resource = FhirGenerator::generate_resource_with_transformations(mapping, &mapping_transformations);
+            // Generate resource with model values
+            let resource = FhirGenerator::generate_resource_with_model_values(mapping, &model_values, company_id);
             generated_resources.push(resource);
         }
         
@@ -468,23 +465,13 @@ impl DatabaseViewMappingUseCase {
                                 // Fetch data for this specific resource
                                 match connector.fetch_first_row(&table_name).await {
                                     Ok(data) => {
-                                        // Get transformations for this mapping
-                                        let mapping_transformations: std::collections::HashMap<String, DatabaseTransformation> = 
-                                            transformations.iter()
-                                                .filter(|(id, _)| {
-                                                    mapping.field_mappings.iter().any(|fm| {
-                                                        fm.transformation_id.as_ref().map_or(false, |tid| tid == *id)
-                                                    })
-                                                })
-                                                .map(|(k, v)| (k.clone(), v.clone()))
-                                                .collect();
-                                        
-                                        // Replace placeholders with real data and apply transformations
-                                        Replacer::replace_in_entry_with_transformations(
+                                        // Replace placeholders with real data and apply database_model_value transformations
+                                        Replacer::replace_in_entry_with_model_values(
                                             resource,
                                             &data,
                                             &mapping.field_mappings,
-                                            &mapping_transformations
+                                            &model_values,
+                                            company_id
                                         );
                                     }
                                     Err(_) => {
