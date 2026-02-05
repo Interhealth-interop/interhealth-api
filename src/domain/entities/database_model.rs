@@ -19,6 +19,8 @@ pub struct DatabaseModel {
     #[serde(rename = "type")]
     pub type_field: String,
     pub description: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub reference: Option<String>,
     pub values: Vec<ModelValue>,
     #[serde(with = "crate::utils::utils::date_format")]
     pub created_at: DateTime<Utc>,

@@ -31,6 +31,7 @@ impl DatabaseModelUseCase {
             data.name,
             data.type_field,
             data.description,
+            data.reference,
             entity_values,
         ).await?;
 
@@ -48,6 +49,7 @@ impl DatabaseModelUseCase {
             name: model.name,
             type_field: model.type_field,
             description: model.description,
+            reference: model.reference,
             values,
             created_at: model.created_at.to_rfc3339(),
             updated_at: model.updated_at.to_rfc3339(),
@@ -76,6 +78,7 @@ impl DatabaseModelUseCase {
                 name: m.name,
                 type_field: m.type_field,
                 description: m.description,
+                reference: m.reference,
                 values,
                 created_at: m.created_at.to_rfc3339(),
                 updated_at: m.updated_at.to_rfc3339(),
@@ -109,6 +112,7 @@ impl DatabaseModelUseCase {
             name: model.name,
             type_field: model.type_field,
             description: model.description,
+            reference: model.reference,
             values,
             created_at: model.created_at.to_rfc3339(),
             updated_at: model.updated_at.to_rfc3339(),
@@ -125,7 +129,7 @@ impl DatabaseModelUseCase {
                 .collect()
         });
 
-        let updated = self.repository.update(id, data.name, data.description, entity_values).await?;
+        let updated = self.repository.update(id, data.name, data.description, data.reference, entity_values).await?;
 
         let dto_values: Vec<DtoModelValue> = updated.values.into_iter()
             .map(|v| DtoModelValue {
@@ -141,6 +145,7 @@ impl DatabaseModelUseCase {
             name: updated.name,
             type_field: updated.type_field,
             description: updated.description,
+            reference: updated.reference,
             values,
             created_at: updated.created_at.to_rfc3339(),
             updated_at: updated.updated_at.to_rfc3339(),

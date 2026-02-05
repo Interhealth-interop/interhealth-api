@@ -28,9 +28,10 @@ impl DatabaseModelRepository {
         name: String,
         type_field: String,
         description: String,
+        reference: Option<String>,
         values: Vec<ModelValue>,
     ) -> Result<DatabaseModel, AppError> {
-        self.create_with_id(None, name, type_field, description, values).await
+        self.create_with_id(None, name, type_field, description, reference, values).await
     }
 
     pub async fn create_with_id(
@@ -39,6 +40,7 @@ impl DatabaseModelRepository {
         name: String,
         type_field: String,
         description: String,
+        reference: Option<String>,
         values: Vec<ModelValue>,
     ) -> Result<DatabaseModel, AppError> {
         let now = Utc::now();
@@ -55,6 +57,7 @@ impl DatabaseModelRepository {
             name,
             type_field,
             description,
+            reference,
             values,
             created_at: now,
             updated_at: now,
@@ -86,6 +89,7 @@ impl DatabaseModelRepository {
         id: &str,
         name: Option<String>,
         description: Option<String>,
+        reference: Option<String>,
         values: Option<Vec<ModelValue>>,
     ) -> Result<DatabaseModel, AppError> {
         let object_id = ObjectId::parse_str(id)
@@ -98,6 +102,9 @@ impl DatabaseModelRepository {
         }
         if let Some(description) = description {
             update_doc.insert("description", description);
+        }
+        if let Some(reference) = reference {
+            update_doc.insert("reference", reference);
         }
         if let Some(values) = values {
             update_doc.insert("values", bson::to_bson(&values).map_err(|e| AppError::Database(e.to_string()))?);

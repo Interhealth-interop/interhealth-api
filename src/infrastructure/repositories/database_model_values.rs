@@ -114,6 +114,7 @@ impl DatabaseModelValueRepository {
         owner_id: &str,
         value_id: &str,
         company_id: &str,
+        connection_id: Option<&str>,
         source_key: Option<&str>,
         source_description: Option<&str>,
         status: Option<&str>,
@@ -126,6 +127,11 @@ impl DatabaseModelValueRepository {
             .map_err(|_| AppError::BadRequest("Invalid value_id format".to_string()))?;
         let company_object_id = ObjectId::parse_str(company_id)
             .map_err(|_| AppError::BadRequest("Invalid company ID format".to_string()))?;
+        
+        let connection_object_id = connection_id
+            .map(|id| ObjectId::parse_str(id)
+                .map_err(|_| AppError::BadRequest("Invalid connection ID format".to_string())))
+            .transpose()?;
 
         let now = Utc::now();
 
@@ -142,10 +148,14 @@ impl DatabaseModelValueRepository {
             .map_err(|e| AppError::Database(e.to_string()))?
             .ok_or_else(|| AppError::NotFound("database_model_value not found".to_string()))?;
 
+        // Find existing client based on company_id and optionally connection_id
         let existing_client = existing
             .clients
             .iter()
-            .find(|c| c.company_id == company_object_id);
+            .find(|c| {
+                c.company_id == company_object_id && 
+                c.connection_id == connection_object_id
+            });
 
         if source_key.is_none() || source_description.is_none() {
             if existing_client.is_none() {
@@ -190,15 +200,22 @@ impl DatabaseModelValueRepository {
                 .unwrap_or_else(|| "pending".to_string())
         };
 
-        // Enforce invariant: a company can only have ONE mapping per database_model_value.
-        // We do this by removing all existing entries for this company_id, then inserting one.
+        // Enforce uniqueness based on connection_id:
+        // - If connection_id is provided: remove only the entry with matching company_id AND connection_id
+        // - If connection_id is NOT provided: remove all entries with matching company_id (current behavior)
         let filter_doc = doc! {
             "_id": value_object_id,
             "owner_id": owner_object_id,
         };
 
+        let pull_condition = if let Some(conn_id) = connection_object_id {
+            doc! { "company_id": company_object_id, "connection_id": conn_id }
+        } else {
+            doc! { "company_id": company_object_id }
+        };
+
         let pull_update = doc! {
-            "$pull": { "clients": { "company_id": company_object_id } },
+            "$pull": { "clients": pull_condition },
             "$set": { "updated_at": now }
         };
 
@@ -231,6 +248,7 @@ impl DatabaseModelValueRepository {
             source_description: new_source_description,
             status: new_status,
             company_id: company_object_id,
+            connection_id: connection_object_id,
         };
 
         let new_client_bson = to_bson(&new_client)
@@ -439,6 +457,7 @@ impl DatabaseModelValueRepository {
         code: &str,
         description: &str,
         company_id: &str,
+        connection_id: Option<&str>,
         source_key: &str,
         source_description: &str,
     ) -> Result<(), AppError> {
@@ -446,6 +465,11 @@ impl DatabaseModelValueRepository {
             .map_err(|_| AppError::BadRequest("Invalid owner_id format".to_string()))?;
         let company_object_id = ObjectId::parse_str(company_id)
             .map_err(|_| AppError::BadRequest("Invalid company ID format".to_string()))?;
+        
+        let connection_object_id = connection_id
+            .map(|id| ObjectId::parse_str(id)
+                .map_err(|_| AppError::BadRequest("Invalid connection ID format".to_string())))
+            .transpose()?;
 
         let now = Utc::now();
 
@@ -474,9 +498,15 @@ impl DatabaseModelValueRepository {
             .await
             .map_err(|e| AppError::Database(e.to_string()))?;
 
-        // 2) Remove any existing mapping for this company_id.
+        // 2) Remove any existing mapping for this company_id (and connection_id if provided).
+        let pull_condition = if let Some(conn_id) = connection_object_id {
+            doc! { "company_id": company_object_id, "connection_id": conn_id }
+        } else {
+            doc! { "company_id": company_object_id }
+        };
+        
         let pull_update = doc! {
-            "$pull": { "clients": { "company_id": company_object_id } },
+            "$pull": { "clients": pull_condition },
             "$set": { "updated_at": now }
         };
 
@@ -491,6 +521,7 @@ impl DatabaseModelValueRepository {
             source_description: source_description.to_string(),
             status: "pending".to_string(),
             company_id: company_object_id,
+            connection_id: connection_object_id,
         };
 
         let new_client_bson = to_bson(&new_client)

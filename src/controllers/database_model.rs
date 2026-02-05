@@ -127,6 +127,7 @@ pub async fn upsert_database_model_mapping_value(
             &payload.code,
             &payload.description,
             &auth.company_id,
+            payload.connection_id.as_deref(),
             &payload.source_key,
             &payload.source_description,
         )
@@ -147,6 +148,7 @@ pub async fn upsert_database_model_mapping_value(
             source_description: c.source_description,
             status: c.status,
             company_id: c.company_id.to_hex(),
+            connection_id: c.connection_id.map(|id| id.to_hex()),
         })
         .collect();
 
@@ -182,6 +184,7 @@ pub async fn update_database_model_value_mapping(
             &id,
             &value_id,
             &auth.company_id,
+            payload.connection_id.as_deref(),
             payload.source_key.as_deref(),
             payload.source_description.as_deref(),
             payload.status.as_deref(),
@@ -205,6 +208,7 @@ pub async fn update_database_model_value_mapping(
             source_description: c.source_description,
             status: c.status,
             company_id: c.company_id.to_hex(),
+            connection_id: c.connection_id.map(|id| id.to_hex()),
         })
         .collect();
 

@@ -16,6 +16,8 @@ pub struct DatabaseTable {
     pub table_reference: Option<String>,
     pub table_type: Option<String>,
     pub entity_type: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub resource: Option<String>,
     pub company_id: String,
     #[serde(with = "crate::utils::utils::date_format")]
     pub created_at: DateTime<Utc>,

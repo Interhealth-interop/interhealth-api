@@ -8,6 +8,8 @@ pub struct DatabaseModelValueClient {
     pub source_description: String,
     pub status: String,
     pub company_id: ObjectId,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub connection_id: Option<ObjectId>,
 }
 
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]

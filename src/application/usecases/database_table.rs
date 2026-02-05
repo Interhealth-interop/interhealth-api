@@ -28,6 +28,7 @@ impl DatabaseTableUseCase {
             data.table_reference.clone(),
             data.table_type.clone(),
             data.entity_type.clone(),
+            data.resource.clone(),
             company_id.clone(),
         ).await?;
 
@@ -38,6 +39,7 @@ impl DatabaseTableUseCase {
             table_reference: table.table_reference,
             table_type: table.table_type,
             entity_type: table.entity_type,
+            resource: table.resource,
             company_id: Some(company_id),
             created_at: table.created_at.to_rfc3339(),
             updated_at: table.updated_at.to_rfc3339(),
@@ -109,6 +111,7 @@ impl DatabaseTableUseCase {
                 table_reference: table.table_reference,
                 table_type: table.table_type,
                 entity_type: table.entity_type,
+                resource: table.resource,
                 company_id: Some(table.company_id),
                 created_at: table.created_at.to_rfc3339(),
                 updated_at: table.updated_at.to_rfc3339(),
@@ -136,6 +139,7 @@ impl DatabaseTableUseCase {
             table_reference: table.table_reference,
             table_type: table.table_type,
             entity_type: table.entity_type,
+            resource: table.resource,
             company_id: Some(table.company_id),
             created_at: table.created_at.to_rfc3339(),
             updated_at: table.updated_at.to_rfc3339(),
@@ -152,6 +156,7 @@ impl DatabaseTableUseCase {
             data.table_reference,
             data.table_type,
             data.entity_type,
+            data.resource,
         ).await?;
 
         Ok(DatabaseTableEntity {
@@ -161,6 +166,7 @@ impl DatabaseTableUseCase {
             table_reference: updated.table_reference,
             table_type: updated.table_type,
             entity_type: updated.entity_type,
+            resource: updated.resource,
             company_id: Some(updated.company_id),
             created_at: updated.created_at.to_rfc3339(),
             updated_at: updated.updated_at.to_rfc3339(),

@@ -32,6 +32,7 @@ impl DatabaseTableRepository {
         table_reference: Option<String>,
         table_type: Option<String>,
         entity_type: String,
+        resource: Option<String>,
         company_id: String,
     ) -> Result<DatabaseTable, AppError> {
         let now = Utc::now();
@@ -43,6 +44,7 @@ impl DatabaseTableRepository {
             table_reference,
             table_type,
             entity_type,
+            resource,
             company_id,
             created_at: now,
             updated_at: now,
@@ -74,6 +76,7 @@ impl DatabaseTableRepository {
         table_reference: Option<String>,
         table_type: Option<String>,
         entity_type: Option<String>,
+        resource: Option<String>,
     ) -> Result<DatabaseTable, AppError> {
         let object_id = ObjectId::parse_str(id)
             .map_err(|_| AppError::BadRequest("Invalid ID format".to_string()))?;
@@ -94,6 +97,9 @@ impl DatabaseTableRepository {
         }
         if let Some(entity_type) = entity_type {
             update_doc.insert("entity_type", entity_type);
+        }
+        if let Some(resource) = resource {
+            update_doc.insert("resource", resource);
         }
         
         update_doc.insert("updated_at", Utc::now());

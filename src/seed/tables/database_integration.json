@@ -13,5 +13,12 @@
         "databaseConfigurationId": "6977af945c5f584ab8f79fd6",
         "companyId": "6977af945c5f584ab8f79fd6",
         "status": "pending"
+    }, {
+        "name": "Migração Profissional",
+        "description": "Migração completa de Profissional para o Barramento FHIR",
+        "entityType": "PRACTITIONER",
+        "databaseConfigurationId": "6977af945c5f584ab8f79fd6",
+        "companyId": "6977af945c5f584ab8f79fd6",
+        "status": "pending"
     }]
 }

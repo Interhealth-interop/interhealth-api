@@ -141,6 +141,8 @@ struct DatabaseTableData {
     table_reference: String,
     table_type: String,
     entity_type: String,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    resource: Option<String>,
     columns: Vec<ColumnData>,
 }
 
@@ -240,6 +242,8 @@ struct DatabaseModelData {
     #[serde(rename = "type")]
     type_field: String,
     description: String,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    reference: Option<String>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -262,6 +266,8 @@ struct ClientMappingData {
     #[serde(default)]
     status: Option<String>,
     company_id: String,
+    #[serde(default)]
+    connection_id: Option<String>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -547,6 +553,7 @@ pub async fn seed_database(
                 Some(table_data.table_reference.clone()),
                 Some(table_data.table_type.clone()),
                 table_data.entity_type.clone(),
+                table_data.resource.clone(),
                 company_id.clone(),
             ).await?;
 
@@ -670,6 +677,7 @@ pub async fn seed_database(
             model_data.name.clone(),
             model_data.type_field,
             model_data.description,
+            model_data.reference,
             values,
         ).await?;
         
@@ -698,11 +706,16 @@ pub async fn seed_database(
             .map(|c| {
                 let company_object_id = ObjectId::parse_str(&c.company_id)
                     .map_err(|_| AppError::BadRequest("Invalid company_id format".to_string()))?;
+                let connection_object_id = c.connection_id.as_ref()
+                    .map(|id| ObjectId::parse_str(id)
+                        .map_err(|_| AppError::BadRequest("Invalid connection_id format".to_string())))
+                    .transpose()?;
                 Ok(DatabaseModelValueClient {
                     source_key: c.source_key.clone(),
                     source_description: c.source_description.clone(),
                     status: c.status.clone().unwrap_or_else(|| "pending".to_string()),
                     company_id: company_object_id,
+                    connection_id: connection_object_id,
                 })
             })
             .collect::<Result<Vec<_>, AppError>>()?;

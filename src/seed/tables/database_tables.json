@@ -6,6 +6,7 @@
             "table_reference": "INTERHEALTH",
             "table_type": "DEFAULT",
             "entity_type": "PATIENT",
+            "resource": "PATIENT",
             "columns": [
                 {
                     "name": "patient_code",
@@ -399,6 +400,7 @@
             "table_reference": "INTERHEALTH",
             "table_type": "DEFAULT",
             "entity_type": "ENCOUNTER",
+            "resource": "ENCOUNTER",
             "columns": [
                 {
                     "name": "encounter_code",
@@ -1031,7 +1033,7 @@
                     "name": "class[0].coding[0].code",
                     "dataType": "string",
                     "reference": {
-                        "class[0].coding[0].system": "https://interop.interhealth.com.br/rnds/CodeSystem/regime-atendimento"
+                        "class[0].coding[0].system": "https://interop.interhealth.com.br/tuss/CodeSystem/regime-atendimento"
                     },
                     "isPrimaryKey": false,
                     "isNullable": false,
@@ -1152,6 +1154,396 @@
                     "isNullable": true,
                     "description": "Descrição da Alta/Desfecho Clínico",
                     "maxLength": 50
+                }
+            ]
+        },
+        {
+            "name": "Profissional",
+            "entity_type": "PRACTITIONER",
+            "description": "Recurso para Profissional do FHIR",
+            "table_reference": "FHIR",
+            "table_type": "DEFAULT",
+            "columns": [
+                {
+                    "name": "identifier[0].value",
+                    "dataType": "string",
+                    "reference": {
+                        "identifier[0].system": "https://interop.interhealth.com.br/NamingSystem/ns-codigo"
+                    },
+                    "isPrimaryKey": false,
+                    "isNullable": false,
+                    "description": "Código do Profissional",
+                    "maxLength": 64
+                },
+                {
+                    "name": "name[0].text",
+                    "dataType": "string",
+                    "reference": {
+                        "name[0].use": "official"
+                    },
+                    "isPrimaryKey": false,
+                    "isNullable": false,
+                    "description": "Nome do Profissional",
+                    "maxLength": 255
+                },
+                {
+                    "name": "identifier[1].value",
+                    "dataType": "string",
+                    "reference": {
+                        "identifier[1].system": "https://interop.interhealth.com.br/NamingSystem/ns-cpf"
+                    },
+                    "isPrimaryKey": false,
+                    "isNullable": false,
+                    "description": "CPF - Cadastro de Pessoa Física",
+                    "maxLength": 20
+                },
+                {
+                    "name": "identifier[2].value",
+                    "dataType": "string",
+                    "reference": {
+                        "identifier[2].system": "https://interop.interhealth.com.br/NamingSystem/ns-rg"
+                    },
+                    "isPrimaryKey": false,
+                    "isNullable": true,
+                    "description": "RG - Registro Geral",
+                    "maxLength": 20
+                },
+                {
+                    "name": "identifier[3].value",
+                    "dataType": "string",
+                    "reference": {
+                        "identifier[3].system": "https://interop.interhealth.com.br/NamingSystem/ns-cns"
+                    },
+                    "isPrimaryKey": false,
+                    "isNullable": true,
+                    "description": "CNS - Cartão Nacional de Saúde",
+                    "maxLength": 20
+                },
+                {
+                    "name": "identifier[4].value",
+                    "dataType": "string",
+                    "reference": {
+                        "identifier[4].system": "https://interop.interhealth.com.br/NamingSystem/ns-cnh"
+                    },
+                    "isPrimaryKey": false,
+                    "isNullable": true,
+                    "description": "CNH - Carteira Nacional de Habilitação",
+                    "maxLength": 20
+                },
+                {
+                    "name": "identifier[5].value",
+                    "dataType": "string",
+                    "reference": {
+                        "identifier[5].system": "https://interop.interhealth.com.br/NamingSystem/ns-cin"
+                    },
+                    "isPrimaryKey": false,
+                    "isNullable": true,
+                    "description": "CIN - Carteira de Identidade Nacional",
+                    "maxLength": 20
+                },
+                {
+                    "name": "identifier[6].value",
+                    "dataType": "string",
+                    "reference": {
+                        "identifier[6].system": "https://interop.interhealth.com.br/NamingSystem/ns-rne"
+                    },
+                    "isPrimaryKey": false,
+                    "isNullable": true,
+                    "description": "RNE - Registro Nacional de Estrangeiro",
+                    "maxLength": 20
+                },
+                {
+                    "name": "birthDate",
+                    "dataType": "date",
+                    "isPrimaryKey": false,
+                    "isNullable": true,
+                    "description": "Data de Nascimento"
+                },
+                {
+                    "name": "gender",
+                    "dataType": "string",
+                    "isPrimaryKey": false,
+                    "isNullable": false,
+                    "description": "Sexo",
+                    "maxLength": 20
+                },
+                {
+                    "name": "extension[0].valueCodeableConcept.coding[0].code",
+                    "dataType": "string",
+                    "reference": {
+                        "extension[0].url": "https://interop.interhealth.com.br/fhir/StructureDefinition/individual-genderIdentity",
+                        "extension[0].valueCodeableConcept.coding[0].system": "https://interop.interhealth.com.br/fhir/CodeSystem/gender-identity"
+                    },
+                    "isPrimaryKey": false,
+                    "isNullable": true,
+                    "description": "Gênero",
+                    "maxLength": 50
+                },
+                {
+                    "name": "qualification[0].identifier[0].value",
+                    "dataType": "string",
+                    "reference": {
+                        "qualification[0].identifier[0].system": "https://interop.interhealth.com.br/NamingSystem/ns-codigo-conselho"
+                    },
+                    "isPrimaryKey": false,
+                    "isNullable": false,
+                    "description": "Nº do Conselho",
+                    "maxLength": 50
+                },
+                {
+                    "name": "qualification[0].identifier[0].assigner.display",
+                    "dataType": "string",
+                    "reference": {
+                        "qualification[0].identifier[0].assigner.system": "https://interop.interhealth.com.br/ibge/CodeSystem/ns-conselho-uf"
+                    },
+                    "isPrimaryKey": false,
+                    "isNullable": false,
+                    "description": "Estado do Conselho",
+                    "maxLength": 2
+                },
+                {
+                    "name": "qualification[0].code.coding[0].code",
+                    "dataType": "string",
+                    "reference": {
+                        "qualification[0].code.coding[0].system": "https://interop.interhealth.com.br/cns/CodeSystem/ns-descricao-conselho"
+                    },
+                    "isPrimaryKey": false,
+                    "isNullable": false,
+                    "description": "Descrição do Conselho",
+                    "maxLength": 100
+                },
+                {
+                    "name": "qualification[0].code.coding[1].code",
+                    "dataType": "string",
+                    "reference": {
+                        "qualification[0].code.coding[1].system": "https://interop.interhealth.com.br/cbo/CodeSystem/qualificacao-profissional"
+                    },
+                    "isPrimaryKey": false,
+                    "isNullable": true,
+                    "description": "Ocupação",
+                    "maxLength": 100
+                },
+                {
+                    "name": "telecom[0].value",
+                    "dataType": "string",
+                    "reference": {
+                        "telecom[0].system": "email",
+                        "telecom[0].use": "home"
+                    },
+                    "isPrimaryKey": false,
+                    "isNullable": true,
+                    "description": "E-mail",
+                    "maxLength": 255
+                },
+                {
+                    "name": "telecom[1].value",
+                    "dataType": "string",
+                    "reference": {
+                        "telecom[1].system": "phone",
+                        "telecom[1].use": "home"
+                    },
+                    "isPrimaryKey": false,
+                    "isNullable": true,
+                    "description": "Telefone Residencial",
+                    "maxLength": 20
+                },
+                {
+                    "name": "telecom[2].value",
+                    "dataType": "string",
+                    "reference": {
+                        "telecom[2].system": "phone",
+                        "telecom[2].use": "mobile"
+                    },
+                    "isPrimaryKey": false,
+                    "isNullable": true,
+                    "description": "Telefone Celular",
+                    "maxLength": 20
+                },
+                {
+                    "name": "telecom[3].value",
+                    "dataType": "string",
+                    "reference": {
+                        "telecom[3].system": "phone",
+                        "telecom[3].use": "work"
+                    },
+                    "isPrimaryKey": false,
+                    "isNullable": true,
+                    "description": "Telefone para Recado",
+                    "maxLength": 20
+                }
+            ]
+        },
+        {
+            "name": "Profissional",
+            "description": "Tabela contendo os dados cadastrais dos profissionais de saúde",
+            "table_reference": "INTERHEALTH",
+            "table_type": "DEFAULT",
+            "entity_type": "PROVIDER",
+            "resource": "PRACTITIONER",
+            "columns": [
+                {
+                    "name": "provider_code",
+                    "dataType": "integer",
+                    "isPrimaryKey": true,
+                    "isNullable": false,
+                    "description": "Código do Profissional"
+                },
+                {
+                    "name": "provider_name",
+                    "dataType": "string",
+                    "isPrimaryKey": false,
+                    "isNullable": false,
+                    "description": "Nome do Profissional",
+                    "maxLength": 255
+                },
+                {
+                    "name": "provider_primary_document",
+                    "dataType": "string",
+                    "isPrimaryKey": false,
+                    "isNullable": false,
+                    "description": "CPF - Cadastro de Pessoa Física",
+                    "maxLength": 20
+                },
+                {
+                    "name": "provider_secondary_document",
+                    "dataType": "string",
+                    "isPrimaryKey": false,
+                    "isNullable": true,
+                    "description": "RG - Registro Geral",
+                    "maxLength": 20
+                },
+                {
+                    "name": "provider_third_document",
+                    "dataType": "string",
+                    "isPrimaryKey": false,
+                    "isNullable": true,
+                    "description": "CNS - Cadastro Nacional de Saúde",
+                    "maxLength": 20
+                },
+                {
+                    "name": "provider_fourth_document",
+                    "dataType": "string",
+                    "isPrimaryKey": false,
+                    "isNullable": true,
+                    "description": "CNH - Carteira Nacional de Habilitação",
+                    "maxLength": 20
+                },
+                {
+                    "name": "provider_fifth_document",
+                    "dataType": "string",
+                    "isPrimaryKey": false,
+                    "isNullable": true,
+                    "description": "CIN - Carteira de Identidade Nacional",
+                    "maxLength": 20
+                },
+                {
+                    "name": "provider_sixth_document",
+                    "dataType": "string",
+                    "isPrimaryKey": false,
+                    "isNullable": true,
+                    "description": "RNE - Registro Nacional de Estrangeiro",
+                    "maxLength": 20
+                },
+                {
+                    "name": "provider_birth_date",
+                    "dataType": "date",
+                    "isPrimaryKey": false,
+                    "isNullable": true,
+                    "description": "Data de nascimento"
+                },
+                {
+                    "name": "provider_sex",
+                    "dataType": "string",
+                    "isPrimaryKey": false,
+                    "isNullable": false,
+                    "description": "Sexo",
+                    "maxLength": 1
+                },
+                {
+                    "name": "provider_gender",
+                    "dataType": "string",
+                    "isPrimaryKey": false,
+                    "isNullable": true,
+                    "description": "Gênero",
+                    "maxLength": 50
+                },
+                {
+                    "name": "provider_register",
+                    "dataType": "string",
+                    "isPrimaryKey": false,
+                    "isNullable": false,
+                    "description": "Nº do Conselho",
+                    "maxLength": 50
+                },
+                {
+                    "name": "provider_register_uf",
+                    "dataType": "string",
+                    "isPrimaryKey": false,
+                    "isNullable": false,
+                    "description": "Estado do Conselho",
+                    "maxLength": 2
+                },
+                {
+                    "name": "provider_register_name",
+                    "dataType": "string",
+                    "isPrimaryKey": false,
+                    "isNullable": false,
+                    "description": "Descrição do Conselho",
+                    "maxLength": 100
+                },
+                {
+                    "name": "provider_occupation",
+                    "dataType": "string",
+                    "isPrimaryKey": false,
+                    "isNullable": true,
+                    "description": "Ocupação",
+                    "maxLength": 100
+                },
+                {
+                    "name": "provider_email",
+                    "dataType": "string",
+                    "isPrimaryKey": false,
+                    "isNullable": true,
+                    "description": "E-mail",
+                    "maxLength": 255
+                },
+                {
+                    "name": "provider_phone",
+                    "dataType": "string",
+                    "isPrimaryKey": false,
+                    "isNullable": true,
+                    "description": "Telefone Residencial",
+                    "maxLength": 20
+                },
+                {
+                    "name": "provider_mobile",
+                    "dataType": "string",
+                    "isPrimaryKey": false,
+                    "isNullable": true,
+                    "description": "Telefone Celular",
+                    "maxLength": 20
+                },
+                {
+                    "name": "provider_phone_contact",
+                    "dataType": "string",
+                    "isPrimaryKey": false,
+                    "isNullable": true,
+                    "description": "Telefone para Recado",
+                    "maxLength": 20
+                },
+                {
+                    "name": "created_date",
+                    "dataType": "datetime",
+                    "isPrimaryKey": false,
+                    "isNullable": false,
+                    "description": "Data de Criação"
+                },
+                {
+                    "name": "updated_date",
+                    "dataType": "datetime",
+                    "isPrimaryKey": false,
+                    "isNullable": false,
+                    "description": "Data de Atualização"
                 }
             ]
         }

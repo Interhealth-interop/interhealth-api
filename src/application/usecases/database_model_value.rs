@@ -38,6 +38,7 @@ impl MappingValueUseCase {
                         source_description: c.source_description,
                         status: c.status,
                         company_id: c.company_id.to_hex(),
+                        connection_id: c.connection_id.map(|id| id.to_hex()),
                     })
                     .collect();
 

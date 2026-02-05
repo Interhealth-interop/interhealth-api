@@ -3,92 +3,121 @@
     {
       "id": "695ee472b82ca274f4d3af80",
       "name": "Modalidade Assistencial",
+      "reference": "RNDS",
       "type": "ENCOUNTER_MODALITY",
       "description": "Classificação da modalidade assistencial do atendimento conforme padrão RNDS"
     },
     {
       "id": "695ee472b82ca274f4d3af81",
       "name": "Estado do Contato Assistencial",
+      "reference": "FHIR",
       "type": "ENCOUNTER_STATUS",
       "description": "Estado do contato assistencial conforme padrão FHIR"
     },
     {
       "id": "695ee472b82ca274f4d3af82",
       "name": "Caráter da Solicitação",
+      "reference": "FHIR",
       "type": "ENCOUNTER_PRIORITY",
       "description": "Caráter da solicitação do atendimento conforme padrão FHIR"
     },
     {
       "id": "695ee472b82ca274f4d3af83",
       "name": "Motivo do Desfecho",
+      "reference": "RNDS",
       "type": "ENCOUNTER_DISCHARGE_DISPOSITION",
       "description": "Motivo do desfecho do atendimento conforme padrão RNDS"
     },
     {
       "id": "695ee472b82ca274f4d3af84",
-      "name": "Procedimentos TUSS",
+      "name": "Procedimentos",
+      "reference": "TUSS",
       "type": "TUSS_PROCEDURE",
       "description": "Terminologia Unificada da Saúde Suplementar - Códigos de procedimentos médicos e categorias principais"
     },
     {
       "id": "695ee472b82ca274f4d3af70",
       "name": "Sexo",
+      "reference": "FHIR",
       "type": "SEX",
       "description": "Definição do sexo de um indivíduo conforme FHIR"
     },
     {
       "id": "695d484063aba2288e6c6413",
       "name": "Identidade de Gênero",
+      "reference": "FHIR",
       "type": "GENDER_IDENTITY",
       "description": "Identidade de gênero do paciente conforme SNOMED CT e códigos HL7 para ausência ou desconhecimento da informação"
     },
     {
       "id": "695d484063aba2288e6c641e",
       "name": "Relacionamento do Contato do Paciente",
+      "reference": "FHIR",
       "type": "CONTACT_RELATIONSHIP",
       "description": "Define o tipo de relacionamento entre o paciente e a pessoa ou organização de contato, conforme padrões HL7"
     },
     {
       "id": "695d484063aba2288e6c6414",
       "name": "Raça/Cor",
+      "reference": "RNDS",
       "type": "RACE",
       "description": "Classificação de raça/cor do paciente conforme padrão utilizado em sistemas de saúde no Brasil"
     },
     {
       "id": "695d484063aba2288e6c641c",
       "name": "Etnia",
+      "reference": "RNDS",
       "type": "ETHNICITY",
       "description": "Identificação da etnia indígena do paciente conforme cadastro oficial utilizado em sistemas de saúde no Brasil"
     },
     {
       "id": "695ee472b82ca274f4d3af74",
       "name": "Ocupação",
+      "reference": "CBO",
       "type": "OCCUPATION",
       "description": "Classificação Brasileira de Ocupações (CBO) utilizada para identificar a ocupação profissional do paciente"
     },
     {
       "id": "695ee472b82ca274f4d3af75",
       "name": "Município",
+      "reference": "IBGE",
       "type": "MUNICIPALITY",
       "description": "Códigos de municípios brasileiros conforme IBGE utilizados para identificar o município de residência do paciente"
     },
     {
       "id": "695ee472b82ca274f4d3b100",
       "name": "Unidade Federativa",
+      "reference": "IBGE",
       "type": "FEDERAL_UNIT",
       "description": "Classificação das Unidades Federativas do Brasil conforme código oficial do IBGE"
     },
     {
       "id": "695ee472b82ca274f4d3af76",
       "name": "Naturalidade",
+      "reference": "RNDS",
       "type": "NATURALITY",
       "description": "Códigos de naturalidade (nacionalidade) utilizados para identificar o país de origem do paciente"
     },
     {
       "id": "695ee472b82ca274f4d3b010",
       "name": "Estado Civil",
+      "reference": "FHIR",
       "type": "MARITAL_STATUS",
       "description": "Classificação do estado civil do paciente conforme HL7 v3 MaritalStatus"
+    },
+    {
+      "id": "695ee472b82ca274f4d3b020",
+      "name": "Conselho Profissional",
+      "reference": "CNS",
+      "type": "PROFESSIONAL_COUNCIL",
+      "description": "Conselhos profissionais regionais de saúde no Brasil, incluindo CRM, COREN, CRO, CRF, CRP, CREFITO, CRN e CREFONO"
+    },
+    {
+      "id": "695ee472b82ca274f4d3af7f",
+      "name": "Status do Paciente",
+      "reference": "",
+      "type": "CUSTOM",
+      "description": "Status do Paciente Customizado"
     }
   ]
 }

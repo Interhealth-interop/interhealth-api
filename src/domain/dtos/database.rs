@@ -174,6 +174,8 @@ pub struct CreateDatabaseTableDto {
     #[serde(rename = "entityType")]
     pub entity_type: String,
     #[serde(skip_serializing_if = "Option::is_none")]
+    pub resource: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub columns: Option<Vec<CreateDatabaseColumnDto>>,
 }
 
@@ -185,6 +187,7 @@ pub struct UpdateDatabaseTableDto {
     pub table_type: Option<String>,
     #[serde(rename = "entityType")]
     pub entity_type: Option<String>,
+    pub resource: Option<String>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -196,6 +199,8 @@ pub struct DatabaseTableEntity {
     pub table_type: Option<String>,
     #[serde(rename = "entityType")]
     pub entity_type: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub resource: Option<String>,
     pub company_id: Option<String>,
     pub created_at: String,
     pub updated_at: String,
@@ -298,6 +303,8 @@ pub struct CreateDatabaseModelDto {
     #[serde(rename = "type")]
     pub type_field: String,
     pub description: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub reference: Option<String>,
     #[serde(default)]
     pub values: Vec<ModelValue>,
 }
@@ -306,6 +313,7 @@ pub struct CreateDatabaseModelDto {
 pub struct UpdateDatabaseModelDto {
     pub name: Option<String>,
     pub description: Option<String>,
+    pub reference: Option<String>,
     pub values: Option<Vec<ModelValue>>,
 }
 
@@ -316,6 +324,8 @@ pub struct DatabaseModelEntity {
     #[serde(rename = "type")]
     pub type_field: String,
     pub description: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub reference: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub values: Option<Vec<ModelValue>>,
     pub created_at: String,
@@ -328,6 +338,8 @@ pub struct MappingValueItemEntity {
     pub source_description: String,
     pub status: String,
     pub company_id: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub connection_id: Option<String>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -351,10 +363,13 @@ pub struct UpsertDatabaseModelValueDto {
     pub source_description: String,
     pub code: String,
     pub description: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub connection_id: Option<String>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, Validate)]
 pub struct UpdateDatabaseModelValueClientMappingDto {
+    pub connection_id: Option<String>,
     pub source_key: Option<String>,
     pub source_description: Option<String>,
     pub status: Option<String>,
