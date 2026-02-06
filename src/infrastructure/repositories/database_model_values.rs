@@ -358,19 +358,21 @@ impl DatabaseModelValueRepository {
     pub async fn delete_company_client_mapping(
         &self,
         owner_id: &str,
-        code: &str,
+        value_id: &str,
         source_key: &str,
         company_id: &str,
     ) -> Result<(), AppError> {
         let owner_object_id = ObjectId::parse_str(owner_id)
             .map_err(|_| AppError::BadRequest("Invalid owner_id format".to_string()))?;
+        let value_object_id = ObjectId::parse_str(value_id)
+            .map_err(|_| AppError::BadRequest("Invalid value_id format".to_string()))?;
         let company_object_id = ObjectId::parse_str(company_id)
             .map_err(|_| AppError::BadRequest("Invalid company ID format".to_string()))?;
 
         let now = Utc::now();
         let filter = doc! {
+            "_id": value_object_id,
             "owner_id": owner_object_id,
-            "code": code,
             "clients": { "$elemMatch": { "company_id": company_object_id, "source_key": source_key } }
         };
 
@@ -392,6 +394,57 @@ impl DatabaseModelValueRepository {
 
         if result.matched_count == 0 {
             return Err(AppError::NotFound("database_model_value client mapping not found".to_string()));
+        }
+
+        Ok(())
+    }
+
+    pub async fn delete_company_client_mapping_by_connection(
+        &self,
+        owner_id: &str,
+        value_id: &str,
+        company_id: &str,
+        connection_id: &str,
+    ) -> Result<(), AppError> {
+        let owner_object_id = ObjectId::parse_str(owner_id)
+            .map_err(|_| AppError::BadRequest("Invalid owner_id format".to_string()))?;
+        let value_object_id = ObjectId::parse_str(value_id)
+            .map_err(|_| AppError::BadRequest("Invalid value_id format".to_string()))?;
+        let company_object_id = ObjectId::parse_str(company_id)
+            .map_err(|_| AppError::BadRequest("Invalid company ID format".to_string()))?;
+        let connection_object_id = ObjectId::parse_str(connection_id)
+            .map_err(|_| AppError::BadRequest("Invalid connection ID format".to_string()))?;
+
+        let now = Utc::now();
+        let filter = doc! {
+            "_id": value_object_id,
+            "owner_id": owner_object_id,
+            "clients": { 
+                "$elemMatch": { 
+                    "company_id": company_object_id, 
+                    "connection_id": connection_object_id 
+                } 
+            }
+        };
+
+        let update = doc! {
+            "$pull": {
+                "clients": {
+                    "company_id": company_object_id,
+                    "connection_id": connection_object_id,
+                }
+            },
+            "$set": { "updated_at": now }
+        };
+
+        let result = self
+            .collection
+            .update_one(filter, update, None)
+            .await
+            .map_err(|e| AppError::Database(e.to_string()))?;
+
+        if result.matched_count == 0 {
+            return Err(AppError::NotFound("database_model_value client mapping with connection_id not found".to_string()));
         }
 
         Ok(())

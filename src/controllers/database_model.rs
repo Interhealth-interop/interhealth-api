@@ -26,6 +26,8 @@ pub struct DatabaseModelQueryParams {
 pub struct MappingValuesQueryParams {
     #[serde(flatten)]
     pub pagination: PaginationQuery,
+    #[serde(rename = "connectionId")]
+    pub connection_id: Option<String>,
 }
 
 pub async fn create_database_model(
@@ -105,6 +107,7 @@ pub async fn get_database_model_mapping_values(
         .get_mapping_values_by_database_model_and_company(
             &id,
             &auth.company_id,
+            params.connection_id.as_deref(),
             params.pagination.currentPage,
             params.pagination.itemsPerPage,
         )
@@ -254,17 +257,36 @@ pub async fn delete_database_model_value(
 pub async fn delete_database_model_value_company_mapping(
     State(state): State<AppState>,
     auth: AuthUser,
-    Path((id, code, source_key)): Path<(String, String, String)>,
+    Path((id, value_id, source_key)): Path<(String, String, String)>,
 ) -> AppResult<(StatusCode, Json<ApiResponse<String>>)> {
     state
         .database_model_value_repository
-        .delete_company_client_mapping(&id, &code, &source_key, &auth.company_id)
+        .delete_company_client_mapping(&id, &value_id, &source_key, &auth.company_id)
         .await?;
 
     Ok((
         StatusCode::OK,
         Json(ApiResponse::success(
             "Database model value mapping deleted successfully",
+            "Ok".to_string(),
+        )),
+    ))
+}
+
+pub async fn delete_database_model_value_connection_mapping(
+    State(state): State<AppState>,
+    auth: AuthUser,
+    Path((id, value_id, connection_id)): Path<(String, String, String)>,
+) -> AppResult<(StatusCode, Json<ApiResponse<String>>)> {
+    state
+        .database_model_value_repository
+        .delete_company_client_mapping_by_connection(&id, &value_id, &auth.company_id, &connection_id)
+        .await?;
+
+    Ok((
+        StatusCode::OK,
+        Json(ApiResponse::success(
+            "Database model value connection mapping deleted successfully",
             "Ok".to_string(),
         )),
     ))
