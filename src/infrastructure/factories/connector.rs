@@ -57,27 +57,43 @@ impl ConnectorFactory {
     pub fn build_connection_string(data: &CreateDatabaseConfigurationDto) -> Result<String, AppError> {
         let connection_string = match data.db_type.to_uppercase().as_str() {
             "MV" | "TASY" | "TOTVS" => {
+                let username = data.username.as_ref().ok_or_else(|| AppError::BadRequest("Username is required for database connections".to_string()))?;
+                let password = data.password.as_ref().ok_or_else(|| AppError::BadRequest("Password is required for database connections".to_string()))?;
+                let port = data.port.ok_or_else(|| AppError::BadRequest("Port is required for database connections".to_string()))?;
+                let database = data.database.as_ref().ok_or_else(|| AppError::BadRequest("Database name is required for database connections".to_string()))?;
                 format!(
                     "oracle://{}:{}@{}:{}/{}",
-                    data.username, data.password, data.host, data.port, data.database
+                    username, password, data.host, port, database
                 )
             }
             "MONGODB" => {
+                let username = data.username.as_ref().ok_or_else(|| AppError::BadRequest("Username is required for database connections".to_string()))?;
+                let password = data.password.as_ref().ok_or_else(|| AppError::BadRequest("Password is required for database connections".to_string()))?;
+                let port = data.port.ok_or_else(|| AppError::BadRequest("Port is required for database connections".to_string()))?;
+                let database = data.database.as_ref().ok_or_else(|| AppError::BadRequest("Database name is required for database connections".to_string()))?;
                 format!(
                     "mongodb://{}:{}@{}:{}/{}",
-                    data.username, data.password, data.host, data.port, data.database
+                    username, password, data.host, port, database
                 )
             }
             "POSTGRESQL" => {
+                let username = data.username.as_ref().ok_or_else(|| AppError::BadRequest("Username is required for database connections".to_string()))?;
+                let password = data.password.as_ref().ok_or_else(|| AppError::BadRequest("Password is required for database connections".to_string()))?;
+                let port = data.port.ok_or_else(|| AppError::BadRequest("Port is required for database connections".to_string()))?;
+                let database = data.database.as_ref().ok_or_else(|| AppError::BadRequest("Database name is required for database connections".to_string()))?;
                 format!(
                     "postgresql://{}:{}@{}:{}/{}",
-                    data.username, data.password, data.host, data.port, data.database
+                    username, password, data.host, port, database
                 )
             }
             "MYSQL" => {
+                let username = data.username.as_ref().ok_or_else(|| AppError::BadRequest("Username is required for database connections".to_string()))?;
+                let password = data.password.as_ref().ok_or_else(|| AppError::BadRequest("Password is required for database connections".to_string()))?;
+                let port = data.port.ok_or_else(|| AppError::BadRequest("Port is required for database connections".to_string()))?;
+                let database = data.database.as_ref().ok_or_else(|| AppError::BadRequest("Database name is required for database connections".to_string()))?;
                 format!(
                     "mysql://{}:{}@{}:{}/{}",
-                    data.username, data.password, data.host, data.port, data.database
+                    username, password, data.host, port, database
                 )
             }
             _ => {

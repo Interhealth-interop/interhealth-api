@@ -15,6 +15,7 @@ use crate::sync::SyncManager;
 pub struct AppState {
     pub db: Database,
     pub jwt_service: Arc<JwtService>,
+    pub token_exp: u64,
     pub company_repository: Arc<CompanyRepository>,
     pub user_repository: Arc<UserRepository>,
     pub database_configuration_repository: Arc<DatabaseConfigurationRepository>,
@@ -32,7 +33,7 @@ pub struct AppState {
 }
 
 impl AppState {
-    pub fn new(db: Database, jwt_secret: String, max_concurrent_jobs: usize) -> Self {
+    pub fn new(db: Database, jwt_secret: String, token_exp: u64, max_concurrent_jobs: usize) -> Self {
         let jwt_service = Arc::new(JwtService::new(jwt_secret));
         let company_repository = CompanyRepository::arc(db.clone());
         let user_repository = UserRepository::arc(db.clone());
@@ -73,6 +74,7 @@ impl AppState {
         Self {
             db,
             jwt_service,
+            token_exp,
             company_repository,
             user_repository,
             database_configuration_repository,

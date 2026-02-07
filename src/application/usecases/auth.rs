@@ -9,6 +9,7 @@ pub struct AuthUseCase {
     user_repository: Arc<UserRepository>,
     company_repository: Arc<CompanyRepository>,
     jwt_service: Arc<JwtService>,
+    token_exp: u64,
 }
 
 impl AuthUseCase {
@@ -16,11 +17,13 @@ impl AuthUseCase {
         user_repository: Arc<UserRepository>,
         company_repository: Arc<CompanyRepository>,
         jwt_service: Arc<JwtService>,
+        token_exp: u64,
     ) -> Self {
         Self {
             user_repository,
             company_repository,
             jwt_service,
+            token_exp,
         }
     }
 
@@ -43,7 +46,7 @@ impl AuthUseCase {
             &user.email,
             &user.user_type,
             user.company_id.clone(),
-            3600,
+            self.token_exp,
         )?;
 
         let refresh_token = self.jwt_service.generate_token(
@@ -51,7 +54,7 @@ impl AuthUseCase {
             &user.email,
             &user.user_type,
             user.company_id.clone(),
-            604800,
+            self.token_exp * 7,
         )?;
 
         let company = if let Some(ref company_id_str) = user.company_id {
@@ -83,7 +86,7 @@ impl AuthUseCase {
         Ok(AuthEntity {
             access_token,
             refresh_token: Some(refresh_token),
-            expires_in: Some(3600),
+            expires_in: Some(self.token_exp as i64),
             user: Some(user_entity),
         })
     }
@@ -120,7 +123,7 @@ impl AuthUseCase {
             &new_user.email,
             &new_user.user_type,
             new_user.company_id.clone(),
-            3600,
+            self.token_exp,
         )?;
 
         let refresh_token = self.jwt_service.generate_token(
@@ -128,7 +131,7 @@ impl AuthUseCase {
             &new_user.email,
             &new_user.user_type,
             new_user.company_id.clone(),
-            604800,
+            self.token_exp * 7,
         )?;
 
         let company = if let Some(ref company_id_str) = new_user.company_id {
@@ -160,7 +163,7 @@ impl AuthUseCase {
         Ok(AuthEntity {
             access_token,
             refresh_token: Some(refresh_token),
-            expires_in: Some(3600),
+            expires_in: Some(self.token_exp as i64),
             user: Some(user_entity),
         })
     }
@@ -182,7 +185,7 @@ impl AuthUseCase {
             &user.email,
             &user.user_type,
             user.company_id.clone(),
-            3600,
+            self.token_exp,
         )?;
 
         let new_refresh_token = self.jwt_service.generate_token(
@@ -190,7 +193,7 @@ impl AuthUseCase {
             &user.email,
             &user.user_type,
             user.company_id.clone(),
-            604800,
+            self.token_exp * 7,
         )?;
 
         let company = if let Some(ref company_id_str) = user.company_id {
@@ -222,7 +225,7 @@ impl AuthUseCase {
         Ok(AuthEntity {
             access_token,
             refresh_token: Some(new_refresh_token),
-            expires_in: Some(3600),
+            expires_in: Some(self.token_exp as i64),
             user: Some(user_entity),
         })
     }

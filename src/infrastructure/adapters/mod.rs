@@ -1,5 +1,5 @@
-pub mod mongodb;
-pub mod oracledb;
+pub mod database;
+pub mod service;
 
-pub use mongodb::*;
-pub use oracledb::*;
+pub use database::*;
+pub use service::*;

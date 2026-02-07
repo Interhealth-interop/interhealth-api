@@ -96,6 +96,7 @@ pub fn create_routes(state: AppState) -> Router {
         .route("/database-model/:id/model-values", post(database_model::upsert_database_model_mapping_value))
         .route("/database-model/:id/model-values/:value_id", put(database_model::update_database_model_value_mapping))
         .route("/database-model/:id/model-values/:value_id", delete(database_model::delete_database_model_value))
+        .route("/database-model/:id/model-values/:value_id/connection/:connection_id", put(database_model::update_database_model_value_connection_mapping))
         .route("/database-model/:id/model-values/:value_id/connection/:connection_id", delete(database_model::delete_database_model_value_connection_mapping))
         .route("/database-model/:id", put(database_model::update_database_model))
         .route("/database-model/:id", delete(database_model::delete_database_model))

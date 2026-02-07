@@ -206,13 +206,18 @@ impl DatabaseTableUseCase {
         let db_config = config_repo.find_by_id(connection_id).await?
             .ok_or_else(|| AppError::NotFound("Database configuration not found".to_string()))?;
 
+        let username = db_config.username.as_ref().ok_or_else(|| AppError::BadRequest("Database username is required".to_string()))?;
+        let password = db_config.password.as_ref().ok_or_else(|| AppError::BadRequest("Database password is required".to_string()))?;
+        let port = db_config.port.ok_or_else(|| AppError::BadRequest("Database port is required".to_string()))?;
+        let database = db_config.database.as_ref().ok_or_else(|| AppError::BadRequest("Database name is required".to_string()))?;
+
         let connection_string = format!(
             "oracle://{}:{}@{}:{}/{}",
-            db_config.username,
-            db_config.password,
+            username,
+            password,
             db_config.host,
-            db_config.port,
-            db_config.database
+            port,
+            database
         );
 
         let connector = OracleConnector::new(&connection_string).await?;

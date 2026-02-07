@@ -43,10 +43,13 @@ pub struct CreateDatabaseConfigurationDto {
     pub db_type: String,
     pub version: Option<String>,
     pub host: String,
-    pub port: i32,
-    pub database: String,
-    pub username: String,
-    pub password: String,
+    pub port: Option<i32>,
+    pub database: Option<String>,
+    pub username: Option<String>,
+    pub password: Option<String>,
+    #[serde(rename = "authType")]
+    pub auth_type: Option<String>,
+    pub credentials: Option<String>,
     pub company_id: Option<String>,
 }
 
@@ -61,6 +64,9 @@ pub struct UpdateDatabaseConfigurationDto {
     pub database: Option<String>,
     pub username: Option<String>,
     pub password: Option<String>,
+    #[serde(rename = "authType")]
+    pub auth_type: Option<String>,
+    pub credentials: Option<String>,
     pub company_id: Option<String>,
 }
 
@@ -72,10 +78,13 @@ pub struct DatabaseConfigurationEntity {
     pub db_type: String,
     pub version: Option<String>,
     pub host: String,
-    pub port: i32,
-    pub database: String,
-    pub username: String,
-    pub password: String,
+    pub port: Option<i32>,
+    pub database: Option<String>,
+    pub username: Option<String>,
+    pub password: Option<String>,
+    #[serde(rename = "authType")]
+    pub auth_type: Option<String>,
+    pub credentials: Option<String>,
     pub company_id: Option<String>,
     pub created_at: String,
     pub updated_at: String,

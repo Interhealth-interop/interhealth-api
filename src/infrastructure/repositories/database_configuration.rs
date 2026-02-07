@@ -23,7 +23,7 @@ impl DatabaseConfigurationRepository {
 }
 
 impl DatabaseConfigurationRepository {
-    pub async fn create(&self, name: String, db_type: String, version: Option<String>, host: String, port: i32, database: String, username: String, password: String, company_id: String) -> Result<DatabaseConfiguration, AppError> {
+    pub async fn create(&self, name: String, db_type: String, version: Option<String>, host: String, port: Option<i32>, database: Option<String>, username: Option<String>, password: Option<String>, auth_type: Option<String>, credentials: Option<String>, company_id: String) -> Result<DatabaseConfiguration, AppError> {
         let now = Utc::now();
         
         let config = DatabaseConfiguration {
@@ -36,6 +36,8 @@ impl DatabaseConfigurationRepository {
             database,
             username,
             password,
+            auth_type,
+            credentials,
             company_id,
             created_at: now,
             updated_at: now,
@@ -56,10 +58,12 @@ impl DatabaseConfigurationRepository {
         db_type: String,
         version: Option<String>,
         host: String,
-        port: i32,
-        database: String,
-        username: String,
-        password: String,
+        port: Option<i32>,
+        database: Option<String>,
+        username: Option<String>,
+        password: Option<String>,
+        auth_type: Option<String>,
+        credentials: Option<String>,
         company_id: String,
     ) -> Result<DatabaseConfiguration, AppError> {
         let object_id = ObjectId::parse_str(id)
@@ -78,6 +82,8 @@ impl DatabaseConfigurationRepository {
             database,
             username,
             password,
+            auth_type,
+            credentials,
             company_id,
             created_at: now,
             updated_at: now,
@@ -127,7 +133,7 @@ impl DatabaseConfigurationRepository {
         Ok(config)
     }
 
-    pub async fn update(&self, id: &str, name: Option<String>, db_type: Option<String>, version: Option<String>, host: Option<String>, port: Option<i32>, database: Option<String>, username: Option<String>, password: Option<String>, company_id: Option<String>) -> Result<DatabaseConfiguration, AppError> {
+    pub async fn update(&self, id: &str, name: Option<String>, db_type: Option<String>, version: Option<String>, host: Option<String>, port: Option<i32>, database: Option<String>, username: Option<String>, password: Option<String>, auth_type: Option<String>, credentials: Option<String>, company_id: Option<String>) -> Result<DatabaseConfiguration, AppError> {
         let object_id = ObjectId::parse_str(id)
             .map_err(|_| AppError::BadRequest("Invalid ID format".to_string()))?;
         
@@ -156,6 +162,12 @@ impl DatabaseConfigurationRepository {
         }
         if let Some(password) = password {
             update_doc.insert("password", password);
+        }
+        if let Some(auth_type) = auth_type {
+            update_doc.insert("auth_type", auth_type);
+        }
+        if let Some(credentials) = credentials {
+            update_doc.insert("credentials", credentials);
         }
         if let Some(company_id) = company_id {
             update_doc.insert("company_id", company_id);

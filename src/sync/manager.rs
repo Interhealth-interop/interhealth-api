@@ -117,9 +117,9 @@ impl SyncManager {
             view.id.as_ref().map(|id| id.to_hex()).unwrap_or_default(),
             view.entity_type,
             view.company_id,
-            db_config.username,
+            db_config.username.as_ref().unwrap_or(&"N/A".to_string()),
             db_config.host,
-            db_config.port
+            db_config.port.unwrap_or(0)
         );
 
         // STEP 3: Create the job with all necessary information

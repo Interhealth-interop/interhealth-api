@@ -412,10 +412,12 @@ pub async fn seed_database(
                         conn.db_type,
                         conn.version,
                         conn.host,
-                        conn.port,
-                        conn.database,
-                        conn.username,
-                        conn.password,
+                        Some(conn.port),
+                        Some(conn.database),
+                        Some(conn.username),
+                        Some(conn.password),
+                        None,
+                        None,
                         company_id.clone(),
                     )
                     .await?
@@ -426,10 +428,12 @@ pub async fn seed_database(
                         conn.db_type,
                         conn.version,
                         conn.host,
-                        conn.port,
-                        conn.database,
-                        conn.username,
-                        conn.password,
+                        Some(conn.port),
+                        Some(conn.database),
+                        Some(conn.username),
+                        Some(conn.password),
+                        None,
+                        None,
                         company_id.clone(),
                     )
                     .await?

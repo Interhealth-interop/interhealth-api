@@ -440,14 +440,19 @@ impl DatabaseViewMappingUseCase {
 
         // Try to fetch real data from client database and replace placeholders
         if let Some(table_repo) = &self.table_repository {
+            let username = db_config.username.as_ref().ok_or_else(|| AppError::BadRequest("Database username is required".to_string()))?;
+            let password = db_config.password.as_ref().ok_or_else(|| AppError::BadRequest("Database password is required".to_string()))?;
+            let port = db_config.port.ok_or_else(|| AppError::BadRequest("Database port is required".to_string()))?;
+            let database = db_config.database.as_ref().ok_or_else(|| AppError::BadRequest("Database name is required".to_string()))?;
+            
             // Build Oracle connection string
             let connection_string = format!(
                 "oracle://{}:{}@{}:{}/{}",
-                db_config.username,
-                db_config.password,
+                username,
+                password,
                 db_config.host,
-                db_config.port,
-                db_config.database
+                port,
+                database
             );
 
             // Connect to client database

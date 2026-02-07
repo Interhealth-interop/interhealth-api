@@ -8,6 +8,7 @@ pub struct Config {
     pub mongo_url: String,
     pub app_port: u16,
     pub jwt_secret: String,
+    pub token_exp: u64,
     pub max_concurrent_jobs: usize,
 }
 
@@ -26,6 +27,11 @@ impl Config {
         let jwt_secret = env::var("JWT_SECRET")
             .unwrap_or_else(|_| "default-secret-change-in-production".to_string());
 
+        let token_exp = env::var("TOKEN_EXP")
+            .unwrap_or_else(|_| "3600".to_string())
+            .parse()
+            .map_err(|_| AppError::ConfigError("Invalid TOKEN_EXP".to_string()))?;
+
         let max_concurrent_jobs = env::var("MAX_CONCURRENT_JOBS")
             .unwrap_or_else(|_| "5".to_string())
             .parse()
@@ -35,6 +41,7 @@ impl Config {
             mongo_url,
             app_port,
             jwt_secret,
+            token_exp,
             max_concurrent_jobs,
         })
     }

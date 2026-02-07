@@ -23,6 +23,7 @@ pub async fn login(
         state.user_repository.clone(),
         state.company_repository.clone(),
         state.jwt_service.clone(),
+        state.token_exp,
     );
     
     let auth_data = use_case.login(payload).await?;
@@ -38,6 +39,7 @@ pub async fn register(
         state.user_repository.clone(),
         state.company_repository.clone(),
         state.jwt_service.clone(),
+        state.token_exp,
     );
     
     let auth_data = use_case.register(payload).await?;
@@ -53,6 +55,7 @@ pub async fn refresh_token(
         state.user_repository.clone(),
         state.company_repository.clone(),
         state.jwt_service.clone(),
+        state.token_exp,
     );
     
     let auth_data = use_case.refresh_token(&payload.refresh_token).await?;

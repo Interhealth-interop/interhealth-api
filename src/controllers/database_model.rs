@@ -235,6 +235,72 @@ pub async fn update_database_model_value_mapping(
     ))
 }
 
+pub async fn update_database_model_value_connection_mapping(
+    State(state): State<AppState>,
+    auth: AuthUser,
+    Path((id, value_id, connection_id)): Path<(String, String, String)>,
+    Json(payload): Json<UpdateDatabaseModelValueClientMappingDto>,
+) -> AppResult<(StatusCode, Json<ApiResponse<DatabaseModelValueEntity>>)> {
+    state
+        .database_model_value_repository
+        .upsert_company_client_mapping_by_value_id(
+            &id,
+            &value_id,
+            &auth.company_id,
+            Some(&connection_id),
+            payload.source_key.as_deref(),
+            payload.source_description.as_deref(),
+            payload.status.as_deref(),
+            payload.code.as_deref(),
+            payload.description.as_deref(),
+        )
+        .await?;
+
+    let updated = state
+        .database_model_value_repository
+        .find_by_id_and_owner(&id, &value_id)
+        .await?;
+
+    let company_hex = auth.company_id.clone();
+    let connection_hex = connection_id.clone();
+    
+    // Filter to return only the connection-specific mapping
+    let clients = updated
+        .clients
+        .into_iter()
+        .filter(|c| {
+            c.company_id.to_hex() == company_hex &&
+            c.connection_id.as_ref().map(|id| id.to_hex()) == Some(connection_hex.clone())
+        })
+        .map(|c| crate::domain::dtos::MappingValueItemEntity {
+            source_key: c.source_key,
+            source_description: c.source_description,
+            status: c.status,
+            company_id: c.company_id.to_hex(),
+            connection_id: c.connection_id.map(|id| id.to_hex()),
+        })
+        .collect();
+
+    let entity = DatabaseModelValueEntity {
+        id: updated.id.unwrap().to_hex(),
+        owner_id: updated.owner_id.to_hex(),
+        type_field: updated.type_field,
+        code: updated.code,
+        description: updated.description,
+        clients,
+        created_at: updated.created_at.to_rfc3339(),
+        updated_at: updated.updated_at.to_rfc3339(),
+    };
+
+    Ok((
+        StatusCode::OK,
+        Json(ApiResponse::success(
+            "Connection mapping value updated successfully",
+            entity,
+        )),
+    ))
+}
+
 pub async fn delete_database_model_value(
     State(state): State<AppState>,
     auth: AuthUser,

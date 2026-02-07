@@ -204,19 +204,24 @@ impl SyncWorker {
                 format!("DatabaseConfiguration {} not found", db_view.database_configuration_id)
             ))?;
 
+        let username = db_config.username.as_ref().ok_or_else(|| AppError::BadRequest("Database username is required".to_string()))?;
+        let password = db_config.password.as_ref().ok_or_else(|| AppError::BadRequest("Database password is required".to_string()))?;
+        let port = db_config.port.ok_or_else(|| AppError::BadRequest("Database port is required".to_string()))?;
+        let database = db_config.database.as_ref().ok_or_else(|| AppError::BadRequest("Database name is required".to_string()))?;
+
         info!(
             "[{}] Connecting to Oracle: {}@{}:{}",
-            self.worker_id, db_config.username, db_config.host, db_config.port
+            self.worker_id, username, db_config.host, port
         );
 
         // STEP 3: Connect to client's Oracle database
         let connection_string = format!(
             "oracle://{}:{}@{}:{}/{}",
-            db_config.username,
-            db_config.password,
+            username,
+            password,
             db_config.host,
-            db_config.port,
-            db_config.database
+            port,
+            database
         );
         
         let oracle_connector = OracleConnector::new(&connection_string).await?;

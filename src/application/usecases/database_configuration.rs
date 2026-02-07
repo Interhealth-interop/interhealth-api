@@ -24,7 +24,9 @@ impl DatabaseConfigurationUseCase {
             data.database,
             data.username,
             data.password,
-            String::new() // company_id will be set from context
+            data.auth_type,
+            data.credentials,
+            data.company_id.unwrap_or_default()
         ).await?;
 
         Ok(DatabaseConfigurationEntity {
@@ -37,6 +39,8 @@ impl DatabaseConfigurationUseCase {
             database: config.database,
             username: config.username,
             password: config.password,
+            auth_type: config.auth_type,
+            credentials: config.credentials,
             company_id: Some(config.company_id),
             created_at: config.created_at.to_rfc3339(),
             updated_at: config.updated_at.to_rfc3339(),
@@ -57,6 +61,8 @@ impl DatabaseConfigurationUseCase {
                 database: config.database,
                 username: config.username,
                 password: config.password,
+                auth_type: config.auth_type,
+                credentials: config.credentials,
                 company_id: Some(config.company_id),
                 created_at: config.created_at.to_rfc3339(),
                 updated_at: config.updated_at.to_rfc3339(),
@@ -86,6 +92,8 @@ impl DatabaseConfigurationUseCase {
             database: config.database,
             username: config.username,
             password: config.password,
+            auth_type: config.auth_type,
+            credentials: config.credentials,
             company_id: Some(config.company_id),
             created_at: config.created_at.to_rfc3339(),
             updated_at: config.updated_at.to_rfc3339(),
@@ -104,6 +112,8 @@ impl DatabaseConfigurationUseCase {
             _data.database,
             _data.username,
             _data.password,
+            _data.auth_type,
+            _data.credentials,
             _data.company_id
         ).await?;
 
@@ -117,6 +127,8 @@ impl DatabaseConfigurationUseCase {
             database: updated.database,
             username: updated.username,
             password: updated.password,
+            auth_type: updated.auth_type,
+            credentials: updated.credentials,
             company_id: Some(updated.company_id),
             created_at: updated.created_at.to_rfc3339(),
             updated_at: updated.updated_at.to_rfc3339(),
@@ -128,43 +140,85 @@ impl DatabaseConfigurationUseCase {
     }
 
     pub async fn test_connection(&self, data: CreateDatabaseConfigurationDto) -> AppResult<serde_json::Value> {
-        let connection_string = ConnectorFactory::build_connection_string(&data)?;
-
-        let config = DatabaseConfig {
-            connection_string,
-            database_name: Some(data.database.clone()),
-            max_connections: Some(10),
-        };
-
-        match ConnectorFactory::create_connection(&data.db_type, config).await {
-            Ok(connection) => {
-                let is_connected = connection.is_connected();
-                let db_type = format!("{:?}", connection.get_type());
-                let host = data.host.clone();
-                let port = data.port;
-                let database = data.database.clone();
-                
-                drop(connection);
-                
-                Ok(serde_json::json!({
-                    "success": true,
-                    "message": "Conexão estabelecida com sucesso",
-                    "connected": is_connected,
-                    "type": db_type,
-                    "host": host,
-                    "port": port,
-                    "database": database
-                }))
+        // Check if this is an API connection
+        if data.db_type.to_uppercase() == "API" {
+            // Test API connection
+            use crate::infrastructure::adapters::ApiConnector;
+            
+            match ApiConnector::new(&data.host, data.auth_type.clone(), data.credentials.clone()).await {
+                Ok(connector) => {
+                    match connector.test_connection().await {
+                        Ok(is_connected) => {
+                            Ok(serde_json::json!({
+                                "success": true,
+                                "message": "Conexão API estabelecida com sucesso",
+                                "connected": is_connected,
+                                "type": "API",
+                                "host": data.host,
+                                "authType": data.auth_type
+                            }))
+                        }
+                        Err(e) => {
+                            Ok(serde_json::json!({
+                                "success": false,
+                                "message": format!("Falha ao testar conexão API: {}", e),
+                                "type": "API",
+                                "host": data.host,
+                                "authType": data.auth_type
+                            }))
+                        }
+                    }
+                }
+                Err(e) => {
+                    Ok(serde_json::json!({
+                        "success": false,
+                        "message": format!("Falha ao criar conector API: {}", e),
+                        "type": "API",
+                        "host": data.host,
+                        "authType": data.auth_type
+                    }))
+                }
             }
-            Err(e) => {
-                Ok(serde_json::json!({
-                    "success": false,
-                    "message": format!("Falha ao realizar a conexão: {}", e),
-                    "type": data.db_type,
-                    "host": data.host,
-                    "port": data.port,
-                    "database": data.database
-                }))
+        } else {
+            // Test database connection
+            let connection_string = ConnectorFactory::build_connection_string(&data)?;
+
+            let config = DatabaseConfig {
+                connection_string,
+                database_name: data.database.clone(),
+                max_connections: Some(10),
+            };
+
+            match ConnectorFactory::create_connection(&data.db_type, config).await {
+                Ok(connection) => {
+                    let is_connected = connection.is_connected();
+                    let db_type = format!("{:?}", connection.get_type());
+                    let host = data.host.clone();
+                    let port = data.port;
+                    let database = data.database.clone();
+                    
+                    drop(connection);
+                    
+                    Ok(serde_json::json!({
+                        "success": true,
+                        "message": "Conexão estabelecida com sucesso",
+                        "connected": is_connected,
+                        "type": db_type,
+                        "host": host,
+                        "port": port,
+                        "database": database
+                    }))
+                }
+                Err(e) => {
+                    Ok(serde_json::json!({
+                        "success": false,
+                        "message": format!("Falha ao realizar a conexão: {}", e),
+                        "type": data.db_type,
+                        "host": data.host,
+                        "port": data.port,
+                        "database": data.database
+                    }))
+                }
             }
         }
     }

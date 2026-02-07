@@ -36,7 +36,7 @@ async fn main() -> anyhow::Result<()> {
     // Check if we should run seed
     let args: Vec<String> = std::env::args().collect();
     if args.len() > 1 && args[1] == "seed" {
-        let app_state = application::AppState::new(db, config.jwt_secret, config.max_concurrent_jobs);
+        let app_state = application::AppState::new(db, config.jwt_secret, config.token_exp, config.max_concurrent_jobs);
         seed::seed_database(
             app_state.company_repository,
             app_state.user_repository,
@@ -52,7 +52,7 @@ async fn main() -> anyhow::Result<()> {
         return Ok(());
     }
 
-    let mut app_state = application::AppState::new(db, config.jwt_secret, config.max_concurrent_jobs);
+    let mut app_state = application::AppState::new(db, config.jwt_secret, config.token_exp, config.max_concurrent_jobs);
 
     // Initialize SyncManager (start background workers)
     tracing::info!("🚀 Initializing SyncManager...");
