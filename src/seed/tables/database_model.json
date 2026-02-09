@@ -118,6 +118,34 @@
       "reference": "",
       "type": "CUSTOM",
       "description": "Status do Paciente Customizado"
+    },
+    {
+      "id": "695ee472b82ca274f4d3b021",
+      "name": "Tipo de Estabelecimento",
+      "reference": "RNDS",
+      "type": "ESTABLISHMENT_TYPE",
+      "description": "Tipo de estabelecimento de saúde no Brasil, conforme padrão RNDS"
+    },
+    {
+      "id": "695ee472b82ca274f4d3b022",
+      "name": "Status da Unidade",
+      "reference": "FHIR",
+      "type": "LOCATION_STATUS",
+      "description": "Status da unidade de saúde no Brasil"
+    },
+    {
+      "id": "695ee472b82ca274f4d3b023",
+      "name": "Forma Física da Unidade",
+      "reference": "FHIR",
+      "type": "LOCATION_PHYSICAL_FORM",
+      "description": "Forma física da unidade de saúde no Brasil"
+    },
+    {
+      "id": "695ee472b82ca274f4d3b024",
+      "name": "Classe da Unidade",
+      "reference": "FHIR",
+      "type": "LOCATION_CLASS",
+      "description": "Classe da unidade de saúde no Brasil"
     }
   ]
 }

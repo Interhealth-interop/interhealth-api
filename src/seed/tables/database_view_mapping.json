@@ -48,7 +48,6 @@
         {
           "fieldOrigin": "patient_sex",
           "fieldDestiny": "gender",
-          "transformationName": "Mapa de Sexo",
           "dataType": "string",
           "isNullable": false,
           "maxLength": 20,
@@ -58,8 +57,8 @@
           "fieldOrigin": "patient_gender",
           "fieldDestiny": "extension[2].valueCodeableConcept.coding[0].code",
           "referenceDestiny": {
-            "extension[2].url": "https://interop.interhealth.com.br/fhir/StructureDefinition/individual-genderIdentity",
-            "extension[2].valueCodeableConcept.coding[0].system": "https://interop.interhealth.com.br/fhir/CodeSystem/gender-identity"
+            "extension[2].url": "https://interop.interhealth.com.br/StructureDefinition/individual-genderIdentity",
+            "extension[2].valueCodeableConcept.coding[0].system": "https://interop.interhealth.com.br/CodeSystem/fhir/gender-identity"
           },
           "dataType": "string",
           "isNullable": true,
@@ -70,7 +69,7 @@
           "fieldOrigin": "patient_mother_name",
           "fieldDestiny": "extension[0].valueString",
           "referenceDestiny": {
-            "extension[0].url": "https://interop.interhealth.com.br/fhir/StructureDefinition/patient-mothersMaidenName"
+            "extension[0].url": "https://interop.interhealth.com.br/StructureDefinition/patient-mothersMaidenName"
           },
           "dataType": "string",
           "isNullable": false,
@@ -80,7 +79,7 @@
           "fieldOrigin": "patient_father_name",
           "fieldDestiny": "extension[1].valueString",
           "referenceDestiny": {
-            "extension[1].url": "https://interop.interhealth.com.br/fhir/StructureDefinition/patient-fathersName"
+            "extension[1].url": "https://interop.interhealth.com.br/StructureDefinition/patient-fathersName"
           },
           "dataType": "string",
           "isNullable": true,
@@ -180,7 +179,7 @@
           "fieldOrigin": "patient_relationship",
           "fieldDestiny": "contact.relationship[0].coding[0].code",
           "referenceDestiny": {
-            "contact.relationship[0].coding[0].system": "https://interop.interhealth.com.br/fhir/CodeSystem/patient-relationship"
+            "contact.relationship[0].coding[0].system": "https://interop.interhealth.com.br/CodeSystem/fhir/patient-relationship"
           },
           "dataType": "string",
           "isNullable": true,
@@ -191,8 +190,8 @@
           "fieldOrigin": "patient_race",
           "fieldDestiny": "extension[3].valueCodeableConcept.coding[0].code",
           "referenceDestiny": {
-            "extension[3].url": "https://interop.interhealth.com.br/fhir/StructureDefinition/patient-race",
-            "extension[3].valueCodeableConcept.coding[0].system": "https://interop.interhealth.com.br/rnds/CodeSystem/patient-race"
+            "extension[3].url": "https://interop.interhealth.com.br/StructureDefinition/patient-race",
+            "extension[3].valueCodeableConcept.coding[0].system": "https://interop.interhealth.com.br/CodeSystem/rnds/patient-race"
           },
           "dataType": "string",
           "isNullable": true,
@@ -203,7 +202,7 @@
           "fieldOrigin": "patient_nationality_city",
           "fieldDestiny": "extension[4].valueAddress.city",
           "referenceDestiny": {
-            "extension[4].url": "https://interop.interhealth.com.br/fhir/StructureDefinition/patient-birthPlace"
+            "extension[4].url": "https://interop.interhealth.com.br/StructureDefinition/patient-birthPlace"
           },
           "dataType": "string",
           "isNullable": true,
@@ -213,7 +212,7 @@
           "fieldOrigin": "patient_nationality_state",
           "fieldDestiny": "extension[4].valueAddress.state",
           "referenceDestiny": {
-            "extension[4].url": "https://interop.interhealth.com.br/fhir/StructureDefinition/patient-birthPlace"
+            "extension[4].url": "https://interop.interhealth.com.br/StructureDefinition/patient-birthPlace"
           },
           "dataType": "string",
           "isNullable": true,
@@ -223,7 +222,7 @@
           "fieldOrigin": "patient_naturality",
           "fieldDestiny": "extension[4].valueAddress.country",
           "referenceDestiny": {
-            "extension[4].url": "https://interop.interhealth.com.br/fhir/StructureDefinition/patient-birthPlace"
+            "extension[4].url": "https://interop.interhealth.com.br/StructureDefinition/patient-birthPlace"
           },
           "dataType": "string",
           "isNullable": true,
@@ -233,9 +232,8 @@
           "fieldOrigin": "patient_marital_status",
           "fieldDestiny": "maritalStatus.coding[0].code",
           "referenceDestiny": {
-            "maritalStatus.coding[0].system": "https://interop.interhealth.com.br/fhir/CodeSystem/v3-MaritalStatus"
+            "maritalStatus.coding[0].system": "https://interop.interhealth.com.br/CodeSystem/fhir/v3-MaritalStatus"
           },
-          "transformationName": "Mapa de Estado Civil",
           "dataType": "string",
           "isNullable": true,
           "maxLength": 10,
@@ -436,7 +434,7 @@
           "fieldOrigin": "encounter_modality",
           "fieldDestiny": "class[0].coding[0].code",
           "referenceDestiny": {
-            "class[0].coding[0].system": "https://interop.interhealth.com.br/tuss/CodeSystem/regime-atendimento"
+            "class[0].coding[0].system": "https://interop.interhealth.com.br/CodeSystem/tuss/regime-atendimento"
           },
           "dataType": "string",
           "isNullable": false,
@@ -447,7 +445,7 @@
           "fieldOrigin": "encounter_type",
           "fieldDestiny": "type[0].coding[0].code",
           "referenceDestiny": {
-            "type[0].coding[0].system": "https://interop.interhealth.com.br/rnds/CodeSystem/modalida-atendimento"
+            "type[0].coding[0].system": "https://interop.interhealth.com.br/CodeSystem/rnds/modalida-atendimento"
           },
           "dataType": "string",
           "isNullable": true,
@@ -474,7 +472,7 @@
           "fieldOrigin": "encounter_accident_type",
           "fieldDestiny": "reasonCode[0].coding[0].code",
           "referenceDestiny": {
-            "reasonCode[0].coding[0].system": "https://interop.interhealth.com.br/fhir/CodeSystem/tipo-acidente"
+            "reasonCode[0].coding[0].system": "https://interop.interhealth.com.br/CodeSystem/fhir/tipo-acidente"
           },
           "dataType": "string",
           "isNullable": true,
@@ -484,7 +482,7 @@
           "fieldOrigin": "encounter_request_reason",
           "fieldDestiny": "priority[0].coding[0].code",
           "referenceDestiny": {
-            "priority[0].coding[0].system": "https://interop.interhealth.com.br/fhir/CodeSystem/prioridade"
+            "priority[0].coding[0].system": "https://interop.interhealth.com.br/CodeSystem/fhir/prioridade"
           },
           "dataType": "string",
           "isNullable": false,
@@ -543,7 +541,7 @@
           "fieldOrigin": "encounter_clinical_outcome",
           "fieldDestiny": "admission.dischargeDisposition.coding[0].code",
           "referenceDestiny": {
-            "admission.dischargeDisposition.coding[0].system": "https://interop.interhealth.com.br/rnds/CodeSystem/motivo-desfecho"
+            "admission.dischargeDisposition.coding[0].system": "https://interop.interhealth.com.br/CodeSystem/rnds/motivo-desfecho"
           },
           "dataType": "string",
           "isNullable": true,
@@ -660,8 +658,8 @@
           "fieldOrigin": "provider_gender",
           "fieldDestiny": "extension[0].valueCodeableConcept.coding[0].code",
           "referenceDestiny": {
-            "extension[0].url": "https://interop.interhealth.com.br/fhir/StructureDefinition/individual-genderIdentity",
-            "extension[0].valueCodeableConcept.coding[0].system": "https://interop.interhealth.com.br/fhir/CodeSystem/gender-identity"
+            "extension[0].url": "https://interop.interhealth.com.br/StructureDefinition/individual-genderIdentity",
+            "extension[0].valueCodeableConcept.coding[0].system": "https://interop.interhealth.com.br/CodeSystem/fhir/gender-identity"
           },
           "dataType": "string",
           "isNullable": true,
@@ -683,7 +681,7 @@
           "fieldOrigin": "provider_register_uf",
           "fieldDestiny": "qualification[0].identifier[0].assigner.display",
           "referenceDestiny": {
-            "qualification[0].identifier[0].assigner.system": "https://interop.interhealth.com.br/ibge/CodeSystem/ns-conselho-uf"
+            "qualification[0].identifier[0].assigner.system": "https://interop.interhealth.com.br/CodeSystem/ibge/ns-conselho-uf"
           },
           "dataType": "string",
           "isNullable": false,
@@ -695,7 +693,7 @@
           "fieldOrigin": "provider_register_name",
           "fieldDestiny": "qualification[0].code.coding[0].code",
           "referenceDestiny": {
-            "qualification[0].code.coding[0].system": "https://interop.interhealth.com.br/cns/CodeSystem/ns-descricao-conselho"
+            "qualification[0].code.coding[0].system": "https://interop.interhealth.com.br/CodeSystem/cns/ns-descricao-conselho"
           },
           "dataType": "string",
           "isNullable": false,
@@ -707,7 +705,7 @@
           "fieldOrigin": "provider_occupation",
           "fieldDestiny": "qualification[0].code.coding[1].code",
           "referenceDestiny": {
-            "qualification[0].code.coding[1].system": "https://interop.interhealth.com.br/cbo/CodeSystem/qualificacao-profissional"
+            "qualification[0].code.coding[1].system": "https://interop.interhealth.com.br/CodeSystem/cbo/qualificacao-profissional"
           },
           "dataType": "string",
           "isNullable": true,
@@ -758,6 +756,389 @@
           "dataType": "string",
           "isNullable": true,
           "maxLength": 20
+        }
+      ]
+    },
+    {
+      "name": "Especialidade para FHIR PractitionerRole Mapping",
+      "description": "Mapeamento de campos para converter dados de especialidade de INTERHEALTH para formato FHIR PractitionerRole",
+      "originEntityType": "SPECIALTY",
+      "originTableReference": "INTERHEALTH",
+      "destinyEntityType": "PRACTITIONERROLE",
+      "destinyTableReference": "FHIR",
+      "status": "final",
+      "fieldMappings": [
+        {
+          "fieldOrigin": "specialty_code",
+          "fieldDestiny": "identifier[0].value",
+          "referenceDestiny": {
+            "identifier[0].system": "https://interop.interhealth.com.br/NamingSystem/ns-codigo"
+          },
+          "dataType": "string",
+          "isNullable": false,
+          "maxLength": 64
+        },
+        {
+          "fieldOrigin": "specialty_provider_code",
+          "fieldDestiny": "practitioner.reference",
+          "dataType": "reference",
+          "isNullable": false,
+          "maxLength": 64
+        },
+        {
+          "fieldOrigin": "specialty_organization_code",
+          "fieldDestiny": "organization.reference",
+          "dataType": "reference",
+          "isNullable": false,
+          "maxLength": 64
+        },
+        {
+          "fieldOrigin": "specialty_location_code",
+          "fieldDestiny": "location[0].reference",
+          "dataType": "reference",
+          "isNullable": true,
+          "maxLength": 64
+        },
+        {
+          "fieldOrigin": "specialty_cbo_code",
+          "fieldDestiny": "code[0].coding[0].code",
+          "referenceDestiny": {
+            "code[0].coding[0].system": "https://interop.interhealth.com.br/CodeSystem/cbos/ns-especialidade"
+          },
+          "dataType": "string",
+          "isNullable": false,
+          "maxLength": 20
+        },
+        {
+          "fieldOrigin": "specialty_status",
+          "fieldDestiny": "active",
+          "dataType": "boolean",
+          "isNullable": false
+        },
+        {
+          "fieldOrigin": "specialty_available_start_time",
+          "fieldDestiny": "availableTime[0].availableStartTime",
+          "dataType": "time",
+          "isNullable": true
+        },
+        {
+          "fieldOrigin": "specialty_available_end_time",
+          "fieldDestiny": "availableTime[0].availableEndTime",
+          "dataType": "time",
+          "isNullable": true
+        },
+        {
+          "fieldOrigin": "specialty_unavailable_start_time",
+          "fieldDestiny": "notAvailable[0].during.start",
+          "dataType": "datetime",
+          "isNullable": true
+        },
+        {
+          "fieldOrigin": "specialty_unavailable_end_time",
+          "fieldDestiny": "notAvailable[0].during.end",
+          "dataType": "datetime",
+          "isNullable": true
+        },
+        {
+          "fieldOrigin": "specialty_exception_time",
+          "fieldDestiny": "availabilityExceptions",
+          "dataType": "string",
+          "isNullable": true,
+          "maxLength": 500
+        },
+        {
+          "fieldOrigin": "specialty_electronic_service",
+          "fieldDestiny": "endpoint[0].reference",
+          "dataType": "reference",
+          "isNullable": true,
+          "maxLength": 255
+        },
+        {
+          "fieldOrigin": "specialty_allowed_start",
+          "fieldDestiny": "period.start",
+          "dataType": "date",
+          "isNullable": true
+        },
+        {
+          "fieldOrigin": "specialty_allowed_end",
+          "fieldDestiny": "period.end",
+          "dataType": "date",
+          "isNullable": true
+        },
+        {
+          "fieldOrigin": "specialty_phone_contact",
+          "fieldDestiny": "telecom[0].value",
+          "referenceDestiny": {
+            "telecom[0].system": "phone",
+            "telecom[0].use": "work"
+          },
+          "dataType": "string",
+          "isNullable": true,
+          "maxLength": 20
+        }
+      ]
+    },
+    {
+      "name": "Instituição para FHIR Organization Mapping",
+      "description": "Mapeamento de campos para converter dados de instituição de INTERHEALTH para formato FHIR Organization",
+      "originEntityType": "ORGANIZATION",
+      "originTableReference": "INTERHEALTH",
+      "destinyEntityType": "ORGANIZATION",
+      "destinyTableReference": "FHIR",
+      "status": "final",
+      "fieldMappings": [
+        {
+          "fieldOrigin": "organization_code",
+          "fieldDestiny": "identifier[0].value",
+          "referenceDestiny": {
+            "identifier[0].system": "https://interop.interhealth.com.br/NamingSystem/ns-codigo"
+          },
+          "dataType": "string",
+          "isNullable": false,
+          "maxLength": 64
+        },
+        {
+          "fieldOrigin": "organization_name",
+          "fieldDestiny": "alias[0]",
+          "dataType": "string",
+          "isNullable": false,
+          "maxLength": 255
+        },
+        {
+          "fieldOrigin": "organization_alias",
+          "fieldDestiny": "name",
+          "dataType": "string",
+          "isNullable": false,
+          "maxLength": 255
+        },
+        {
+          "fieldOrigin": "organization_primary_document",
+          "fieldDestiny": "identifier[1].value",
+          "referenceDestiny": {
+            "identifier[1].system": "https://interop.interhealth.com.br/NamingSystem/ns-cnpj"
+          },
+          "dataType": "string",
+          "isNullable": false,
+          "maxLength": 14
+        },
+        {
+          "fieldOrigin": "organization_secondary_document",
+          "fieldDestiny": "identifier[2].value",
+          "referenceDestiny": {
+            "identifier[2].system": "https://interop.interhealth.com.br/NamingSystem/ns-cnes"
+          },
+          "dataType": "string",
+          "isNullable": true,
+          "maxLength": 7
+        },
+        {
+          "fieldOrigin": "organization_third_document",
+          "fieldDestiny": "identifier[3].value",
+          "referenceDestiny": {
+            "identifier[3].system": "https://interop.interhealth.com.br/NamingSystem/ns-ans"
+          },
+          "dataType": "string",
+          "isNullable": true,
+          "maxLength": 20
+        },
+        {
+          "fieldOrigin": "organization_fourth_document",
+          "fieldDestiny": "identifier[4].value",
+          "referenceDestiny": {
+            "identifier[4].system": "https://interop.interhealth.com.br/NamingSystem/ns-cpf"
+          },
+          "dataType": "string",
+          "isNullable": true,
+          "maxLength": 11
+        },
+        {
+          "fieldOrigin": "organization_type",
+          "fieldDestiny": "extension[0].valueString",
+          "referenceDestiny": {
+            "extension[0].url": "https://interop.interhealth.com.br/StructureDefinition/natureza-juridica"
+          },
+          "dataType": "string",
+          "isNullable": true,
+          "maxLength": 100
+        },
+        {
+          "fieldOrigin": "organization_address",
+          "fieldDestiny": "address[0].line[0]",
+          "dataType": "string",
+          "isNullable": true,
+          "maxLength": 255
+        },
+        {
+          "fieldOrigin": "organization_number",
+          "fieldDestiny": "address[0].line[1]",
+          "dataType": "string",
+          "isNullable": true,
+          "maxLength": 20
+        },
+        {
+          "fieldOrigin": "organization_complement",
+          "fieldDestiny": "address[0].line[2]",
+          "dataType": "string",
+          "isNullable": true,
+          "maxLength": 100
+        },
+        {
+          "fieldOrigin": "organization_city",
+          "fieldDestiny": "address[0].city",
+          "dataType": "string",
+          "isNullable": true,
+          "maxLength": 100
+        },
+        {
+          "fieldOrigin": "organization_neighborhood",
+          "fieldDestiny": "address[0].district",
+          "dataType": "string",
+          "isNullable": true,
+          "maxLength": 100
+        },
+        {
+          "fieldOrigin": "organization_state",
+          "fieldDestiny": "address[0].state",
+          "dataType": "string",
+          "isNullable": true,
+          "maxLength": 2
+        },
+        {
+          "fieldOrigin": "organization_zipcode",
+          "fieldDestiny": "address[0].postalCode",
+          "dataType": "string",
+          "isNullable": true,
+          "maxLength": 8
+        },
+        {
+          "fieldOrigin": "organization_phone",
+          "fieldDestiny": "telecom[0].value",
+          "referenceDestiny": {
+            "telecom[0].system": "phone",
+            "telecom[0].use": "work"
+          },
+          "dataType": "string",
+          "isNullable": true,
+          "maxLength": 20
+        },
+        {
+          "fieldOrigin": "organization_website",
+          "fieldDestiny": "telecom[1].value",
+          "referenceDestiny": {
+            "telecom[1].system": "url",
+            "telecom[1].use": "work"
+          },
+          "dataType": "string",
+          "isNullable": true,
+          "maxLength": 255
+        },
+        {
+          "fieldOrigin": "organization_email",
+          "fieldDestiny": "telecom[2].value",
+          "referenceDestiny": {
+            "telecom[2].system": "email",
+            "telecom[2].use": "work"
+          },
+          "dataType": "string",
+          "isNullable": true,
+          "maxLength": 255
+        },
+        {
+          "fieldOrigin": "organization_management_type",
+          "fieldDestiny": "type[0].coding[0].code",
+          "referenceDestiny": {
+            "type[0].coding[0].system": "https://interop.interhealth.com.br/CodeSystem/rnds/tipo-estabelecimento"
+          },
+          "dataType": "string",
+          "isNullable": false,
+          "maxLength": 50,
+          "transformationId": "695ee472b82ca274f4d3b021"
+        },
+        {
+          "fieldOrigin": "organization_status",
+          "fieldDestiny": "active",
+          "dataType": "boolean",
+          "isNullable": false
+        }
+      ]
+    },
+    {
+      "name": "Unidade para FHIR Location Mapping",
+      "description": "Mapeamento de campos para converter dados de unidade de INTERHEALTH para formato FHIR Location",
+      "originEntityType": "LOCATION",
+      "originTableReference": "INTERHEALTH",
+      "destinyEntityType": "LOCATION",
+      "destinyTableReference": "FHIR",
+      "status": "final",
+      "fieldMappings": [
+        {
+          "fieldOrigin": "location_code",
+          "fieldDestiny": "identifier[0].value",
+          "referenceDestiny": {
+            "identifier[0].system": "https://interop.interhealth.com.br/NamingSystem/ns-codigo"
+          },
+          "dataType": "string",
+          "isNullable": false,
+          "maxLength": 64
+        },
+        {
+          "fieldOrigin": "location_organization_code",
+          "fieldDestiny": "managingOrganization.reference",
+          "dataType": "reference",
+          "isNullable": false,
+          "maxLength": 64
+        },
+        {
+          "fieldOrigin": "location_name",
+          "fieldDestiny": "name",
+          "dataType": "string",
+          "isNullable": false,
+          "maxLength": 255
+        },
+        {
+          "fieldOrigin": "location_status",
+          "fieldDestiny": "status",
+          "dataType": "string",
+          "isNullable": true,
+          "maxLength": 20,
+          "transformationId": "695ee472b82ca274f4d3b022"
+        },
+        {
+          "fieldOrigin": "location_type",
+          "fieldDestiny": "type[0].coding[0].code",
+          "referenceDestiny": {
+            "type[0].coding[0].system": "https://interop.interhealth.com.br/CodeSystem/rnds/tipo-unidade"
+          },
+          "dataType": "string",
+          "isNullable": true,
+          "maxLength": 50,
+          "transformationId": "695ee472b82ca274f4d3b021"
+        },
+        {
+          "fieldOrigin": "location_form",
+          "fieldDestiny": "physicalType.coding[0].code",
+          "referenceDestiny": {
+            "physicalType.coding[0].system": "https://interop.interhealth.com.br/CodeSystem/fhir/forma-fisica-unidade"
+          },
+          "dataType": "string",
+          "isNullable": true,
+          "maxLength": 50,
+          "transformationId": "695ee472b82ca274f4d3b023"
+        },
+        {
+          "fieldOrigin": "location_mode",
+          "fieldDestiny": "mode",
+          "dataType": "string",
+          "isNullable": true,
+          "maxLength": 20,
+          "transformationId": "695ee472b82ca274f4d3b024"
+        },
+        {
+          "fieldOrigin": "location_location_code",
+          "fieldDestiny": "partOf.reference",
+          "dataType": "reference",
+          "isNullable": true,
+          "maxLength": 64
         }
       ]
     }

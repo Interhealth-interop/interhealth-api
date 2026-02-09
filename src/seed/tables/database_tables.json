@@ -632,8 +632,8 @@
                     "name": "extension[2].valueCodeableConcept.coding[0].code",
                     "dataType": "string",
                     "reference": {
-                        "extension[2].url": "https://interop.interhealth.com.br/fhir/StructureDefinition/individual-genderIdentity",
-                        "extension[2].valueCodeableConcept.coding[0].system": "https://interop.interhealth.com.br/fhir/CodeSystem/gender-identity"
+                        "extension[2].url": "https://interop.interhealth.com.br/StructureDefinition/individual-genderIdentity",
+                        "extension[2].valueCodeableConcept.coding[0].system": "https://interop.interhealth.com.br/CodeSystem/fhir/gender-identity"
                     },
                     "isPrimaryKey": false,
                     "isNullable": true,
@@ -644,7 +644,7 @@
                     "name": "extension[0].valueString",
                     "dataType": "string",
                     "reference": {
-                        "extension[0].url": "https://interop.interhealth.com.br/fhir/StructureDefinition/patient-mothersMaidenName"
+                        "extension[0].url": "https://interop.interhealth.com.br/StructureDefinition/patient-mothersMaidenName"
                     },
                     "isPrimaryKey": false,
                     "isNullable": false,
@@ -655,7 +655,7 @@
                     "name": "extension[1].valueString",
                     "dataType": "string",
                     "reference": {
-                        "extension[1].url": "https://interop.interhealth.com.br/fhir/StructureDefinition/patient-fathersName"
+                        "extension[1].url": "https://interop.interhealth.com.br/StructureDefinition/patient-fathersName"
                     },
                     "isPrimaryKey": false,
                     "isNullable": true,
@@ -765,7 +765,7 @@
                     "name": "contact.relationship[0].coding[0].code",
                     "dataType": "string",
                     "reference": {
-                        "contact.relationship[0].coding[0].system": "https://interop.interhealth.com.br/fhir/CodeSystem/patient-relationship"
+                        "contact.relationship[0].coding[0].system": "https://interop.interhealth.com.br/CodeSystem/fhir/patient-relationship"
                     },
                     "isPrimaryKey": false,
                     "isNullable": true,
@@ -776,8 +776,8 @@
                     "name": "extension[3].valueCodeableConcept.coding[0].code",
                     "dataType": "string",
                     "reference": {
-                        "extension[3].url": "https://interop.interhealth.com.br/fhir/StructureDefinition/patient-race",
-                        "extension[3].valueCodeableConcept.coding[0].system": "https://interop.interhealth.com.br/rnds/CodeSystem/patient-race"
+                        "extension[3].url": "https://interop.interhealth.com.br/StructureDefinition/patient-race",
+                        "extension[3].valueCodeableConcept.coding[0].system": "https://interop.interhealth.com.br/CodeSystem/rnds/patient-race"
                     },
                     "isPrimaryKey": false,
                     "isNullable": true,
@@ -788,7 +788,7 @@
                     "name": "extension[4].valueAddress.city",
                     "dataType": "string",
                     "reference": {
-                        "extension[4].url": "https://interop.interhealth.com.br/fhir/StructureDefinition/patient-birthPlace"
+                        "extension[4].url": "https://interop.interhealth.com.br/StructureDefinition/patient-birthPlace"
                     },
                     "isPrimaryKey": false,
                     "isNullable": true,
@@ -799,7 +799,7 @@
                     "name": "extension[4].valueAddress.state",
                     "dataType": "string",
                     "reference": {
-                        "extension[4].url": "https://interop.interhealth.com.br/fhir/StructureDefinition/patient-birthPlace"
+                        "extension[4].url": "https://interop.interhealth.com.br/StructureDefinition/patient-birthPlace"
                     },
                     "isPrimaryKey": false,
                     "isNullable": true,
@@ -810,7 +810,7 @@
                     "name": "extension[4].valueAddress.country",
                     "dataType": "string",
                     "reference": {
-                        "extension[4].url": "https://interop.interhealth.com.br/fhir/StructureDefinition/patient-birthPlace"
+                        "extension[4].url": "https://interop.interhealth.com.br/StructureDefinition/patient-birthPlace"
                     },
                     "isPrimaryKey": false,
                     "isNullable": true,
@@ -821,7 +821,7 @@
                     "name": "maritalStatus.coding[0].code",
                     "dataType": "string",
                     "reference": {
-                        "maritalStatus.coding[0].system": "https://interop.interhealth.com.br/fhir/CodeSystem/v3-MaritalStatus"
+                        "maritalStatus.coding[0].system": "https://interop.interhealth.com.br/CodeSystem/fhir/v3-MaritalStatus"
                     },
                     "isPrimaryKey": false,
                     "isNullable": true,
@@ -1033,7 +1033,7 @@
                     "name": "class[0].coding[0].code",
                     "dataType": "string",
                     "reference": {
-                        "class[0].coding[0].system": "https://interop.interhealth.com.br/tuss/CodeSystem/regime-atendimento"
+                        "class[0].coding[0].system": "https://interop.interhealth.com.br/CodeSystem/tuss/regime-atendimento"
                     },
                     "isPrimaryKey": false,
                     "isNullable": false,
@@ -1044,7 +1044,7 @@
                     "name": "type[0].coding[0].code",
                     "dataType": "string",
                     "reference": {
-                        "type[0].coding[0].system": "https://interop.interhealth.com.br/rnds/CodeSystem/modalida-atendimento"
+                        "type[0].coding[0].system": "https://interop.interhealth.com.br/CodeSystem/rnds/modalida-atendimento"
                     },
                     "isPrimaryKey": false,
                     "isNullable": true,
@@ -1072,7 +1072,7 @@
                     "name": "reasonCode[0].coding[0].code",
                     "dataType": "string",
                     "reference": {
-                        "reasonCode[0].coding[0].system": "https://interop.interhealth.com.br/fhir/CodeSystem/tipo-acidente"
+                        "reasonCode[0].coding[0].system": "https://interop.interhealth.com.br/CodeSystem/fhir/tipo-acidente"
                     },
                     "isPrimaryKey": false,
                     "isNullable": true,
@@ -1083,7 +1083,7 @@
                     "name": "priority[0].coding[0].code",
                     "dataType": "string",
                     "reference": {
-                        "priority[0].coding[0].system": "https://interop.interhealth.com.br/fhir/CodeSystem/prioridade"
+                        "priority[0].coding[0].system": "https://interop.interhealth.com.br/CodeSystem/fhir/prioridade"
                     },
                     "isPrimaryKey": false,
                     "isNullable": false,
@@ -1148,7 +1148,7 @@
                     "name": "admission.dischargeDisposition.coding[0].code",
                     "dataType": "string",
                     "reference": {
-                        "admission.dischargeDisposition.coding[0].system": "https://interop.interhealth.com.br/rnds/CodeSystem/motivo-desfecho"
+                        "admission.dischargeDisposition.coding[0].system": "https://interop.interhealth.com.br/CodeSystem/rnds/motivo-desfecho"
                     },
                     "isPrimaryKey": false,
                     "isNullable": true,
@@ -1271,8 +1271,8 @@
                     "name": "extension[0].valueCodeableConcept.coding[0].code",
                     "dataType": "string",
                     "reference": {
-                        "extension[0].url": "https://interop.interhealth.com.br/fhir/StructureDefinition/individual-genderIdentity",
-                        "extension[0].valueCodeableConcept.coding[0].system": "https://interop.interhealth.com.br/fhir/CodeSystem/gender-identity"
+                        "extension[0].url": "https://interop.interhealth.com.br/StructureDefinition/individual-genderIdentity",
+                        "extension[0].valueCodeableConcept.coding[0].system": "https://interop.interhealth.com.br/CodeSystem/fhir/gender-identity"
                     },
                     "isPrimaryKey": false,
                     "isNullable": true,
@@ -1294,7 +1294,7 @@
                     "name": "qualification[0].identifier[0].assigner.display",
                     "dataType": "string",
                     "reference": {
-                        "qualification[0].identifier[0].assigner.system": "https://interop.interhealth.com.br/ibge/CodeSystem/ns-conselho-uf"
+                        "qualification[0].identifier[0].assigner.system": "https://interop.interhealth.com.br/CodeSystem/ibge/ns-conselho-uf"
                     },
                     "isPrimaryKey": false,
                     "isNullable": false,
@@ -1305,7 +1305,7 @@
                     "name": "qualification[0].code.coding[0].code",
                     "dataType": "string",
                     "reference": {
-                        "qualification[0].code.coding[0].system": "https://interop.interhealth.com.br/cns/CodeSystem/ns-descricao-conselho"
+                        "qualification[0].code.coding[0].system": "https://interop.interhealth.com.br/CodeSystem/cns/ns-descricao-conselho"
                     },
                     "isPrimaryKey": false,
                     "isNullable": false,
@@ -1316,7 +1316,7 @@
                     "name": "qualification[0].code.coding[1].code",
                     "dataType": "string",
                     "reference": {
-                        "qualification[0].code.coding[1].system": "https://interop.interhealth.com.br/cbo/CodeSystem/qualificacao-profissional"
+                        "qualification[0].code.coding[1].system": "https://interop.interhealth.com.br/CodeSystem/cbo/qualificacao-profissional"
                     },
                     "isPrimaryKey": false,
                     "isNullable": true,
@@ -1544,6 +1544,1250 @@
                     "isPrimaryKey": false,
                     "isNullable": false,
                     "description": "Data de Atualização"
+                }
+            ]
+        }, 
+        {
+            "name": "PractitionerRole",
+            "entity_type": "PRACTITIONERROLE",
+            "description": "Recurso para PractitionerRole do FHIR",
+            "table_reference": "FHIR",
+            "table_type": "DEFAULT",
+            "resource": "PRACTITIONERROLE",
+            "columns": [
+                {
+                    "name": "identifier[0].value",
+                    "dataType": "string",
+                    "reference": {
+                        "identifier[0].system": "https://interop.interhealth.com.br/NamingSystem/ns-codigo"
+                    },
+                    "isPrimaryKey": false,
+                    "isNullable": false,
+                    "description": "Código da Especialidade",
+                    "maxLength": 64
+                },
+                {
+                    "name": "practitioner.reference",
+                    "dataType": "reference",
+                    "isPrimaryKey": false,
+                    "isNullable": false,
+                    "description": "Referência ao Profissional",
+                    "maxLength": 64
+                },
+                {
+                    "name": "organization.reference",
+                    "dataType": "reference",
+                    "isPrimaryKey": false,
+                    "isNullable": false,
+                    "description": "Referência à Organização",
+                    "maxLength": 64
+                },
+                {
+                    "name": "location[0].reference",
+                    "dataType": "reference",
+                    "isPrimaryKey": false,
+                    "isNullable": true,
+                    "description": "Referência à Localização",
+                    "maxLength": 64
+                },
+                {
+                    "name": "code[0].coding[0].code",
+                    "dataType": "string",
+                    "reference": {
+                        "code[0].coding[0].system": "https://interop.interhealth.com.br/CodeSystem/cbos/ns-especialidade"
+                    },
+                    "isPrimaryKey": false,
+                    "isNullable": false,
+                    "description": "Código CBO-S da Especialidade",
+                    "maxLength": 20
+                },
+                {
+                    "name": "active",
+                    "dataType": "boolean",
+                    "isPrimaryKey": false,
+                    "isNullable": false,
+                    "description": "Status da Especialidade"
+                },
+                {
+                    "name": "availableTime[0].availableStartTime",
+                    "dataType": "time",
+                    "isPrimaryKey": false,
+                    "isNullable": true,
+                    "description": "Horário Inicial disponível"
+                },
+                {
+                    "name": "availableTime[0].availableEndTime",
+                    "dataType": "time",
+                    "isPrimaryKey": false,
+                    "isNullable": true,
+                    "description": "Horário Final disponível"
+                },
+                {
+                    "name": "notAvailable[0].during.start",
+                    "dataType": "datetime",
+                    "isPrimaryKey": false,
+                    "isNullable": true,
+                    "description": "Data/Hora Inicial indisponível"
+                },
+                {
+                    "name": "notAvailable[0].during.end",
+                    "dataType": "datetime",
+                    "isPrimaryKey": false,
+                    "isNullable": true,
+                    "description": "Data/Hora Final indisponível"
+                },
+                {
+                    "name": "availabilityExceptions",
+                    "dataType": "string",
+                    "isPrimaryKey": false,
+                    "isNullable": true,
+                    "description": "Exceções de disponibilidade",
+                    "maxLength": 500
+                },
+                {
+                    "name": "endpoint[0].reference",
+                    "dataType": "reference",
+                    "isPrimaryKey": false,
+                    "isNullable": true,
+                    "description": "Serviços eletrônicos",
+                    "maxLength": 255
+                },
+                {
+                    "name": "period.start",
+                    "dataType": "date",
+                    "isPrimaryKey": false,
+                    "isNullable": true,
+                    "description": "Período inicial execução de atividade"
+                },
+                {
+                    "name": "period.end",
+                    "dataType": "date",
+                    "isPrimaryKey": false,
+                    "isNullable": true,
+                    "description": "Período final de execução de atividade"
+                },
+                {
+                    "name": "telecom[0].value",
+                    "dataType": "string",
+                    "reference": {
+                        "telecom[0].system": "phone",
+                        "telecom[0].use": "work"
+                    },
+                    "isPrimaryKey": false,
+                    "isNullable": true,
+                    "description": "Contato específico",
+                    "maxLength": 20
+                }
+            ]
+        },
+        {
+            "name": "Organization",
+            "entity_type": "ORGANIZATION",
+            "description": "Recurso para Organization do FHIR",
+            "table_reference": "FHIR",
+            "table_type": "DEFAULT",
+            "resource": "ORGANIZATION",
+            "columns": [
+                {
+                    "name": "identifier[0].value",
+                    "dataType": "string",
+                    "reference": {
+                        "identifier[0].system": "https://interop.interhealth.com.br/NamingSystem/ns-codigo"
+                    },
+                    "isPrimaryKey": false,
+                    "isNullable": false,
+                    "description": "Código da Instituição",
+                    "maxLength": 64
+                },
+                {
+                    "name": "alias[0]",
+                    "dataType": "string",
+                    "isPrimaryKey": false,
+                    "isNullable": false,
+                    "description": "Razão Social",
+                    "maxLength": 255
+                },
+                {
+                    "name": "name",
+                    "dataType": "string",
+                    "isPrimaryKey": false,
+                    "isNullable": false,
+                    "description": "Nome Fantasia",
+                    "maxLength": 255
+                },
+                {
+                    "name": "identifier[1].value",
+                    "dataType": "string",
+                    "reference": {
+                        "identifier[1].system": "https://interop.interhealth.com.br/NamingSystem/ns-cnpj"
+                    },
+                    "isPrimaryKey": false,
+                    "isNullable": false,
+                    "description": "CNPJ - Cadastro Nacional de Pessoa Jurídica",
+                    "maxLength": 14
+                },
+                {
+                    "name": "identifier[2].value",
+                    "dataType": "string",
+                    "reference": {
+                        "identifier[2].system": "https://interop.interhealth.com.br/NamingSystem/ns-cnes"
+                    },
+                    "isPrimaryKey": false,
+                    "isNullable": true,
+                    "description": "CNES - Código Estabelecimento de Saúde",
+                    "maxLength": 7
+                },
+                {
+                    "name": "identifier[3].value",
+                    "dataType": "string",
+                    "reference": {
+                        "identifier[3].system": "https://interop.interhealth.com.br/NamingSystem/ns-ans"
+                    },
+                    "isPrimaryKey": false,
+                    "isNullable": true,
+                    "description": "Registro ANS",
+                    "maxLength": 20
+                },
+                {
+                    "name": "identifier[4].value",
+                    "dataType": "string",
+                    "reference": {
+                        "identifier[4].system": "https://interop.interhealth.com.br/NamingSystem/ns-cpf"
+                    },
+                    "isPrimaryKey": false,
+                    "isNullable": true,
+                    "description": "CPF",
+                    "maxLength": 11
+                },
+                {
+                    "name": "extension[0].valueString",
+                    "dataType": "string",
+                    "reference": {
+                        "extension[0].url": "https://interop.interhealth.com.br/StructureDefinition/natureza-juridica"
+                    },
+                    "isPrimaryKey": false,
+                    "isNullable": true,
+                    "description": "Natureza Jurídica",
+                    "maxLength": 100
+                },
+                {
+                    "name": "address[0].line[0]",
+                    "dataType": "string",
+                    "isPrimaryKey": false,
+                    "isNullable": true,
+                    "description": "Logradouro",
+                    "maxLength": 255
+                },
+                {
+                    "name": "address[0].line[1]",
+                    "dataType": "string",
+                    "isPrimaryKey": false,
+                    "isNullable": true,
+                    "description": "Nº Logradouro",
+                    "maxLength": 20
+                },
+                {
+                    "name": "address[0].line[2]",
+                    "dataType": "string",
+                    "isPrimaryKey": false,
+                    "isNullable": true,
+                    "description": "Complemento do Logradouro",
+                    "maxLength": 100
+                },
+                {
+                    "name": "address[0].city",
+                    "dataType": "string",
+                    "isPrimaryKey": false,
+                    "isNullable": true,
+                    "description": "Cidade",
+                    "maxLength": 100
+                },
+                {
+                    "name": "address[0].district",
+                    "dataType": "string",
+                    "isPrimaryKey": false,
+                    "isNullable": true,
+                    "description": "Bairro",
+                    "maxLength": 100
+                },
+                {
+                    "name": "address[0].state",
+                    "dataType": "string",
+                    "isPrimaryKey": false,
+                    "isNullable": true,
+                    "description": "Estado",
+                    "maxLength": 2
+                },
+                {
+                    "name": "address[0].postalCode",
+                    "dataType": "string",
+                    "isPrimaryKey": false,
+                    "isNullable": true,
+                    "description": "CEP",
+                    "maxLength": 8
+                },
+                {
+                    "name": "telecom[0].value",
+                    "dataType": "string",
+                    "reference": {
+                        "telecom[0].system": "phone",
+                        "telecom[0].use": "work"
+                    },
+                    "isPrimaryKey": false,
+                    "isNullable": true,
+                    "description": "Telefone Comercial",
+                    "maxLength": 20
+                },
+                {
+                    "name": "telecom[1].value",
+                    "dataType": "string",
+                    "reference": {
+                        "telecom[1].system": "url",
+                        "telecom[1].use": "work"
+                    },
+                    "isPrimaryKey": false,
+                    "isNullable": true,
+                    "description": "Site Institucional",
+                    "maxLength": 255
+                },
+                {
+                    "name": "telecom[2].value",
+                    "dataType": "string",
+                    "reference": {
+                        "telecom[2].system": "email",
+                        "telecom[2].use": "work"
+                    },
+                    "isPrimaryKey": false,
+                    "isNullable": true,
+                    "description": "E-mail Institucional",
+                    "maxLength": 255
+                },
+                {
+                    "name": "type[0].coding[0].code",
+                    "dataType": "string",
+                    "reference": {
+                        "type[0].coding[0].system": "https://interop.interhealth.com.br/CodeSystem/rnds/tipo-estabelecimento"
+                    },
+                    "isPrimaryKey": false,
+                    "isNullable": false,
+                    "description": "Tipo de Estabelecimento",
+                    "maxLength": 50
+                },
+                {
+                    "name": "active",
+                    "dataType": "boolean",
+                    "isPrimaryKey": false,
+                    "isNullable": false,
+                    "description": "Status"
+                }
+            ]
+        },
+        {
+            "name": "Location",
+            "entity_type": "LOCATION",
+            "description": "Recurso para Location do FHIR",
+            "table_reference": "FHIR",
+            "table_type": "DEFAULT",
+            "resource": "LOCATION",
+            "columns": [
+                {
+                    "name": "identifier[0].value",
+                    "dataType": "string",
+                    "reference": {
+                        "identifier[0].system": "https://interop.interhealth.com.br/NamingSystem/ns-codigo"
+                    },
+                    "isPrimaryKey": false,
+                    "isNullable": false,
+                    "description": "Código da Unidade",
+                    "maxLength": 64
+                },
+                {
+                    "name": "managingOrganization.reference",
+                    "dataType": "reference",
+                    "isPrimaryKey": false,
+                    "isNullable": false,
+                    "description": "Referência à Organização",
+                    "maxLength": 64
+                },
+                {
+                    "name": "name",
+                    "dataType": "string",
+                    "isPrimaryKey": false,
+                    "isNullable": false,
+                    "description": "Descrição da Unidade",
+                    "maxLength": 255
+                },
+                {
+                    "name": "status",
+                    "dataType": "string",
+                    "isPrimaryKey": false,
+                    "isNullable": true,
+                    "description": "Status",
+                    "maxLength": 20
+                },
+                {
+                    "name": "type[0].coding[0].code",
+                    "dataType": "string",
+                    "reference": {
+                        "type[0].coding[0].system": "https://interop.interhealth.com.br/CodeSystem/rnds/tipo-unidade"
+                    },
+                    "isPrimaryKey": false,
+                    "isNullable": true,
+                    "description": "Tipo de Estabelecimento",
+                    "maxLength": 50
+                },
+                {
+                    "name": "physicalType.coding[0].code",
+                    "dataType": "string",
+                    "reference": {
+                        "physicalType.coding[0].system": "https://interop.interhealth.com.br/CodeSystem/fhir/forma-fisica-unidade"
+                    },
+                    "isPrimaryKey": false,
+                    "isNullable": true,
+                    "description": "Forma física da Unidade",
+                    "maxLength": 50
+                },
+                {
+                    "name": "mode",
+                    "dataType": "string",
+                    "isPrimaryKey": false,
+                    "isNullable": true,
+                    "description": "Classe da Unidade",
+                    "maxLength": 20
+                },
+                {
+                    "name": "partOf.reference",
+                    "dataType": "reference",
+                    "isPrimaryKey": false,
+                    "isNullable": true,
+                    "description": "Referência à Unidade pai",
+                    "maxLength": 64
+                }
+            ]
+        },
+        {
+            "name": "Especialidade",
+            "description": "Tabela contendo os dados de especialidades médicas e papéis profissionais",
+            "table_reference": "INTERHEALTH",
+            "table_type": "DEFAULT",
+            "entity_type": "SPECIALTY",
+            "resource": "PRACTITIONERROLE",
+            "columns": [
+                {
+                    "name": "specialty_code",
+                    "dataType": "string",
+                    "isPrimaryKey": true,
+                    "isNullable": false,
+                    "description": "Código da Especialidade",
+                    "maxLength": 64
+                },
+                {
+                    "name": "specialty_provider_code",
+                    "dataType": "string",
+                    "isPrimaryKey": false,
+                    "isNullable": false,
+                    "description": "Código do Profissional",
+                    "maxLength": 64
+                },
+                {
+                    "name": "specialty_organization_code",
+                    "dataType": "string",
+                    "isPrimaryKey": false,
+                    "isNullable": false,
+                    "description": "Código da Instituição",
+                    "maxLength": 64
+                },
+                {
+                    "name": "specialty_location_code",
+                    "dataType": "string",
+                    "isPrimaryKey": false,
+                    "isNullable": true,
+                    "description": "Código da Unidade de Atuação",
+                    "maxLength": 64
+                },
+                {
+                    "name": "specialty_cbo_code",
+                    "dataType": "string",
+                    "isPrimaryKey": false,
+                    "isNullable": false,
+                    "description": "Código CBO-S da Especialidade",
+                    "maxLength": 20
+                },
+                {
+                    "name": "specialty_status",
+                    "dataType": "boolean",
+                    "isPrimaryKey": false,
+                    "isNullable": false,
+                    "description": "Status da Especialidade"
+                },
+                {
+                    "name": "specialty_available_start_time",
+                    "dataType": "time",
+                    "isPrimaryKey": false,
+                    "isNullable": true,
+                    "description": "Horário Inicial disponível"
+                },
+                {
+                    "name": "specialty_available_end_time",
+                    "dataType": "time",
+                    "isPrimaryKey": false,
+                    "isNullable": true,
+                    "description": "Horário Final disponível"
+                },
+                {
+                    "name": "specialty_unavailable_start_time",
+                    "dataType": "datetime",
+                    "isPrimaryKey": false,
+                    "isNullable": true,
+                    "description": "Data/Hora Inicial indisponível"
+                },
+                {
+                    "name": "specialty_unavailable_end_time",
+                    "dataType": "datetime",
+                    "isPrimaryKey": false,
+                    "isNullable": true,
+                    "description": "Data/Hora Final indisponível"
+                },
+                {
+                    "name": "specialty_exception_time",
+                    "dataType": "string",
+                    "isPrimaryKey": false,
+                    "isNullable": true,
+                    "description": "Exceções de disponibilidade",
+                    "maxLength": 500
+                },
+                {
+                    "name": "specialty_electronic_service",
+                    "dataType": "string",
+                    "isPrimaryKey": false,
+                    "isNullable": true,
+                    "description": "Serviços eletrônicos",
+                    "maxLength": 255
+                },
+                {
+                    "name": "specialty_allowed_start",
+                    "dataType": "date",
+                    "isPrimaryKey": false,
+                    "isNullable": true,
+                    "description": "Período inicial execução de atividade"
+                },
+                {
+                    "name": "specialty_allowed_end",
+                    "dataType": "date",
+                    "isPrimaryKey": false,
+                    "isNullable": true,
+                    "description": "Período final de execução de atividade"
+                },
+                {
+                    "name": "specialty_phone_contact",
+                    "dataType": "string",
+                    "isPrimaryKey": false,
+                    "isNullable": true,
+                    "description": "Contato específico",
+                    "maxLength": 20
+                },
+                {
+                    "name": "created_date",
+                    "dataType": "datetime",
+                    "isPrimaryKey": false,
+                    "isNullable": false,
+                    "description": "Data/Hora de Criação"
+                },
+                {
+                    "name": "updated_date",
+                    "dataType": "datetime",
+                    "isPrimaryKey": false,
+                    "isNullable": false,
+                    "description": "Data/Hora de Atualização"
+                }
+            ]
+        },
+        {
+            "name": "Instituicao",
+            "description": "Tabela contendo os dados cadastrais das instituições de saúde",
+            "table_reference": "INTERHEALTH",
+            "table_type": "DEFAULT",
+            "entity_type": "ORGANIZATION",
+            "resource": "ORGANIZATION",
+            "columns": [
+                {
+                    "name": "organization_code",
+                    "dataType": "string",
+                    "isPrimaryKey": true,
+                    "isNullable": false,
+                    "description": "Código da Instituição",
+                    "maxLength": 64
+                },
+                {
+                    "name": "organization_name",
+                    "dataType": "string",
+                    "isPrimaryKey": false,
+                    "isNullable": false,
+                    "description": "Razão Social",
+                    "maxLength": 255
+                },
+                {
+                    "name": "organization_alias",
+                    "dataType": "string",
+                    "isPrimaryKey": false,
+                    "isNullable": false,
+                    "description": "Nome Fantasia",
+                    "maxLength": 255
+                },
+                {
+                    "name": "organization_primary_document",
+                    "dataType": "string",
+                    "isPrimaryKey": false,
+                    "isNullable": false,
+                    "description": "CNPJ - Cadastro Nacional de Pessoa Jurídica",
+                    "maxLength": 14
+                },
+                {
+                    "name": "organization_secondary_document",
+                    "dataType": "string",
+                    "isPrimaryKey": false,
+                    "isNullable": true,
+                    "description": "CNES - Código Estabelecimento de Saúde",
+                    "maxLength": 7
+                },
+                {
+                    "name": "organization_third_document",
+                    "dataType": "string",
+                    "isPrimaryKey": false,
+                    "isNullable": true,
+                    "description": "Registro ANS",
+                    "maxLength": 20
+                },
+                {
+                    "name": "organization_fourth_document",
+                    "dataType": "string",
+                    "isPrimaryKey": false,
+                    "isNullable": true,
+                    "description": "CPF",
+                    "maxLength": 11
+                },
+                {
+                    "name": "organization_type",
+                    "dataType": "string",
+                    "isPrimaryKey": false,
+                    "isNullable": true,
+                    "description": "Natureza Jurídica",
+                    "maxLength": 100
+                },
+                {
+                    "name": "organization_address",
+                    "dataType": "string",
+                    "isPrimaryKey": false,
+                    "isNullable": true,
+                    "description": "Logradouro",
+                    "maxLength": 255
+                },
+                {
+                    "name": "organization_number",
+                    "dataType": "string",
+                    "isPrimaryKey": false,
+                    "isNullable": true,
+                    "description": "Nº Logradouro",
+                    "maxLength": 20
+                },
+                {
+                    "name": "organization_complement",
+                    "dataType": "string",
+                    "isPrimaryKey": false,
+                    "isNullable": true,
+                    "description": "Complemento do Logradouro",
+                    "maxLength": 100
+                },
+                {
+                    "name": "organization_city",
+                    "dataType": "string",
+                    "isPrimaryKey": false,
+                    "isNullable": true,
+                    "description": "Cidade",
+                    "maxLength": 100
+                },
+                {
+                    "name": "organization_neighborhood",
+                    "dataType": "string",
+                    "isPrimaryKey": false,
+                    "isNullable": true,
+                    "description": "Bairro",
+                    "maxLength": 100
+                },
+                {
+                    "name": "organization_state",
+                    "dataType": "string",
+                    "isPrimaryKey": false,
+                    "isNullable": true,
+                    "description": "Estado",
+                    "maxLength": 2
+                },
+                {
+                    "name": "organization_zipcode",
+                    "dataType": "string",
+                    "isPrimaryKey": false,
+                    "isNullable": true,
+                    "description": "CEP",
+                    "maxLength": 8
+                },
+                {
+                    "name": "organization_phone",
+                    "dataType": "string",
+                    "isPrimaryKey": false,
+                    "isNullable": true,
+                    "description": "Telefone Comercial",
+                    "maxLength": 20
+                },
+                {
+                    "name": "organization_website",
+                    "dataType": "string",
+                    "isPrimaryKey": false,
+                    "isNullable": true,
+                    "description": "Site Institucional",
+                    "maxLength": 255
+                },
+                {
+                    "name": "organization_email",
+                    "dataType": "string",
+                    "isPrimaryKey": false,
+                    "isNullable": true,
+                    "description": "E-mail Institucional",
+                    "maxLength": 255
+                },
+                {
+                    "name": "organization_management_type",
+                    "dataType": "string",
+                    "isPrimaryKey": false,
+                    "isNullable": false,
+                    "description": "Tipo de Estabelecimento",
+                    "maxLength": 50
+                },
+                {
+                    "name": "organization_status",
+                    "dataType": "boolean",
+                    "isPrimaryKey": false,
+                    "isNullable": false,
+                    "description": "Status"
+                },
+                {
+                    "name": "created_date",
+                    "dataType": "datetime",
+                    "isPrimaryKey": false,
+                    "isNullable": false,
+                    "description": "Data/Hora de Criação"
+                },
+                {
+                    "name": "updated_date",
+                    "dataType": "datetime",
+                    "isPrimaryKey": false,
+                    "isNullable": false,
+                    "description": "Data/Hora de Atualização"
+                }
+            ]
+        },
+        {
+            "name": "Unidade",
+            "description": "Tabela contendo os dados cadastrais das unidades de atendimento",
+            "table_reference": "INTERHEALTH",
+            "table_type": "DEFAULT",
+            "entity_type": "LOCATION",
+            "resource": "LOCATION",
+            "columns": [
+                {
+                    "name": "location_code",
+                    "dataType": "string",
+                    "isPrimaryKey": true,
+                    "isNullable": false,
+                    "description": "Código da Unidade",
+                    "maxLength": 64
+                },
+                {
+                    "name": "location_organization_code",
+                    "dataType": "string",
+                    "isPrimaryKey": false,
+                    "isNullable": false,
+                    "description": "Código da Instituição",
+                    "maxLength": 64
+                },
+                {
+                    "name": "location_name",
+                    "dataType": "string",
+                    "isPrimaryKey": false,
+                    "isNullable": false,
+                    "description": "Descrição da Unidade",
+                    "maxLength": 255
+                },
+                {
+                    "name": "location_status",
+                    "dataType": "string",
+                    "isPrimaryKey": false,
+                    "isNullable": true,
+                    "description": "Status",
+                    "maxLength": 20
+                },
+                {
+                    "name": "location_type",
+                    "dataType": "string",
+                    "isPrimaryKey": false,
+                    "isNullable": true,
+                    "description": "Tipo de Estabelecimento",
+                    "maxLength": 50
+                },
+                {
+                    "name": "location_form",
+                    "dataType": "string",
+                    "isPrimaryKey": false,
+                    "isNullable": true,
+                    "description": "Forma física da Unidade",
+                    "maxLength": 50
+                },
+                {
+                    "name": "location_mode",
+                    "dataType": "string",
+                    "isPrimaryKey": false,
+                    "isNullable": true,
+                    "description": "Classe da Unidade",
+                    "maxLength": 20
+                },
+                {
+                    "name": "location_location_code",
+                    "dataType": "string",
+                    "isPrimaryKey": false,
+                    "isNullable": true,
+                    "description": "Código da Unidade pai",
+                    "maxLength": 64
+                },
+                {
+                    "name": "created_date",
+                    "dataType": "datetime",
+                    "isPrimaryKey": false,
+                    "isNullable": false,
+                    "description": "Data/Hora de Criação"
+                },
+                {
+                    "name": "updated_date",
+                    "dataType": "datetime",
+                    "isPrimaryKey": false,
+                    "isNullable": false,
+                    "description": "Data/Hora de Atualização"
+                }
+            ]
+        },
+        {
+            "name": "PractitionerRole",
+            "entity_type": "PRACTITIONERROLE",
+            "description": "Recurso para PractitionerRole do FHIR",
+            "table_reference": "FHIR",
+            "table_type": "DEFAULT",
+            "resource": "PRACTITIONERROLE",
+            "columns": [
+                {
+                    "name": "identifier[0].value",
+                    "dataType": "string",
+                    "reference": {
+                        "identifier[0].system": "https://interop.interhealth.com.br/NamingSystem/ns-codigo"
+                    },
+                    "isPrimaryKey": false,
+                    "isNullable": false,
+                    "description": "Código da Especialidade",
+                    "maxLength": 64
+                },
+                {
+                    "name": "practitioner.reference",
+                    "dataType": "reference",
+                    "isPrimaryKey": false,
+                    "isNullable": false,
+                    "description": "Referência ao Profissional",
+                    "maxLength": 64
+                },
+                {
+                    "name": "organization.reference",
+                    "dataType": "reference",
+                    "isPrimaryKey": false,
+                    "isNullable": false,
+                    "description": "Referência à Organização",
+                    "maxLength": 64
+                },
+                {
+                    "name": "location[0].reference",
+                    "dataType": "reference",
+                    "isPrimaryKey": false,
+                    "isNullable": true,
+                    "description": "Referência à Localização",
+                    "maxLength": 64
+                },
+                {
+                    "name": "code[0].coding[0].code",
+                    "dataType": "string",
+                    "reference": {
+                        "code[0].coding[0].system": "https://interop.interhealth.com.br/CodeSystem/cbos/ns-especialidade"
+                    },
+                    "isPrimaryKey": false,
+                    "isNullable": false,
+                    "description": "Código CBO-S da Especialidade",
+                    "maxLength": 20
+                },
+                {
+                    "name": "active",
+                    "dataType": "boolean",
+                    "isPrimaryKey": false,
+                    "isNullable": false,
+                    "description": "Status da Especialidade"
+                },
+                {
+                    "name": "availableTime[0].availableStartTime",
+                    "dataType": "time",
+                    "isPrimaryKey": false,
+                    "isNullable": true,
+                    "description": "Horário Inicial disponível"
+                },
+                {
+                    "name": "availableTime[0].availableEndTime",
+                    "dataType": "time",
+                    "isPrimaryKey": false,
+                    "isNullable": true,
+                    "description": "Horário Final disponível"
+                },
+                {
+                    "name": "notAvailable[0].during.start",
+                    "dataType": "datetime",
+                    "isPrimaryKey": false,
+                    "isNullable": true,
+                    "description": "Data/Hora Inicial indisponível"
+                },
+                {
+                    "name": "notAvailable[0].during.end",
+                    "dataType": "datetime",
+                    "isPrimaryKey": false,
+                    "isNullable": true,
+                    "description": "Data/Hora Final indisponível"
+                },
+                {
+                    "name": "availabilityExceptions",
+                    "dataType": "string",
+                    "isPrimaryKey": false,
+                    "isNullable": true,
+                    "description": "Exceções de disponibilidade",
+                    "maxLength": 500
+                },
+                {
+                    "name": "endpoint[0].reference",
+                    "dataType": "reference",
+                    "isPrimaryKey": false,
+                    "isNullable": true,
+                    "description": "Serviços eletrônicos",
+                    "maxLength": 255
+                },
+                {
+                    "name": "period.start",
+                    "dataType": "date",
+                    "isPrimaryKey": false,
+                    "isNullable": true,
+                    "description": "Período inicial execução de atividade"
+                },
+                {
+                    "name": "period.end",
+                    "dataType": "date",
+                    "isPrimaryKey": false,
+                    "isNullable": true,
+                    "description": "Período final de execução de atividade"
+                },
+                {
+                    "name": "telecom[0].value",
+                    "dataType": "string",
+                    "reference": {
+                        "telecom[0].system": "phone",
+                        "telecom[0].use": "work"
+                    },
+                    "isPrimaryKey": false,
+                    "isNullable": true,
+                    "description": "Contato específico",
+                    "maxLength": 20
+                }
+            ]
+        },
+        {
+            "name": "Organization",
+            "entity_type": "ORGANIZATION",
+            "description": "Recurso para Organization do FHIR",
+            "table_reference": "FHIR",
+            "table_type": "DEFAULT",
+            "resource": "ORGANIZATION",
+            "columns": [
+                {
+                    "name": "identifier[0].value",
+                    "dataType": "string",
+                    "reference": {
+                        "identifier[0].system": "https://interop.interhealth.com.br/NamingSystem/ns-codigo"
+                    },
+                    "isPrimaryKey": false,
+                    "isNullable": false,
+                    "description": "Código da Instituição",
+                    "maxLength": 64
+                },
+                {
+                    "name": "alias[0]",
+                    "dataType": "string",
+                    "isPrimaryKey": false,
+                    "isNullable": false,
+                    "description": "Razão Social",
+                    "maxLength": 255
+                },
+                {
+                    "name": "name",
+                    "dataType": "string",
+                    "isPrimaryKey": false,
+                    "isNullable": false,
+                    "description": "Nome Fantasia",
+                    "maxLength": 255
+                },
+                {
+                    "name": "identifier[1].value",
+                    "dataType": "string",
+                    "reference": {
+                        "identifier[1].system": "https://interop.interhealth.com.br/NamingSystem/ns-cnpj"
+                    },
+                    "isPrimaryKey": false,
+                    "isNullable": false,
+                    "description": "CNPJ - Cadastro Nacional de Pessoa Jurídica",
+                    "maxLength": 14
+                },
+                {
+                    "name": "identifier[2].value",
+                    "dataType": "string",
+                    "reference": {
+                        "identifier[2].system": "https://interop.interhealth.com.br/NamingSystem/ns-cnes"
+                    },
+                    "isPrimaryKey": false,
+                    "isNullable": true,
+                    "description": "CNES - Código Estabelecimento de Saúde",
+                    "maxLength": 7
+                },
+                {
+                    "name": "identifier[3].value",
+                    "dataType": "string",
+                    "reference": {
+                        "identifier[3].system": "https://interop.interhealth.com.br/NamingSystem/ns-ans"
+                    },
+                    "isPrimaryKey": false,
+                    "isNullable": true,
+                    "description": "Registro ANS",
+                    "maxLength": 20
+                },
+                {
+                    "name": "identifier[4].value",
+                    "dataType": "string",
+                    "reference": {
+                        "identifier[4].system": "https://interop.interhealth.com.br/NamingSystem/ns-cpf"
+                    },
+                    "isPrimaryKey": false,
+                    "isNullable": true,
+                    "description": "CPF",
+                    "maxLength": 11
+                },
+                {
+                    "name": "extension[0].valueString",
+                    "dataType": "string",
+                    "reference": {
+                        "extension[0].url": "https://interop.interhealth.com.br/StructureDefinition/natureza-juridica"
+                    },
+                    "isPrimaryKey": false,
+                    "isNullable": true,
+                    "description": "Natureza Jurídica",
+                    "maxLength": 100
+                },
+                {
+                    "name": "address[0].line[0]",
+                    "dataType": "string",
+                    "isPrimaryKey": false,
+                    "isNullable": true,
+                    "description": "Logradouro",
+                    "maxLength": 255
+                },
+                {
+                    "name": "address[0].line[1]",
+                    "dataType": "string",
+                    "isPrimaryKey": false,
+                    "isNullable": true,
+                    "description": "Nº Logradouro",
+                    "maxLength": 20
+                },
+                {
+                    "name": "address[0].line[2]",
+                    "dataType": "string",
+                    "isPrimaryKey": false,
+                    "isNullable": true,
+                    "description": "Complemento do Logradouro",
+                    "maxLength": 100
+                },
+                {
+                    "name": "address[0].city",
+                    "dataType": "string",
+                    "isPrimaryKey": false,
+                    "isNullable": true,
+                    "description": "Cidade",
+                    "maxLength": 100
+                },
+                {
+                    "name": "address[0].district",
+                    "dataType": "string",
+                    "isPrimaryKey": false,
+                    "isNullable": true,
+                    "description": "Bairro",
+                    "maxLength": 100
+                },
+                {
+                    "name": "address[0].state",
+                    "dataType": "string",
+                    "isPrimaryKey": false,
+                    "isNullable": true,
+                    "description": "Estado",
+                    "maxLength": 2
+                },
+                {
+                    "name": "address[0].postalCode",
+                    "dataType": "string",
+                    "isPrimaryKey": false,
+                    "isNullable": true,
+                    "description": "CEP",
+                    "maxLength": 8
+                },
+                {
+                    "name": "telecom[0].value",
+                    "dataType": "string",
+                    "reference": {
+                        "telecom[0].system": "phone",
+                        "telecom[0].use": "work"
+                    },
+                    "isPrimaryKey": false,
+                    "isNullable": true,
+                    "description": "Telefone Comercial",
+                    "maxLength": 20
+                },
+                {
+                    "name": "telecom[1].value",
+                    "dataType": "string",
+                    "reference": {
+                        "telecom[1].system": "url",
+                        "telecom[1].use": "work"
+                    },
+                    "isPrimaryKey": false,
+                    "isNullable": true,
+                    "description": "Site Institucional",
+                    "maxLength": 255
+                },
+                {
+                    "name": "telecom[2].value",
+                    "dataType": "string",
+                    "reference": {
+                        "telecom[2].system": "email",
+                        "telecom[2].use": "work"
+                    },
+                    "isPrimaryKey": false,
+                    "isNullable": true,
+                    "description": "E-mail Institucional",
+                    "maxLength": 255
+                },
+                {
+                    "name": "type[0].coding[0].code",
+                    "dataType": "string",
+                    "reference": {
+                        "type[0].coding[0].system": "https://interop.interhealth.com.br/CodeSystem/rnds/tipo-estabelecimento"
+                    },
+                    "isPrimaryKey": false,
+                    "isNullable": false,
+                    "description": "Tipo de Estabelecimento",
+                    "maxLength": 50
+                },
+                {
+                    "name": "active",
+                    "dataType": "boolean",
+                    "isPrimaryKey": false,
+                    "isNullable": false,
+                    "description": "Status"
+                }
+            ]
+        },
+        {
+            "name": "Location",
+            "entity_type": "LOCATION",
+            "description": "Recurso para Location do FHIR",
+            "table_reference": "FHIR",
+            "table_type": "DEFAULT",
+            "resource": "LOCATION",
+            "columns": [
+                {
+                    "name": "identifier[0].value",
+                    "dataType": "string",
+                    "reference": {
+                        "identifier[0].system": "https://interop.interhealth.com.br/NamingSystem/ns-codigo"
+                    },
+                    "isPrimaryKey": false,
+                    "isNullable": false,
+                    "description": "Código da Unidade",
+                    "maxLength": 64
+                },
+                {
+                    "name": "managingOrganization.reference",
+                    "dataType": "reference",
+                    "isPrimaryKey": false,
+                    "isNullable": false,
+                    "description": "Referência à Organização",
+                    "maxLength": 64
+                },
+                {
+                    "name": "name",
+                    "dataType": "string",
+                    "isPrimaryKey": false,
+                    "isNullable": false,
+                    "description": "Descrição da Unidade",
+                    "maxLength": 255
+                },
+                {
+                    "name": "status",
+                    "dataType": "string",
+                    "isPrimaryKey": false,
+                    "isNullable": true,
+                    "description": "Status",
+                    "maxLength": 20
+                },
+                {
+                    "name": "type[0].coding[0].code",
+                    "dataType": "string",
+                    "reference": {
+                        "type[0].coding[0].system": "https://interop.interhealth.com.br/CodeSystem/rnds/tipo-unidade"
+                    },
+                    "isPrimaryKey": false,
+                    "isNullable": true,
+                    "description": "Tipo de Estabelecimento",
+                    "maxLength": 50
+                },
+                {
+                    "name": "physicalType.coding[0].code",
+                    "dataType": "string",
+                    "reference": {
+                        "physicalType.coding[0].system": "https://interop.interhealth.com.br/CodeSystem/fhir/forma-fisica-unidade"
+                    },
+                    "isPrimaryKey": false,
+                    "isNullable": true,
+                    "description": "Forma física da Unidade",
+                    "maxLength": 50
+                },
+                {
+                    "name": "mode",
+                    "dataType": "string",
+                    "isPrimaryKey": false,
+                    "isNullable": true,
+                    "description": "Classe da Unidade",
+                    "maxLength": 20
+                },
+                {
+                    "name": "partOf.reference",
+                    "dataType": "reference",
+                    "isPrimaryKey": false,
+                    "isNullable": true,
+                    "description": "Referência à Unidade pai",
+                    "maxLength": 64
                 }
             ]
         }
