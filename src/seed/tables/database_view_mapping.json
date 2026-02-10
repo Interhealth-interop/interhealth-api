@@ -800,7 +800,7 @@
           "maxLength": 64
         },
         {
-          "fieldOrigin": "specialty_cbo_code",
+          "fieldOrigin": "specialty_clinical_kind",
           "fieldDestiny": "code[0].coding[0].code",
           "referenceDestiny": {
             "code[0].coding[0].system": "https://interop.interhealth.com.br/CodeSystem/cbos/ns-especialidade"

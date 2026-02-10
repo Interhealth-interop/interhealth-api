@@ -1,5 +1,43 @@
-use chrono::{DateTime, Utc};
+use chrono::{DateTime, NaiveDateTime, Utc};
 use serde::{Deserialize, Deserializer, Serializer};
+
+/// Format a datetime string to ISO 8601 format (YYYY-MM-DDTHH:MM:SS)
+/// Handles various input formats and ensures consistent output for FHIR resources
+pub fn format_to_iso8601(value: &str) -> String {
+    // If already in ISO 8601 format with 'T', return as is
+    if value.contains('T') {
+        return value.to_string();
+    }
+    
+    // Try to parse various datetime formats
+    // Format 1: RFC3339 (already handled above)
+    if let Ok(dt) = DateTime::parse_from_rfc3339(value) {
+        return dt.format("%Y-%m-%dT%H:%M:%S").to_string();
+    }
+    
+    // Format 2: "%d-%m-%Y %H:%M:%S" (e.g., "11-08-2025 16:08:39")
+    if let Ok(ndt) = NaiveDateTime::parse_from_str(value, "%d-%m-%Y %H:%M:%S") {
+        return ndt.format("%Y-%m-%dT%H:%M:%S").to_string();
+    }
+    
+    // Format 3: "%Y-%m-%d %H:%M:%S" (e.g., "2025-08-11 16:08:39")
+    if let Ok(ndt) = NaiveDateTime::parse_from_str(value, "%Y-%m-%d %H:%M:%S") {
+        return ndt.format("%Y-%m-%dT%H:%M:%S").to_string();
+    }
+    
+    // Format 4: "%d/%m/%Y %H:%M:%S" (e.g., "11/08/2025 16:08:39")
+    if let Ok(ndt) = NaiveDateTime::parse_from_str(value, "%d/%m/%Y %H:%M:%S") {
+        return ndt.format("%Y-%m-%dT%H:%M:%S").to_string();
+    }
+    
+    // Format 5: "%Y/%m/%d %H:%M:%S" (e.g., "2025/08/11 16:08:39")
+    if let Ok(ndt) = NaiveDateTime::parse_from_str(value, "%Y/%m/%d %H:%M:%S") {
+        return ndt.format("%Y-%m-%dT%H:%M:%S").to_string();
+    }
+    
+    // If no format matches, return the original value
+    value.to_string()
+}
 
 pub fn serialize<S>(date: &DateTime<Utc>, serializer: S) -> Result<S::Ok, S::Error>
 where

@@ -2,6 +2,7 @@ use std::collections::HashMap;
 use serde_json::Value;
 use bson::oid::ObjectId;
 use crate::domain::entities::{FieldMapping, DatabaseTransformation, DatabaseModelValue};
+use crate::utils::date_format;
 
 /// Utility for replacing FHIR placeholder values with real database values
 pub struct Replacer;
@@ -166,21 +167,29 @@ impl Replacer {
     ) -> HashMap<String, String> {
         let mut transformed_data = data.clone();
         
-        // For each field mapping with a transformation
+        // For each field mapping
         for field_mapping in field_mappings {
+            let column_name = field_mapping.field_origin.to_lowercase();
+            
+            // Apply transformation if transformation_id exists
             if let Some(transformation_id) = &field_mapping.transformation_id {
                 if let Some(transformation) = transformations.get(transformation_id) {
-                    // Get the column name (field_origin)
-                    let column_name = field_mapping.field_origin.to_lowercase();
-                    
                     // Get the actual value from data
                     if let Some(original_value) = data.get(&column_name) {
                         // Look up the transformed value
                         if let Some(mapped_value) = transformation.value_mappings.get(original_value) {
                             // Replace with transformed value
-                            transformed_data.insert(column_name, mapped_value.code.clone());
+                            transformed_data.insert(column_name.clone(), mapped_value.code.clone());
                         }
                     }
+                }
+            }
+            
+            // Apply datetime formatting if dataType is datetime
+            if field_mapping.data_type == "datetime" {
+                if let Some(value) = transformed_data.get(&column_name) {
+                    let formatted_value = date_format::format_to_iso8601(value);
+                    transformed_data.insert(column_name, formatted_value);
                 }
             }
         }
@@ -197,12 +206,12 @@ impl Replacer {
     ) -> HashMap<String, String> {
         let mut transformed_data = data.clone();
         
-        // For each field mapping with a transformation_id
+        // For each field mapping
         for field_mapping in field_mappings {
+            let column_name = field_mapping.field_origin.to_lowercase();
+            
+            // Apply transformation if transformation_id exists
             if let Some(transformation_id) = &field_mapping.transformation_id {
-                // Get the column name (field_origin)
-                let column_name = field_mapping.field_origin.to_lowercase();
-                
                 // Get the actual value from data (e.g., "F")
                 if let Some(original_value) = data.get(&column_name) {
                     // transformation_id is the database_model owner_id
@@ -220,6 +229,14 @@ impl Replacer {
                             }
                         }
                     }
+                }
+            }
+            
+            // Apply datetime formatting if dataType is datetime
+            if field_mapping.data_type == "datetime" {
+                if let Some(value) = transformed_data.get(&column_name) {
+                    let formatted_value = date_format::format_to_iso8601(value);
+                    transformed_data.insert(column_name, formatted_value);
                 }
             }
         }

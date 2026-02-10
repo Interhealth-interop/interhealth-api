@@ -2006,11 +2006,11 @@
                     "maxLength": 64
                 },
                 {
-                    "name": "specialty_cbo_code",
+                    "name": "specialty_clinical_kind",
                     "dataType": "string",
                     "isPrimaryKey": false,
                     "isNullable": false,
-                    "description": "Código CBO-S da Especialidade",
+                    "description": "Especialidade do Profissional",
                     "maxLength": 20
                 },
                 {
