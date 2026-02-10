@@ -469,16 +469,6 @@
           "maxLength": 255
         },
         {
-          "fieldOrigin": "encounter_accident_type",
-          "fieldDestiny": "reasonCode[0].coding[0].code",
-          "referenceDestiny": {
-            "reasonCode[0].coding[0].system": "https://interop.interhealth.com.br/CodeSystem/fhir/tipo-acidente"
-          },
-          "dataType": "string",
-          "isNullable": true,
-          "maxLength": 50
-        },
-        {
           "fieldOrigin": "encounter_request_reason",
           "fieldDestiny": "priority[0].coding[0].code",
           "referenceDestiny": {
@@ -807,7 +797,8 @@
           },
           "dataType": "string",
           "isNullable": false,
-          "maxLength": 20
+          "maxLength": 20,
+          "transformationId": "695ee472b82ca274f4d3b025"
         },
         {
           "fieldOrigin": "specialty_status",

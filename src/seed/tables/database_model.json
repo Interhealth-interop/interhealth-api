@@ -146,6 +146,13 @@
       "reference": "FHIR",
       "type": "LOCATION_CLASS",
       "description": "Classe da unidade de saúde no Brasil"
+    },
+    {
+      "id": "695ee472b82ca274f4d3b025",
+      "name": "Especialidade Profissional",
+      "reference": "CBOS",
+      "type": "PROFESSIONAL_SPECIALTY",
+      "description": "Especialidade profissional no Brasil"
     }
   ]
 }
