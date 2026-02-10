@@ -169,29 +169,24 @@ impl Replacer {
     ) -> HashMap<String, String> {
         let mut transformed_data = data.clone();
         
-        // For each field mapping
         for field_mapping in field_mappings {
             let column_name = field_mapping.field_origin.to_lowercase();
             
-            // Apply transformation if transformation_id exists
+            // Apply transformation if exists
             if let Some(transformation_id) = &field_mapping.transformation_id {
-                if let Some(transformation) = transformations.get(transformation_id) {
-                    // Get the actual value from data
-                    if let Some(original_value) = data.get(&column_name) {
-                        // Look up the transformed value
+                if let Some(original_value) = data.get(&column_name) {
+                    if let Some(transformation) = transformations.get(transformation_id) {
                         if let Some(mapped_value) = transformation.value_mappings.get(original_value) {
-                            // Replace with transformed value
                             transformed_data.insert(column_name.clone(), mapped_value.code.clone());
                         }
                     }
                 }
             }
             
-            // Apply datetime formatting if dataType is datetime
+            // Apply datetime formatting
             if field_mapping.data_type == "datetime" {
-                if let Some(value) = transformed_data.get(&column_name) {
-                    let formatted_value = date_format::format_to_iso8601(value);
-                    transformed_data.insert(column_name, formatted_value);
+                if let Some(value) = transformed_data.get(&column_name).cloned() {
+                    transformed_data.insert(column_name, date_format::format_to_iso8601(&value));
                 }
             }
         }
@@ -208,37 +203,27 @@ impl Replacer {
     ) -> HashMap<String, String> {
         let mut transformed_data = data.clone();
         
-        // For each field mapping
         for field_mapping in field_mappings {
             let column_name = field_mapping.field_origin.to_lowercase();
             
-            // Apply transformation if transformation_id exists
+            // Apply model value transformation if exists
             if let Some(transformation_id) = &field_mapping.transformation_id {
-                // Get the actual value from data (e.g., "F")
                 if let Some(original_value) = data.get(&column_name) {
-                    // transformation_id is the database_model owner_id
-                    // Find all database_model_values with matching owner_id
-                    for model_value in model_values.values() {
-                        if model_value.owner_id.to_hex() == *transformation_id {
-                            // Look for company-specific client mapping with matching source_key
-                            if let Some(company_oid) = company_object_id {
-                                if let Some(_client_mapping) = model_value.clients.iter()
-                                    .find(|c| c.company_id == *company_oid && c.source_key == *original_value) {
-                                    // Transform: source_key ("F") -> code ("female")
-                                    transformed_data.insert(column_name.clone(), model_value.code.clone());
-                                    break;
-                                }
-                            }
+                    if let Some(company_oid) = company_object_id {
+                        // Find matching model value more efficiently
+                        if let Some(model_value) = model_values.values()
+                            .find(|mv| mv.owner_id.to_hex() == *transformation_id && 
+                                  mv.clients.iter().any(|c| c.company_id == *company_oid && c.source_key == *original_value)) {
+                            transformed_data.insert(column_name.clone(), model_value.code.clone());
                         }
                     }
                 }
             }
             
-            // Apply datetime formatting if dataType is datetime
+            // Apply datetime formatting
             if field_mapping.data_type == "datetime" {
-                if let Some(value) = transformed_data.get(&column_name) {
-                    let formatted_value = date_format::format_to_iso8601(value);
-                    transformed_data.insert(column_name, formatted_value);
+                if let Some(value) = transformed_data.get(&column_name).cloned() {
+                    transformed_data.insert(column_name, date_format::format_to_iso8601(&value));
                 }
             }
         }
@@ -254,34 +239,17 @@ impl Replacer {
         model_values: &HashMap<String, DatabaseModelValue>,
         company_object_id: Option<&ObjectId>,
     ) {
-        // For each field mapping with a transformation that ends with .code
-        for field_mapping in field_mappings {
-            if let Some(transformation_id) = &field_mapping.transformation_id {
-                if field_mapping.field_destiny.ends_with(".code") {
-                    // Get the column name (field_origin)
-                    let column_name = field_mapping.field_origin.to_lowercase();
-                    
-                    // Get the actual value from data (e.g., "F")
-                    if let Some(original_value) = data.get(&column_name) {
-                        // transformation_id is the database_model owner_id
-                        // Find database_model_value with matching owner_id
-                        for model_value in model_values.values() {
-                            if model_value.owner_id.to_hex() == *transformation_id {
-                                // Look for company-specific client mapping
-                                if let Some(company_oid) = company_object_id {
-                                    if let Some(_client_mapping) = model_value.clients.iter()
-                                        .find(|c| c.company_id == *company_oid && c.source_key == *original_value) {
-                                        // Create the display path by replacing .code with .display
-                                        let display_path = field_mapping.field_destiny.replace(".code", ".display");
-                                        
-                                        // Set the display value from database_model_value description
-                                        Self::set_value_by_path(resource, &display_path, &model_value.description);
-                                        break;
-                                    }
-                                }
-                            }
-                        }
-                    }
+        for field_mapping in field_mappings.iter().filter(|fm| fm.field_destiny.ends_with(".code")) {
+            if let (Some(transformation_id), Some(original_value), Some(company_oid)) = (
+                &field_mapping.transformation_id,
+                data.get(&field_mapping.field_origin.to_lowercase()),
+                company_object_id
+            ) {
+                if let Some(model_value) = model_values.values()
+                    .find(|mv| mv.owner_id.to_hex() == *transformation_id && 
+                          mv.clients.iter().any(|c| c.company_id == *company_oid && c.source_key == *original_value)) {
+                    let display_path = field_mapping.field_destiny.replace(".code", ".display");
+                    Self::set_value_by_path(resource, &display_path, &model_value.description);
                 }
             }
         }
@@ -294,41 +262,19 @@ impl Replacer {
         field_mappings: &[FieldMapping],
         transformations: &HashMap<String, DatabaseTransformation>,
     ) {
-        // For each field mapping with a transformation that ends with .code
-        for field_mapping in field_mappings {
-            if let Some(transformation_id) = &field_mapping.transformation_id {
-                if field_mapping.field_destiny.ends_with(".code") {
-                    if let Some(transformation) = transformations.get(transformation_id) {
-                        // Get the column name (field_origin)
-                        let column_name = field_mapping.field_origin.to_lowercase();
-                        
-                        // Get the actual value from data
-                        if let Some(original_value) = data.get(&column_name) {
-                            // Look up the transformed value to get the description
-                            if let Some(mapped_value) = transformation.value_mappings.get(original_value) {
-                                // Create the display path by replacing .code with .display
-                                let display_path = field_mapping.field_destiny.replace(".code", ".display");
-                                
-                                // Convert path to JSON pointer format and set the value
-                                // e.g., "extension[2].valueCodeableConcept.coding[0].display" 
-                                // becomes "/extension/2/valueCodeableConcept/coding/0/display"
-                                let _pointer_path = Self::dot_notation_to_pointer(&display_path);
-                                
-                                // Navigate to the parent and set the display field
-                                Self::set_value_by_path(resource, &display_path, &mapped_value.description);
-                            }
-                        }
+        for field_mapping in field_mappings.iter().filter(|fm| fm.field_destiny.ends_with(".code")) {
+            if let (Some(transformation_id), Some(original_value)) = (
+                &field_mapping.transformation_id,
+                data.get(&field_mapping.field_origin.to_lowercase())
+            ) {
+                if let Some(transformation) = transformations.get(transformation_id) {
+                    if let Some(mapped_value) = transformation.value_mappings.get(original_value) {
+                        let display_path = field_mapping.field_destiny.replace(".code", ".display");
+                        Self::set_value_by_path(resource, &display_path, &mapped_value.description);
                     }
                 }
             }
         }
-    }
-
-    /// Convert dot notation path to JSON pointer format
-    fn dot_notation_to_pointer(path: &str) -> String {
-        path.replace(".", "/")
-            .replace("[", "/")
-            .replace("]", "")
     }
 
     /// Set a value in nested JSON structure using dot notation path
