@@ -90,6 +90,8 @@ impl Replacer {
     ) {
         if let Some(resource) = entry.get_mut("resource") {
             Self::replace_in_resource(resource, data);
+            // Remove empty reference structures after replacement
+            Self::remove_empty_references(resource);
         }
         
         // Also replace in request.ifNoneExist if present
@@ -381,4 +383,120 @@ impl Replacer {
             }
         }
     }
+
+    /// Remove empty reference structures from FHIR resource
+    /// Checks for references that end with "/" (no value after the resource type)
+    /// and removes the entire structure if empty
+    fn remove_empty_references(resource: &mut Value) {
+        match resource {
+            Value::Object(map) => {
+                let mut keys_to_remove = Vec::new();
+                
+                // First pass: recursively clean nested objects and arrays
+                for (_, value) in map.iter_mut() {
+                    Self::remove_empty_references(value);
+                }
+                
+                // Second pass: identify keys to remove
+                for (key, value) in map.iter() {
+                    let should_remove = match value {
+                        Value::Object(obj) => {
+                            // Remove if object only contains an empty reference or is empty
+                            if obj.is_empty() {
+                                true
+                            } else if obj.len() == 1 && obj.contains_key("reference") {
+                                // Check if reference is empty (ends with / or is empty string)
+                                if let Some(ref_str) = obj.get("reference").and_then(|v| v.as_str()) {
+                                    ref_str.is_empty() || ref_str.ends_with('/') || !ref_str.contains('/')
+                                } else {
+                                    false
+                                }
+                            } else {
+                                // Check if all nested values are empty
+                                Self::is_empty_structure(obj)
+                            }
+                        },
+                        Value::Array(arr) => {
+                            // Remove if array is empty or all items are empty structures
+                            arr.is_empty() || arr.iter().all(|item| {
+                                if let Value::Object(obj) = item {
+                                    Self::is_empty_structure(obj)
+                                } else {
+                                    false
+                                }
+                            })
+                        },
+                        Value::String(s) => {
+                            // Remove empty strings
+                            s.is_empty()
+                        },
+                        _ => false
+                    };
+                    
+                    if should_remove {
+                        keys_to_remove.push(key.clone());
+                    }
+                }
+                
+                // Remove marked keys
+                for key in keys_to_remove {
+                    map.remove(&key);
+                }
+            }
+            Value::Array(arr) => {
+                // Clean each array element
+                for item in arr.iter_mut() {
+                    Self::remove_empty_references(item);
+                }
+                
+                // Remove empty objects from array
+                arr.retain(|item| {
+                    if let Value::Object(obj) = item {
+                        !Self::is_empty_structure(obj)
+                    } else if let Value::String(s) = item {
+                        !s.is_empty()
+                    } else {
+                        true
+                    }
+                });
+            }
+            _ => {}
+        }
+    }
+
+    /// Check if an object structure is empty or contains only empty values
+    fn is_empty_structure(obj: &serde_json::Map<String, Value>) -> bool {
+        if obj.is_empty() {
+            return true;
+        }
+        
+        // Check if this object has a reference field with empty value
+        if let Some(reference) = obj.get("reference") {
+            if let Some(ref_str) = reference.as_str() {
+                if ref_str.is_empty() || ref_str.ends_with('/') || !ref_str.contains('/') {
+                    return true;
+                }
+            }
+        }
+        
+        // Check if all values in the object are empty
+        obj.values().all(|value| {
+            match value {
+                Value::String(s) => s.is_empty(),
+                Value::Object(nested_obj) => Self::is_empty_structure(nested_obj),
+                Value::Array(arr) => arr.is_empty() || arr.iter().all(|item| {
+                    if let Value::Object(nested_obj) = item {
+                        Self::is_empty_structure(nested_obj)
+                    } else if let Value::String(s) = item {
+                        s.is_empty()
+                    } else {
+                        false
+                    }
+                }),
+                Value::Null => true,
+                _ => false
+            }
+        })
+    }
+
 }

@@ -94,34 +94,27 @@ impl FhirGenerator {
                 let mut resource_data = json!({});
                 if let Some(data_obj) = resource_data.as_object_mut() {
                     for field_mapping in &mapping.field_mappings {
-                        // Process field even if origin is empty, but only if referenceDestiny exists
+                        // Only process fields that have a value
                         let has_value = !field_mapping.field_origin.is_empty();
-                        let has_reference = field_mapping.reference_destiny.is_some();
                         
-                        if has_value || has_reference {
-                            let mut origin_value = if has_value {
-                                format!("{}", field_mapping.field_origin)
-                            } else {
-                                String::new()
-                            };
+                        if has_value {
+                            let mut origin_value = format!("{}", field_mapping.field_origin);
                             let mut display_value: Option<String> = None;
                             
-                            // Apply transformation if transformation_id exists and we have a value
-                            if has_value {
-                                if let Some(transformation_id) = &field_mapping.transformation_id {
-                                    if let Some(transformation) = transformations.get(transformation_id) {
-                                        if let Some(mapping_value) = transformation.value_mappings.get(&origin_value) {
-                                            // Extract code and description from transformation
-                                            origin_value = mapping_value.code.clone();
-                                            display_value = Some(mapping_value.description.clone());
-                                        }
+                            // Apply transformation if transformation_id exists
+                            if let Some(transformation_id) = &field_mapping.transformation_id {
+                                if let Some(transformation) = transformations.get(transformation_id) {
+                                    if let Some(mapping_value) = transformation.value_mappings.get(&origin_value) {
+                                        // Extract code and description from transformation
+                                        origin_value = mapping_value.code.clone();
+                                        display_value = Some(mapping_value.description.clone());
                                     }
                                 }
                             }
                             
                             // If relationshipDestiny exists and field ends with ".reference", prefix the value
                             if let Some(relationship) = &field_mapping.relationship_destiny {
-                                if field_mapping.field_destiny.ends_with(".reference") && has_value {
+                                if field_mapping.field_destiny.ends_with(".reference") {
                                     origin_value = format!("{}/{}", relationship, origin_value);
                                 }
                             }
@@ -138,7 +131,7 @@ impl FhirGenerator {
                                         Self::set_nested_value_with_reference(data_obj, &display_path, json!(display), reference_destiny);
                                     }
                                 }
-                            } else if has_value {
+                            } else {
                                 Self::set_nested_value(data_obj, &field_mapping.field_destiny, json!(origin_value));
                                 
                                 // If field ends with ".code" and we have a display value, add the display field
@@ -215,32 +208,25 @@ impl FhirGenerator {
                 let mut resource_data = json!({});
                 if let Some(data_obj) = resource_data.as_object_mut() {
                     for field_mapping in &mapping.field_mappings {
-                        // Process field even if origin is empty, but only if referenceDestiny exists
+                        // Only process fields that have a value
                         let has_value = !field_mapping.field_origin.is_empty();
-                        let has_reference = field_mapping.reference_destiny.is_some();
                         
-                        if has_value || has_reference {
-                            let mut origin_value = if has_value {
-                                format!("{}", field_mapping.field_origin)
-                            } else {
-                                String::new()
-                            };
-                            let mut display_value: Option<String> = None;
+                        if has_value {
+                            let mut origin_value = format!("{}", field_mapping.field_origin);
+                            let display_value: Option<String> = None;
                             
-                            // Apply database_model_value transformation if transformation_id exists and we have a value
+                            // Apply database_model_value transformation if transformation_id exists
                             // Note: At this point, origin_value contains the placeholder like "__PATIENT_SEX__"
                             // The actual transformation will happen when real data is fetched and replaced
                             // We just need to mark fields that will need transformation
-                            if has_value {
-                                if let Some(_transformation_id) = &field_mapping.transformation_id {
-                                    // Transformation will be applied during data replacement
-                                    // For now, keep the placeholder value
-                                }
+                            if let Some(_transformation_id) = &field_mapping.transformation_id {
+                                // Transformation will be applied during data replacement
+                                // For now, keep the placeholder value
                             }
                             
                             // If relationshipDestiny exists and field ends with ".reference", prefix the value
                             if let Some(relationship) = &field_mapping.relationship_destiny {
-                                if field_mapping.field_destiny.ends_with(".reference") && has_value {
+                                if field_mapping.field_destiny.ends_with(".reference") {
                                     origin_value = format!("{}/{}", relationship, origin_value);
                                 }
                             }
@@ -257,7 +243,7 @@ impl FhirGenerator {
                                         Self::set_nested_value_with_reference(data_obj, &display_path, json!(display), reference_destiny);
                                     }
                                 }
-                            } else if has_value {
+                            } else {
                                 Self::set_nested_value(data_obj, &field_mapping.field_destiny, json!(origin_value));
                                 
                                 // If field ends with ".code" and we have a display value, add the display field
