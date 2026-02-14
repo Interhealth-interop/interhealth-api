@@ -200,6 +200,8 @@ struct FieldMappingData {
     field_origin: String,
     #[serde(rename = "fieldDestiny")]
     field_destiny: String,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    description: Option<String>,
     #[serde(rename = "referenceDestiny", skip_serializing_if = "Option::is_none")]
     reference_destiny: Option<std::collections::HashMap<String, String>>,
     #[serde(rename = "relationshipDestiny", skip_serializing_if = "Option::is_none")]
@@ -484,7 +486,9 @@ pub async fn seed_database(
                     id,
                     integration.name.clone(),
                     integration.description,
+                    None,
                     integration.entity_type,
+                    None,
                     None,
                     None,
                     config_id,
@@ -497,7 +501,9 @@ pub async fn seed_database(
                 .create(
                     integration.name.clone(),
                     integration.description,
+                    None,
                     integration.entity_type,
+                    None,
                     None,
                     None,
                     config_id,
@@ -608,6 +614,7 @@ pub async fn seed_database(
             FieldMapping {
                 field_origin: fm.field_origin,
                 field_destiny: fm.field_destiny,
+                description: fm.description,
                 reference_destiny: fm.reference_destiny,
                 relationship_destiny: fm.relationship_destiny,
                 data_type: fm.data_type,

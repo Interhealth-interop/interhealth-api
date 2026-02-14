@@ -10,6 +10,8 @@ pub struct FieldMapping {
     pub field_origin: String,
     #[serde(default, rename = "fieldDestiny", alias = "field_destiny")]
     pub field_destiny: String,
+    #[serde(default)]
+    pub description: Option<String>,
     #[serde(default, rename = "referenceDestiny", skip_serializing_if = "Option::is_none")]
     pub reference_destiny: Option<std::collections::HashMap<String, String>>,
     #[serde(default, rename = "relationshipDestiny", skip_serializing_if = "Option::is_none")]

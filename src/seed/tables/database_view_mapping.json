@@ -17,7 +17,8 @@
           },
           "dataType": "string",
           "isNullable": false,
-          "maxLength": 64
+          "maxLength": 64,
+          "description": "Nº do Prontuário"
         },
         {
           "fieldOrigin": "patient_name",
@@ -27,7 +28,8 @@
           },
           "dataType": "string",
           "isNullable": false,
-          "maxLength": 255
+          "maxLength": 255,
+          "description": "Nome do Paciente"
         },
         {
           "fieldOrigin": "patient_social_name",
@@ -37,13 +39,15 @@
           },
           "dataType": "string",
           "isNullable": true,
-          "maxLength": 255
+          "maxLength": 255,
+          "description": "Nome Social"
         },
         {
           "fieldOrigin": "patient_birth_date",
           "fieldDestiny": "birthDate",
           "dataType": "date",
-          "isNullable": false
+          "isNullable": false,
+          "description": "Idade / Data Nascimento"
         },
         {
           "fieldOrigin": "patient_sex",
@@ -51,7 +55,8 @@
           "dataType": "string",
           "isNullable": false,
           "maxLength": 20,
-          "transformationId": "695ee472b82ca274f4d3af70"
+          "transformationId": "695ee472b82ca274f4d3af70",
+          "description": "Sexo"
         },
         {
           "fieldOrigin": "patient_gender",
@@ -63,7 +68,8 @@
           "dataType": "string",
           "isNullable": true,
           "maxLength": 50,
-          "transformationId": "695d484063aba2288e6c6413"
+          "transformationId": "695d484063aba2288e6c6413",
+          "description": "Genero"
         },
         {
           "fieldOrigin": "patient_mother_name",
@@ -73,7 +79,8 @@
           },
           "dataType": "string",
           "isNullable": false,
-          "maxLength": 255
+          "maxLength": 255,
+          "description": "Nome da Mãe"
         },
         {
           "fieldOrigin": "patient_father_name",
@@ -83,7 +90,8 @@
           },
           "dataType": "string",
           "isNullable": true,
-          "maxLength": 255
+          "maxLength": 255,
+          "description": "Nome do Pai"
         },
         {
           "fieldOrigin": "patient_primary_document",
@@ -93,7 +101,8 @@
           },
           "dataType": "string",
           "isNullable": false,
-          "maxLength": 11
+          "maxLength": 11,
+          "description": "CPF - Cadastro de Pessoa Física"
         },
         {
           "fieldOrigin": "patient_secondary_document",
@@ -103,7 +112,8 @@
           },
           "dataType": "string",
           "isNullable": false,
-          "maxLength": 20
+          "maxLength": 20,
+          "description": "RG - Registro Geral"
         },
         {
           "fieldOrigin": "patient_third_document",
@@ -113,7 +123,8 @@
           },
           "dataType": "string",
           "isNullable": true,
-          "maxLength": 20
+          "maxLength": 20,
+          "description": "CNH - Carteira Nacional de Habilitação"
         },
         {
           "fieldOrigin": "patient_fourth_document",
@@ -123,7 +134,8 @@
           },
           "dataType": "string",
           "isNullable": true,
-          "maxLength": 15
+          "maxLength": 15,
+          "description": "CNS - Cartão Nacional de Saúde"
         },
         {
           "fieldOrigin": "patient_fifth_document",
@@ -133,7 +145,8 @@
           },
           "dataType": "string",
           "isNullable": true,
-          "maxLength": 20
+          "maxLength": 20,
+          "description": "CIN - Carteira de Identidade Nacional"
         },
         {
           "fieldOrigin": "patient_sixth_document",
@@ -143,7 +156,8 @@
           },
           "dataType": "string",
           "isNullable": true,
-          "maxLength": 20
+          "maxLength": 20,
+          "description": "RNE - Registro Nacional de Estrangeiro"
         },
         {
           "fieldOrigin": "patient_seventh_document",
@@ -153,7 +167,8 @@
           },
           "dataType": "string",
           "isNullable": true,
-          "maxLength": 20
+          "maxLength": 20,
+          "description": "Passaporte"
         },
         {
           "fieldOrigin": "patient_eighth_document",
@@ -163,7 +178,8 @@
           },
           "dataType": "string",
           "isNullable": true,
-          "maxLength": 50
+          "maxLength": 50,
+          "description": "Certidão de Nascimento"
         },
         {
           "fieldOrigin": "patient_ninth_document",
@@ -173,7 +189,8 @@
           },
           "dataType": "string",
           "isNullable": true,
-          "maxLength": 20
+          "maxLength": 20,
+          "description": "DNV - Declaração de Nascido Vivo"
         },
         {
           "fieldOrigin": "patient_relationship",
@@ -184,7 +201,8 @@
           "dataType": "string",
           "isNullable": true,
           "maxLength": 50,
-          "transformationId": "695d484063aba2288e6c641e"
+          "transformationId": "695d484063aba2288e6c641e",
+          "description": "Grau de Parentesco"
         },
         {
           "fieldOrigin": "patient_race",
@@ -196,7 +214,8 @@
           "dataType": "string",
           "isNullable": true,
           "maxLength": 50,
-          "transformationId": "695d484063aba2288e6c6414"
+          "transformationId": "695d484063aba2288e6c6414",
+          "description": "Raça / Cor"
         },
         {
           "fieldOrigin": "patient_nationality_city",
@@ -206,7 +225,8 @@
           },
           "dataType": "string",
           "isNullable": true,
-          "maxLength": 100
+          "maxLength": 100,
+          "description": "Nacionalidade Cidade"
         },
         {
           "fieldOrigin": "patient_nationality_state",
@@ -216,7 +236,8 @@
           },
           "dataType": "string",
           "isNullable": true,
-          "maxLength": 2
+          "maxLength": 2,
+          "description": "Nacionalidade Estado"
         },
         {
           "fieldOrigin": "patient_naturality",
@@ -226,7 +247,8 @@
           },
           "dataType": "string",
           "isNullable": true,
-          "maxLength": 100
+          "maxLength": 100,
+          "description": "Naturalidade"
         },
         {
           "fieldOrigin": "patient_marital_status",
@@ -237,7 +259,8 @@
           "dataType": "string",
           "isNullable": true,
           "maxLength": 10,
-          "transformationId": "695ee472b82ca274f4d3b010"
+          "transformationId": "695ee472b82ca274f4d3b010",
+          "description": "Estado Civil"
         },
         {
           "fieldOrigin": "patient_email",
@@ -248,7 +271,8 @@
           },
           "dataType": "string",
           "isNullable": false,
-          "maxLength": 100
+          "maxLength": 100,
+          "description": "E-mail"
         },
         {
           "fieldOrigin": "patient_phone",
@@ -259,7 +283,8 @@
           },
           "dataType": "string",
           "isNullable": false,
-          "maxLength": 20
+          "maxLength": 20,
+          "description": "Telefone Residencial"
         },
         {
           "fieldOrigin": "patient_mobile",
@@ -270,7 +295,8 @@
           },
           "dataType": "string",
           "isNullable": false,
-          "maxLength": 20
+          "maxLength": 20,
+          "description": "Telefone Celular"
         },
         {
           "fieldOrigin": "patient_phone_contact",
@@ -281,28 +307,32 @@
           },
           "dataType": "string",
           "isNullable": true,
-          "maxLength": 20
+          "maxLength": 20,
+          "description": "Telefone para Recado"
         },
         {
           "fieldOrigin": "patient_address_type",
           "fieldDestiny": "address[0].line[0]",
           "dataType": "string",
           "isNullable": false,
-          "maxLength": 255
+          "maxLength": 255,
+          "description": "Logradouro"
         },
         {
           "fieldOrigin": "patient_address",
           "fieldDestiny": "address[0].line[1]",
           "dataType": "string",
           "isNullable": false,
-          "maxLength": 255
+          "maxLength": 255,
+          "description": "Nº Logradouro"
         },
         {
           "fieldOrigin": "patient_number",
           "fieldDestiny": "address[0].line[2]",
           "dataType": "string",
           "isNullable": false,
-          "maxLength": 20
+          "maxLength": 20,
+          "description": "Complemento do Logradouro"
         },
         {
           "fieldOrigin": "patient_complement",
@@ -316,35 +346,40 @@
           "fieldDestiny": "address[0].city",
           "dataType": "string",
           "isNullable": false,
-          "maxLength": 100
+          "maxLength": 100,
+          "description": "Cidade"
         },
         {
           "fieldOrigin": "patient_neighborhood",
           "fieldDestiny": "address[0].district",
           "dataType": "string",
           "isNullable": false,
-          "maxLength": 100
+          "maxLength": 100,
+          "description": "Bairro"
         },
         {
           "fieldOrigin": "patient_state",
           "fieldDestiny": "address[0].state",
           "dataType": "string",
           "isNullable": false,
-          "maxLength": 2
+          "maxLength": 2,
+          "description": "Estado"
         },
         {
           "fieldOrigin": "patient_country",
           "fieldDestiny": "address[0].country",
           "dataType": "string",
           "isNullable": true,
-          "maxLength": 100
+          "maxLength": 100,
+          "description": "País"
         },
         {
           "fieldOrigin": "patient_zipcode",
           "fieldDestiny": "address[0].postalCode",
           "dataType": "string",
           "isNullable": false,
-          "maxLength": 10
+          "maxLength": 10,
+          "description": "CEP"
         },
         {
           "fieldOrigin": "patient_related_person",
@@ -352,14 +387,16 @@
           "relationshipDestiny": "Patient",
           "dataType": "string",
           "isNullable": true,
-          "maxLength": 255
+          "maxLength": 255,
+          "description": "Responsável Legal"
         },
         {
           "fieldOrigin": "patient_status",
           "fieldDestiny": "active",
           "dataType": "string",
           "isNullable": true,
-          "transformationId": "695ee472b82ca274f4d3af7f"
+          "transformationId": "695ee472b82ca274f4d3af7f",
+          "description": "Status ou situação do paciente"
         }
       ]
     },
@@ -380,7 +417,8 @@
           },
           "dataType": "string",
           "isNullable": false,
-          "maxLength": 64
+          "maxLength": 64,
+          "description": "Nº Atendimento - Código de identificação do atendimento"
         },
         {
           "fieldOrigin": "encounter_accounter_code",
@@ -388,7 +426,8 @@
           "relationshipDestiny": "Account",
           "dataType": "string",
           "isNullable": true,
-          "maxLength": 255
+          "maxLength": 255,
+          "description": "Nº Conta (Faturamento) - Referência à conta (Account/id)"
         },
         {
           "fieldOrigin": "encounter_patient_code",
@@ -396,7 +435,8 @@
           "relationshipDestiny": "Patient",
           "dataType": "string",
           "isNullable": false,
-          "maxLength": 255
+          "maxLength": 255,
+          "description": "Nº do Prontuário - Referência ao paciente (Patient/id)"
         },
         {
           "fieldOrigin": "encounter_schedule_code",
@@ -404,7 +444,8 @@
           "relationshipDestiny": "Appointment",
           "dataType": "string",
           "isNullable": true,
-          "maxLength": 255
+          "maxLength": 255,
+          "description": "Código do Agendamento - Referência ao agendamento (Appointment/id)"
         },
         {
           "fieldOrigin": "encounter_organization_code",
@@ -412,7 +453,8 @@
           "relationshipDestiny": "Organization",
           "dataType": "string",
           "isNullable": false,
-          "maxLength": 255
+          "maxLength": 255,
+          "description": "Código da Instituição - Referência à organização (Organization/id)"
         },
         {
           "fieldOrigin": "encounter_location_code",
@@ -420,7 +462,8 @@
           "relationshipDestiny": "Location",
           "dataType": "string",
           "isNullable": true,
-          "maxLength": 255
+          "maxLength": 255,
+          "description": "Código da Unidade - Referência à localização (Location/id)"
         },
         {
           "fieldOrigin": "encounter_provider_code",
@@ -428,7 +471,8 @@
           "relationshipDestiny": "Practitioner",
           "dataType": "string",
           "isNullable": false,
-          "maxLength": 255
+          "maxLength": 255,
+          "description": "Código do Profissional - Referência ao profissional (Practitioner/id)"
         },
         {
           "fieldOrigin": "encounter_modality",
@@ -439,7 +483,8 @@
           "dataType": "string",
           "isNullable": false,
           "maxLength": 50,
-          "transformationId": "695ee472b82ca274f4d3af80"
+          "transformationId": "695ee472b82ca274f4d3af80",
+          "description": "Modalidade/Regime de Atendimento"
         },
         {
           "fieldOrigin": "encounter_type",
@@ -450,7 +495,8 @@
           "dataType": "string",
           "isNullable": true,
           "maxLength": 50,
-          "transformationId": "695ee472b82ca274f4d3af84"
+          "transformationId": "695ee472b82ca274f4d3af84",
+          "description": "Tipo de Atendimento"
         },
         {
           "fieldOrigin": "encounter_status",
@@ -458,7 +504,8 @@
           "dataType": "string",
           "isNullable": false,
           "maxLength": 50,
-          "transformationId": "695ee472b82ca274f4d3af81"
+          "transformationId": "695ee472b82ca274f4d3af81",
+          "description": "Status do Atendimento (planned|arrived|triaged|in-progress|onleave|finished|cancelled|entered-in-error|unknown)"
         },
         {
           "fieldOrigin": "encounter_condition_code",
@@ -466,7 +513,8 @@
           "relationshipDestiny": "Condition",
           "dataType": "string",
           "isNullable": false,
-          "maxLength": 255
+          "maxLength": 255,
+          "description": "Código do Problema/Diagnóstico - Referência à condição (Condition/id)"
         },
         {
           "fieldOrigin": "encounter_request_reason",
@@ -477,7 +525,8 @@
           "dataType": "string",
           "isNullable": false,
           "maxLength": 50,
-          "transformationId": "695ee472b82ca274f4d3af82"
+          "transformationId": "695ee472b82ca274f4d3af82",
+          "description": "Caráter da Solicitação"
         },
         {
           "fieldOrigin": "encounter_entry_date",
@@ -486,19 +535,22 @@
             "statusHistory[0].status": "arrived"
           },
           "dataType": "datetime",
-          "isNullable": true
+          "isNullable": true,
+          "description": "Data / Hora Entrada da Instituição (Retirada de Senha)"
         },
         {
           "fieldOrigin": "encounter_start_date",
           "fieldDestiny": "period.start",
           "dataType": "datetime",
-          "isNullable": false
+          "isNullable": false,
+          "description": "Data / Hora Entrada do Atendimento Administrativo (Abertura de Ficha)"
         },
         {
           "fieldOrigin": "encounter_end_date",
           "fieldDestiny": "period.end",
           "dataType": "datetime",
-          "isNullable": false
+          "isNullable": false,
+          "description": "Data / Hora de Alta/Saída do Atendimento"
         },
         {
           "fieldOrigin": "encounter_filter_date",
@@ -507,7 +559,8 @@
             "statusHistory[1].status": "triaged"
           },
           "dataType": "datetime",
-          "isNullable": true
+          "isNullable": true,
+          "description": "Data / Hora da Triagem/Acolhimento"
         },
         {
           "fieldOrigin": "encounter_medical_date_start",
@@ -516,7 +569,8 @@
             "statusHistory[2].status": "in-progress"
           },
           "dataType": "datetime",
-          "isNullable": true
+          "isNullable": true,
+          "description": "Data / Hora do Atendimento Médico"
         },
         {
           "fieldOrigin": "encounter_medical_date_end",
@@ -525,7 +579,8 @@
             "statusHistory[3].status": "finished"
           },
           "dataType": "datetime",
-          "isNullable": true
+          "isNullable": true,
+          "description": "Data / Hora de Alta Médica do Atendimento"
         },
         {
           "fieldOrigin": "encounter_clinical_outcome",
@@ -536,7 +591,8 @@
           "dataType": "string",
           "isNullable": true,
           "maxLength": 50,
-          "transformationId": "695ee472b82ca274f4d3af83"
+          "transformationId": "695ee472b82ca274f4d3af83",
+          "description": "Descrição da Alta/Desfecho Clínico"
         }
       ]
     },
@@ -557,7 +613,8 @@
           },
           "dataType": "string",
           "isNullable": false,
-          "maxLength": 64
+          "maxLength": 64,
+          "description": "Código do Profissional"
         },
         {
           "fieldOrigin": "provider_name",
@@ -567,7 +624,8 @@
           },
           "dataType": "string",
           "isNullable": false,
-          "maxLength": 255
+          "maxLength": 255,
+          "description": "Nome do Profissional"
         },
         {
           "fieldOrigin": "provider_primary_document",
@@ -577,7 +635,8 @@
           },
           "dataType": "string",
           "isNullable": false,
-          "maxLength": 20
+          "maxLength": 20,
+          "description": "CPF - Cadastro de Pessoa Física"
         },
         {
           "fieldOrigin": "provider_secondary_document",
@@ -587,7 +646,8 @@
           },
           "dataType": "string",
           "isNullable": true,
-          "maxLength": 20
+          "maxLength": 20,
+          "description": "RG - Registro Geral"
         },
         {
           "fieldOrigin": "provider_third_document",
@@ -597,7 +657,8 @@
           },
           "dataType": "string",
           "isNullable": true,
-          "maxLength": 20
+          "maxLength": 20,
+          "description": "CNS - Cartão Nacional de Saúde"
         },
         {
           "fieldOrigin": "provider_fourth_document",
@@ -607,7 +668,8 @@
           },
           "dataType": "string",
           "isNullable": true,
-          "maxLength": 20
+          "maxLength": 20,
+          "description": "CNH - Carteira Nacional de Habilitação"
         },
         {
           "fieldOrigin": "provider_fifth_document",
@@ -617,7 +679,8 @@
           },
           "dataType": "string",
           "isNullable": true,
-          "maxLength": 20
+          "maxLength": 20,
+          "description": "CIN - Carteira de Identidade Nacional"
         },
         {
           "fieldOrigin": "provider_sixth_document",
@@ -627,13 +690,15 @@
           },
           "dataType": "string",
           "isNullable": true,
-          "maxLength": 20
+          "maxLength": 20,
+          "description": "RNE - Registro Nacional de Estrangeiro"
         },
         {
           "fieldOrigin": "provider_birth_date",
           "fieldDestiny": "birthDate",
           "dataType": "date",
-          "isNullable": true
+          "isNullable": true,
+          "description": "Data de Nascimento"
         },
         {
           "fieldOrigin": "provider_sex",
@@ -642,7 +707,8 @@
           "isNullable": false,
           "isEnumerable": true,
           "maxLength": 20,
-          "transformationId": "695ee472b82ca274f4d3af70"
+          "transformationId": "695ee472b82ca274f4d3af70",
+          "description": "Sexo"
         },
         {
           "fieldOrigin": "provider_gender",
@@ -655,7 +721,8 @@
           "isNullable": true,
           "isEnumerable": true,
           "maxLength": 50,
-          "transformationId": "695ee472b82ca274f4d3af71"
+          "transformationId": "695ee472b82ca274f4d3af71",
+          "description": "Gênero"
         },
         {
           "fieldOrigin": "provider_register",
@@ -665,7 +732,8 @@
           },
           "dataType": "string",
           "isNullable": false,
-          "maxLength": 50
+          "maxLength": 50,
+          "description": "Nº do Conselho"
         },
         {
           "fieldOrigin": "provider_register_uf",
@@ -677,7 +745,8 @@
           "isNullable": false,
           "isEnumerable": true,
           "maxLength": 2,
-          "transformationId": "695ee472b82ca274f4d3b100"
+          "transformationId": "695ee472b82ca274f4d3b100",
+          "description": "Estado do Conselho"
         },
         {
           "fieldOrigin": "provider_register_name",
@@ -689,7 +758,8 @@
           "isNullable": false,
           "isEnumerable": true,
           "maxLength": 100,
-          "transformationId": "695ee472b82ca274f4d3b020"
+          "transformationId": "695ee472b82ca274f4d3b020",
+          "description": "Descrição do Conselho"
         },
         {
           "fieldOrigin": "provider_occupation",
@@ -701,7 +771,8 @@
           "isNullable": true,
           "isEnumerable": true,
           "maxLength": 100,
-          "transformationId": "695ee472b82ca274f4d3af74"
+          "transformationId": "695ee472b82ca274f4d3af74",
+          "description": "Ocupação"
         },
         {
           "fieldOrigin": "provider_email",
@@ -712,7 +783,8 @@
           },
           "dataType": "string",
           "isNullable": true,
-          "maxLength": 255
+          "maxLength": 255,
+          "description": "E-mail"
         },
         {
           "fieldOrigin": "provider_phone",
@@ -723,7 +795,8 @@
           },
           "dataType": "string",
           "isNullable": true,
-          "maxLength": 20
+          "maxLength": 20,
+          "description": "Telefone Residencial"
         },
         {
           "fieldOrigin": "provider_mobile",
@@ -734,7 +807,8 @@
           },
           "dataType": "string",
           "isNullable": true,
-          "maxLength": 20
+          "maxLength": 20,
+          "description": "Telefone Celular"
         },
         {
           "fieldOrigin": "provider_phone_contact",
@@ -745,7 +819,8 @@
           },
           "dataType": "string",
           "isNullable": true,
-          "maxLength": 20
+          "maxLength": 20,
+          "description": "Telefone para Recado"
         }
       ]
     },
@@ -766,28 +841,32 @@
           },
           "dataType": "string",
           "isNullable": false,
-          "maxLength": 64
+          "maxLength": 64,
+          "description": "Código da Especialidade"
         },
         {
           "fieldOrigin": "specialty_provider_code",
           "fieldDestiny": "practitioner.reference",
           "dataType": "reference",
           "isNullable": false,
-          "maxLength": 64
+          "maxLength": 64,
+          "description": "Referência ao Profissional"
         },
         {
           "fieldOrigin": "specialty_organization_code",
           "fieldDestiny": "organization.reference",
           "dataType": "reference",
           "isNullable": false,
-          "maxLength": 64
+          "maxLength": 64,
+          "description": "Referência à Organização"
         },
         {
           "fieldOrigin": "specialty_location_code",
           "fieldDestiny": "location[0].reference",
           "dataType": "reference",
           "isNullable": true,
-          "maxLength": 64
+          "maxLength": 64,
+          "description": "Referência à Localização"
         },
         {
           "fieldOrigin": "specialty_clinical_kind",
@@ -798,63 +877,73 @@
           "dataType": "string",
           "isNullable": false,
           "maxLength": 20,
-          "transformationId": "695ee472b82ca274f4d3b025"
+          "transformationId": "695ee472b82ca274f4d3b025",
+          "description": "Código CBO-S da Especialidade"
         },
         {
           "fieldOrigin": "specialty_status",
           "fieldDestiny": "active",
           "dataType": "boolean",
-          "isNullable": false
+          "isNullable": false,
+          "description": "Status da Especialidade"
         },
         {
           "fieldOrigin": "specialty_available_start_time",
           "fieldDestiny": "availableTime[0].availableStartTime",
           "dataType": "time",
-          "isNullable": true
+          "isNullable": true,
+          "description": "Horário Inicial disponível"
         },
         {
           "fieldOrigin": "specialty_available_end_time",
           "fieldDestiny": "availableTime[0].availableEndTime",
           "dataType": "time",
-          "isNullable": true
+          "isNullable": true,
+          "description": "Horário Final disponível"
         },
         {
           "fieldOrigin": "specialty_unavailable_start_time",
           "fieldDestiny": "notAvailable[0].during.start",
           "dataType": "datetime",
-          "isNullable": true
+          "isNullable": true,
+          "description": "Data/Hora Inicial indisponível"
         },
         {
           "fieldOrigin": "specialty_unavailable_end_time",
           "fieldDestiny": "notAvailable[0].during.end",
           "dataType": "datetime",
-          "isNullable": true
+          "isNullable": true,
+          "description": "Data/Hora Final indisponível"
         },
         {
           "fieldOrigin": "specialty_exception_time",
           "fieldDestiny": "availabilityExceptions",
           "dataType": "string",
           "isNullable": true,
-          "maxLength": 500
+          "maxLength": 500,
+          "description": "Exceções de disponibilidade"
         },
         {
           "fieldOrigin": "specialty_electronic_service",
           "fieldDestiny": "endpoint[0].reference",
           "dataType": "reference",
           "isNullable": true,
-          "maxLength": 255
+          "maxLength": 255,
+          "description": "Serviços eletrônicos"
         },
         {
           "fieldOrigin": "specialty_allowed_start",
           "fieldDestiny": "period.start",
           "dataType": "date",
-          "isNullable": true
+          "isNullable": true,
+          "description": "Período inicial execução de atividade"
         },
         {
           "fieldOrigin": "specialty_allowed_end",
           "fieldDestiny": "period.end",
           "dataType": "date",
-          "isNullable": true
+          "isNullable": true,
+          "description": "Período final de execução de atividade"
         },
         {
           "fieldOrigin": "specialty_phone_contact",
@@ -865,7 +954,8 @@
           },
           "dataType": "string",
           "isNullable": true,
-          "maxLength": 20
+          "maxLength": 20,
+          "description": "Contato específico"
         }
       ]
     },
@@ -886,21 +976,24 @@
           },
           "dataType": "string",
           "isNullable": false,
-          "maxLength": 64
+          "maxLength": 64,
+          "description": "Código da Instituição"
         },
         {
           "fieldOrigin": "organization_name",
           "fieldDestiny": "alias[0]",
           "dataType": "string",
           "isNullable": false,
-          "maxLength": 255
+          "maxLength": 255,
+          "description": "Razão Social"
         },
         {
           "fieldOrigin": "organization_alias",
           "fieldDestiny": "name",
           "dataType": "string",
           "isNullable": false,
-          "maxLength": 255
+          "maxLength": 255,
+          "description": "Nome Fantasia"
         },
         {
           "fieldOrigin": "organization_primary_document",
@@ -910,7 +1003,8 @@
           },
           "dataType": "string",
           "isNullable": false,
-          "maxLength": 14
+          "maxLength": 14,
+          "description": "CNPJ - Cadastro Nacional de Pessoa Jurídica"
         },
         {
           "fieldOrigin": "organization_secondary_document",
@@ -920,7 +1014,8 @@
           },
           "dataType": "string",
           "isNullable": true,
-          "maxLength": 7
+          "maxLength": 7,
+          "description": "CNES - Código Estabelecimento de Saúde"
         },
         {
           "fieldOrigin": "organization_third_document",
@@ -930,7 +1025,8 @@
           },
           "dataType": "string",
           "isNullable": true,
-          "maxLength": 20
+          "maxLength": 20,
+          "description": "Registro ANS"
         },
         {
           "fieldOrigin": "organization_fourth_document",
@@ -940,7 +1036,8 @@
           },
           "dataType": "string",
           "isNullable": true,
-          "maxLength": 11
+          "maxLength": 11,
+          "description": "CPF"
         },
         {
           "fieldOrigin": "organization_type",
@@ -950,56 +1047,64 @@
           },
           "dataType": "string",
           "isNullable": true,
-          "maxLength": 100
+          "maxLength": 100,
+          "description": "Natureza Jurídica"
         },
         {
           "fieldOrigin": "organization_address",
           "fieldDestiny": "address[0].line[0]",
           "dataType": "string",
           "isNullable": true,
-          "maxLength": 255
+          "maxLength": 255,
+          "description": "Logradouro"
         },
         {
           "fieldOrigin": "organization_number",
           "fieldDestiny": "address[0].line[1]",
           "dataType": "string",
           "isNullable": true,
-          "maxLength": 20
+          "maxLength": 20,
+          "description": "Nº Logradouro"
         },
         {
           "fieldOrigin": "organization_complement",
           "fieldDestiny": "address[0].line[2]",
           "dataType": "string",
           "isNullable": true,
-          "maxLength": 100
+          "maxLength": 100,
+          "description": "Complemento do Logradouro"
         },
         {
           "fieldOrigin": "organization_city",
           "fieldDestiny": "address[0].city",
           "dataType": "string",
           "isNullable": true,
-          "maxLength": 100
+          "maxLength": 100,
+          "description": "Cidade"
         },
         {
           "fieldOrigin": "organization_neighborhood",
           "fieldDestiny": "address[0].district",
           "dataType": "string",
           "isNullable": true,
-          "maxLength": 100
+          "maxLength": 100,
+          "description": "Bairro"
         },
         {
           "fieldOrigin": "organization_state",
           "fieldDestiny": "address[0].state",
           "dataType": "string",
           "isNullable": true,
-          "maxLength": 2
+          "maxLength": 2,
+          "description": "Estado"
         },
         {
           "fieldOrigin": "organization_zipcode",
           "fieldDestiny": "address[0].postalCode",
           "dataType": "string",
           "isNullable": true,
-          "maxLength": 8
+          "maxLength": 8,
+          "description": "CEP"
         },
         {
           "fieldOrigin": "organization_phone",
@@ -1010,7 +1115,8 @@
           },
           "dataType": "string",
           "isNullable": true,
-          "maxLength": 20
+          "maxLength": 20,
+          "description": "Telefone Comercial"
         },
         {
           "fieldOrigin": "organization_website",
@@ -1021,7 +1127,8 @@
           },
           "dataType": "string",
           "isNullable": true,
-          "maxLength": 255
+          "maxLength": 255,
+          "description": "Site Institucional"
         },
         {
           "fieldOrigin": "organization_email",
@@ -1032,7 +1139,8 @@
           },
           "dataType": "string",
           "isNullable": true,
-          "maxLength": 255
+          "maxLength": 255,
+          "description": "E-mail Institucional"
         },
         {
           "fieldOrigin": "organization_management_type",
@@ -1043,13 +1151,15 @@
           "dataType": "string",
           "isNullable": false,
           "maxLength": 50,
-          "transformationId": "695ee472b82ca274f4d3b021"
+          "transformationId": "695ee472b82ca274f4d3b021",
+          "description": "Tipo de Estabelecimento"
         },
         {
           "fieldOrigin": "organization_status",
           "fieldDestiny": "active",
           "dataType": "boolean",
-          "isNullable": false
+          "isNullable": false,
+          "description": "Status"
         }
       ]
     },
@@ -1070,21 +1180,24 @@
           },
           "dataType": "string",
           "isNullable": false,
-          "maxLength": 64
+          "maxLength": 64,
+          "description": "Código da Unidade"
         },
         {
           "fieldOrigin": "location_organization_code",
           "fieldDestiny": "managingOrganization.reference",
           "dataType": "reference",
           "isNullable": false,
-          "maxLength": 64
+          "maxLength": 64,
+          "description": "Referência à Organização"
         },
         {
           "fieldOrigin": "location_name",
           "fieldDestiny": "name",
           "dataType": "string",
           "isNullable": false,
-          "maxLength": 255
+          "maxLength": 255,
+          "description": "Descrição da Unidade"
         },
         {
           "fieldOrigin": "location_status",
@@ -1092,7 +1205,8 @@
           "dataType": "string",
           "isNullable": true,
           "maxLength": 20,
-          "transformationId": "695ee472b82ca274f4d3b022"
+          "transformationId": "695ee472b82ca274f4d3b022",
+          "description": "Status"
         },
         {
           "fieldOrigin": "location_type",
@@ -1103,7 +1217,8 @@
           "dataType": "string",
           "isNullable": true,
           "maxLength": 50,
-          "transformationId": "695ee472b82ca274f4d3b021"
+          "transformationId": "695ee472b82ca274f4d3b021",
+          "description": "Tipo de Estabelecimento"
         },
         {
           "fieldOrigin": "location_form",
@@ -1114,7 +1229,8 @@
           "dataType": "string",
           "isNullable": true,
           "maxLength": 50,
-          "transformationId": "695ee472b82ca274f4d3b023"
+          "transformationId": "695ee472b82ca274f4d3b023",
+          "description": "Forma física da Unidade"
         },
         {
           "fieldOrigin": "location_mode",
@@ -1122,14 +1238,16 @@
           "dataType": "string",
           "isNullable": true,
           "maxLength": 20,
-          "transformationId": "695ee472b82ca274f4d3b024"
+          "transformationId": "695ee472b82ca274f4d3b024",
+          "description": "Classe da Unidade"
         },
         {
           "fieldOrigin": "location_location_code",
           "fieldDestiny": "partOf.reference",
           "dataType": "reference",
           "isNullable": true,
-          "maxLength": 64
+          "maxLength": 64,
+          "description": "Referência à Unidade pai"
         }
       ]
     }

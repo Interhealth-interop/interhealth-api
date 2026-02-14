@@ -228,8 +228,11 @@ pub struct ResourceItemDto {
 pub struct CreateDatabaseViewDto {
     pub name: String,
     pub description: String,
+    pub reference: Option<String>,
     #[serde(rename = "entityType")]
     pub entity_type: String,
+    #[serde(rename = "mainResource")]
+    pub main_resource: Option<String>,
     #[serde(rename = "isFhirDestination")]
     pub is_fhir_destination: Option<bool>,
     #[serde(rename = "isInterHealthDestination")]
@@ -244,8 +247,11 @@ pub struct CreateDatabaseViewDto {
 pub struct UpdateDatabaseViewDto {
     pub name: Option<String>,
     pub description: Option<String>,
+    pub reference: Option<String>,
     #[serde(rename = "entityType")]
     pub entity_type: Option<String>,
+    #[serde(rename = "mainResource")]
+    pub main_resource: Option<String>,
     #[serde(rename = "isFhirDestination")]
     pub is_fhir_destination: Option<bool>,
     #[serde(rename = "isInterHealthDestination")]
@@ -262,8 +268,11 @@ pub struct DatabaseViewEntity {
     pub id: String,
     pub name: String,
     pub description: String,
+    pub reference: Option<String>,
     #[serde(rename = "entityType")]
     pub entity_type: String,
+    #[serde(rename = "mainResource")]
+    pub main_resource: Option<String>,
     #[serde(rename = "isFhirDestination")]
     pub is_fhir_destination: bool,
     #[serde(rename = "isInterHealthDestination")]

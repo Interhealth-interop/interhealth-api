@@ -27,7 +27,9 @@ impl DatabaseViewRepository {
         &self,
         name: String,
         description: String,
+        reference: Option<String>,
         entity_type: String,
+        main_resource: Option<String>,
         is_fhir_destination: Option<bool>,
         is_interhealth_destination: Option<bool>,
         database_configuration_id: String,
@@ -40,7 +42,9 @@ impl DatabaseViewRepository {
             id: None,
             name,
             description,
+            reference,
             entity_type,
+            main_resource,
             is_fhir_destination,
             is_interhealth_destination,
             database_configuration_id,
@@ -67,7 +71,9 @@ impl DatabaseViewRepository {
         id: &str,
         name: String,
         description: String,
+        reference: Option<String>,
         entity_type: String,
+        main_resource: Option<String>,
         is_fhir_destination: Option<bool>,
         is_interhealth_destination: Option<bool>,
         database_configuration_id: String,
@@ -84,7 +90,9 @@ impl DatabaseViewRepository {
             id: Some(object_id),
             name,
             description,
+            reference,
             entity_type,
+            main_resource,
             is_fhir_destination,
             is_interhealth_destination,
             database_configuration_id,
@@ -140,7 +148,9 @@ impl DatabaseViewRepository {
         id: &str,
         name: Option<String>,
         description: Option<String>,
+        reference: Option<String>,
         entity_type: Option<String>,
+        main_resource: Option<String>,
         is_fhir_destination: Option<bool>,
         is_interhealth_destination: Option<bool>,
         database_configuration_id: Option<String>,
@@ -158,8 +168,14 @@ impl DatabaseViewRepository {
         if let Some(description) = description {
             update_doc.insert("description", description);
         }
+        if let Some(reference) = reference {
+            update_doc.insert("reference", reference);
+        }
         if let Some(entity_type) = entity_type {
             update_doc.insert("entity_type", entity_type);
+        }
+        if let Some(main_resource) = main_resource {
+            update_doc.insert("main_resource", main_resource);
         }
         if let Some(is_fhir_destination) = is_fhir_destination {
             update_doc.insert("is_fhir_destination", is_fhir_destination);
