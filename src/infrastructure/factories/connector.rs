@@ -17,6 +17,8 @@ pub enum ClientAlias {
     MV,
     TASY,
     TOTVS,
+    Oracle,
+    Database,
     Custom(String),
 }
 
@@ -26,6 +28,8 @@ impl ClientAlias {
             "MV" => ClientAlias::MV,
             "TASY" => ClientAlias::TASY,
             "TOTVS" => ClientAlias::TOTVS,
+            "ORACLE" => ClientAlias::Oracle,
+            "DATABASE" => ClientAlias::Database,
             _ => ClientAlias::Custom(alias.to_string()),
         }
     }
@@ -49,6 +53,8 @@ impl ConnectorFactory {
             ClientAlias::MV => DatabaseType::Oracle,
             ClientAlias::TASY => DatabaseType::Oracle,
             ClientAlias::TOTVS => DatabaseType::Oracle,
+            ClientAlias::Oracle => DatabaseType::Oracle,
+            ClientAlias::Database => DatabaseType::Oracle,
             ClientAlias::Custom(_) => DatabaseType::MongoDB, // Default to MongoDB
         }
     }
@@ -56,7 +62,7 @@ impl ConnectorFactory {
     /// Build connection string based on database type and connection parameters
     pub fn build_connection_string(data: &CreateDatabaseConfigurationDto) -> Result<String, AppError> {
         let connection_string = match data.db_type.to_uppercase().as_str() {
-            "MV" | "TASY" | "TOTVS" => {
+            "MV" | "TASY" | "TOTVS" | "ORACLE" | "DATABASE" => {
                 let username = data.username.as_ref().ok_or_else(|| AppError::BadRequest("Username is required for database connections".to_string()))?;
                 let password = data.password.as_ref().ok_or_else(|| AppError::BadRequest("Password is required for database connections".to_string()))?;
                 let port = data.port.ok_or_else(|| AppError::BadRequest("Port is required for database connections".to_string()))?;

@@ -30,7 +30,12 @@ pub async fn get_all_database_views(
 ) -> AppResult<Json<PaginationResponse<DatabaseViewEntity>>> {
     let use_case = DatabaseViewUseCase::new(state.database_view_repository.clone(), state.database_configuration_repository.clone());
     let result = use_case
-        .get_all_database_views(pagination.currentPage, pagination.itemsPerPage)
+        .get_all_database_views(
+            pagination.currentPage,
+            pagination.itemsPerPage,
+            pagination.order_field,
+            pagination.order_by,
+        )
         .await?;
 
     Ok(Json(result))

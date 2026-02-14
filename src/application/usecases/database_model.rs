@@ -56,8 +56,11 @@ impl DatabaseModelUseCase {
         })
     }
 
-    pub async fn get_all_database_models(&self, page: i64, limit: i64, type_filter: Option<String>, include_values: bool) -> AppResult<PaginationResponse<DatabaseModelEntity>> {
-        let (models, total) = self.repository.find_all(page, limit, type_filter).await?;
+    pub async fn get_all_database_models(&self, page: i64, limit: i64, type_filter: Option<String>, include_values: bool, order_field: Option<String>, order_by: Option<String>) -> AppResult<PaginationResponse<DatabaseModelEntity>> {
+        use crate::utils::sort_helper::build_sort_document;
+        
+        let sort_document = build_sort_document(order_field, order_by);
+        let (models, total) = self.repository.find_all(page, limit, type_filter, sort_document).await?;
 
         let entities: Vec<DatabaseModelEntity> = models.into_iter().map(|m| {
             let dto_values: Vec<DtoModelValue> = m.values.into_iter()

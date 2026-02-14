@@ -1,7 +1,7 @@
 use std::sync::Arc;
 
 use chrono::Utc;
-use mongodb::{bson::{doc, oid::ObjectId, to_bson}, Database, Collection};
+use mongodb::{bson::{doc, oid::ObjectId, to_bson, Document}, Database, Collection};
 
 use crate::domain::entities::{DatabaseModelValue, DatabaseModelValueClient};
 use crate::utils::AppError;
@@ -456,6 +456,7 @@ impl DatabaseModelValueRepository {
         company_id: &str,
         page: i64,
         limit: i64,
+        sort_document: Option<Document>,
     ) -> Result<(Vec<DatabaseModelValue>, i64), AppError> {
         use futures::stream::TryStreamExt;
         use mongodb::options::FindOptions;
@@ -474,11 +475,19 @@ impl DatabaseModelValueRepository {
             ]
         };
 
-        let find_options = FindOptions::builder()
-            .skip(skip.max(0) as u64)
-            .limit(limit)
-            .sort(doc! { "code": 1 })
-            .build();
+        let find_options = if let Some(sort) = sort_document {
+            FindOptions::builder()
+                .skip(skip.max(0) as u64)
+                .limit(limit)
+                .sort(sort)
+                .build()
+        } else {
+            FindOptions::builder()
+                .skip(skip.max(0) as u64)
+                .limit(limit)
+                .sort(doc! { "code": 1 })
+                .build()
+        };
 
         let mut cursor = self
             .collection

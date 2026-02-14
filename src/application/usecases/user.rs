@@ -79,8 +79,11 @@ impl UserUseCase {
         self.map_user_to_entity(user).await
     }
 
-    pub async fn get_all_users(&self, page: i64, limit: i64) -> AppResult<(Vec<UserEntity>, i64)> {
-        let (users, total) = self.user_repository.find_all(page, limit).await?;
+    pub async fn get_all_users(&self, page: i64, limit: i64, order_field: Option<String>, order_by: Option<String>) -> AppResult<(Vec<UserEntity>, i64)> {
+        use crate::utils::sort_helper::build_sort_document;
+        
+        let sort_document = build_sort_document(order_field, order_by);
+        let (users, total) = self.user_repository.find_all(page, limit, sort_document).await?;
         
         let mut user_entities = Vec::new();
         for user in users {

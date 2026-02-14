@@ -225,17 +225,25 @@ impl CompanyRepository {
         Ok(result.modified_count > 0)
     }
 
-    pub async fn find_all(&self, page: i64, limit: i64) -> Result<(Vec<Company>, i64), AppError> {
+    pub async fn find_all(&self, page: i64, limit: i64, sort_document: Option<Document>) -> Result<(Vec<Company>, i64), AppError> {
         use mongodb::options::FindOptions;
         use futures::stream::TryStreamExt;
         
         let skip = (page - 1) * limit;
         let filter = doc! { "status": true };
         
-        let find_options = FindOptions::builder()
-            .skip(skip as u64)
-            .limit(limit)
-            .build();
+        let find_options = if let Some(sort) = sort_document {
+            FindOptions::builder()
+                .skip(skip as u64)
+                .limit(limit)
+                .sort(sort)
+                .build()
+        } else {
+            FindOptions::builder()
+                .skip(skip as u64)
+                .limit(limit)
+                .build()
+        };
         
         let mut cursor = self.collection.find(filter.clone(), find_options).await
             .map_err(|e| AppError::Database(e.to_string()))?;

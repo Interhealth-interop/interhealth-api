@@ -56,6 +56,8 @@ pub async fn get_all_database_models(
             params.pagination.itemsPerPage,
             params.type_filter,
             include_values,
+            params.pagination.order_field,
+            params.pagination.order_by,
         )
         .await?;
 
@@ -110,6 +112,8 @@ pub async fn get_database_model_mapping_values(
             params.connection_id.as_deref(),
             params.pagination.currentPage,
             params.pagination.itemsPerPage,
+            params.pagination.order_field,
+            params.pagination.order_by,
         )
         .await?;
 

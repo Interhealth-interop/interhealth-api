@@ -70,8 +70,11 @@ impl DatabaseViewUseCase {
         })
     }
 
-    pub async fn get_all_database_views(&self, page: i64, limit: i64) -> AppResult<PaginationResponse<DatabaseViewEntity>> {
-        let (views, total) = self.repository.find_all(page, limit).await?;
+    pub async fn get_all_database_views(&self, page: i64, limit: i64, order_field: Option<String>, order_by: Option<String>) -> AppResult<PaginationResponse<DatabaseViewEntity>> {
+        use crate::utils::sort_helper::build_sort_document;
+        
+        let sort_document = build_sort_document(order_field, order_by);
+        let (views, total) = self.repository.find_all(page, limit, sort_document).await?;
 
         let mut entities = Vec::new();
         for view in views {

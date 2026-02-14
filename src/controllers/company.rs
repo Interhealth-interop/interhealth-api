@@ -27,7 +27,12 @@ pub async fn get_all_companies(
 ) -> AppResult<Json<PaginationResponse<CompanyEntity>>> {
     let use_case = CompanyUseCase::new(state.company_repository.clone());
     let (companies, total) = use_case
-        .get_all_companies(pagination.currentPage, pagination.itemsPerPage)
+        .get_all_companies(
+            pagination.currentPage,
+            pagination.itemsPerPage,
+            pagination.order_field,
+            pagination.order_by,
+        )
         .await?;
     
     let result = PaginationResponse::new(

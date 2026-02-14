@@ -53,8 +53,11 @@ impl CompanyUseCase {
         self.map_company_to_entity(company)
     }
 
-    pub async fn get_all_companies(&self, page: i64, limit: i64) -> AppResult<(Vec<CompanyEntity>, i64)> {
-        let (companies, total) = self.repository.find_all(page, limit).await?;
+    pub async fn get_all_companies(&self, page: i64, limit: i64, order_field: Option<String>, order_by: Option<String>) -> AppResult<(Vec<CompanyEntity>, i64)> {
+        use crate::utils::sort_helper::build_sort_document;
+        
+        let sort_document = build_sort_document(order_field, order_by);
+        let (companies, total) = self.repository.find_all(page, limit, sort_document).await?;
         
         let mut company_entities = Vec::new();
         for company in companies {

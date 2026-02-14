@@ -31,7 +31,12 @@ pub async fn get_all_database_configurations(
 ) -> AppResult<Json<PaginationResponse<DatabaseConfigurationEntity>>> {
     let use_case = DatabaseConfigurationUseCase::new(state.database_configuration_repository.clone());
     let result = use_case
-        .get_all_database_configurations(pagination.currentPage, pagination.itemsPerPage)
+        .get_all_database_configurations(
+            pagination.currentPage,
+            pagination.itemsPerPage,
+            pagination.order_field,
+            pagination.order_by,
+        )
         .await?;
 
     Ok(Json(result))

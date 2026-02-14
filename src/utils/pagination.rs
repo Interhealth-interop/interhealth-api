@@ -36,6 +36,10 @@ pub struct PaginationQuery {
     #[serde(default = "default_limit", rename = "itemsPerPage")]
     #[serde(deserialize_with = "deserialize_i64_from_str_or_number")]
     pub itemsPerPage: i64,
+    #[serde(rename = "orderField")]
+    pub order_field: Option<String>,
+    #[serde(rename = "orderBy")]
+    pub order_by: Option<String>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]

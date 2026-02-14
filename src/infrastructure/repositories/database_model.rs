@@ -134,7 +134,7 @@ impl DatabaseModelRepository {
         Ok(result.deleted_count > 0)
     }
 
-    pub async fn find_all(&self, page: i64, limit: i64, type_filter: Option<String>) -> Result<(Vec<DatabaseModel>, i64), AppError> {
+    pub async fn find_all(&self, page: i64, limit: i64, type_filter: Option<String>, sort_document: Option<Document>) -> Result<(Vec<DatabaseModel>, i64), AppError> {
         use mongodb::options::FindOptions;
         use futures::stream::TryStreamExt;
         
@@ -145,10 +145,18 @@ impl DatabaseModelRepository {
             filter.insert("type", type_value);
         }
         
-        let find_options = FindOptions::builder()
-            .skip(skip as u64)
-            .limit(limit)
-            .build();
+        let find_options = if let Some(sort) = sort_document {
+            FindOptions::builder()
+                .skip(skip as u64)
+                .limit(limit)
+                .sort(sort)
+                .build()
+        } else {
+            FindOptions::builder()
+                .skip(skip as u64)
+                .limit(limit)
+                .build()
+        };
         
         let mut cursor = self.collection.find(filter.clone(), find_options).await
             .map_err(|e| AppError::Database(e.to_string()))?;

@@ -47,8 +47,11 @@ impl DatabaseConfigurationUseCase {
         })
     }
 
-    pub async fn get_all_database_configurations(&self, page: i64, limit: i64) -> AppResult<PaginationResponse<DatabaseConfigurationEntity>> {
-        let (configs, total) = self.repository.find_all(page, limit).await?;
+    pub async fn get_all_database_configurations(&self, page: i64, limit: i64, order_field: Option<String>, order_by: Option<String>) -> AppResult<PaginationResponse<DatabaseConfigurationEntity>> {
+        use crate::utils::sort_helper::build_sort_document;
+        
+        let sort_document = build_sort_document(order_field, order_by);
+        let (configs, total) = self.repository.find_all(page, limit, sort_document).await?;
 
         let entities: Vec<DatabaseConfigurationEntity> = configs.into_iter().map(|config| {
             DatabaseConfigurationEntity {

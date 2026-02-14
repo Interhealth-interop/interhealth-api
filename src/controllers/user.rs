@@ -38,7 +38,12 @@ pub async fn get_all_users(
         state.company_repository.clone(),
     );
     
-    let (users, total) = use_case.get_all_users(pagination.currentPage, pagination.itemsPerPage).await?;
+    let (users, total) = use_case.get_all_users(
+        pagination.currentPage,
+        pagination.itemsPerPage,
+        pagination.order_field,
+        pagination.order_by,
+    ).await?;
     
     let result = PaginationResponse::new(
         "Usuários recuperados com sucesso",

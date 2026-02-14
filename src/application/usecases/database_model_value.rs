@@ -20,10 +20,15 @@ impl MappingValueUseCase {
         connection_id: Option<&str>,
         page: i64,
         limit: i64,
+        order_field: Option<String>,
+        order_by: Option<String>,
     ) -> AppResult<PaginationResponse<DatabaseModelValueEntity>> {
+        use crate::utils::sort_helper::build_sort_document;
+        
+        let sort_document = build_sort_document(order_field, order_by);
         let (items, total) = self
             .repository
-            .find_by_owner_with_default_and_company_custom(database_model_id, company_id, page, limit)
+            .find_by_owner_with_default_and_company_custom(database_model_id, company_id, page, limit, sort_document)
             .await?;
 
         let entities: Vec<DatabaseModelValueEntity> = items
