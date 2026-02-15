@@ -459,7 +459,7 @@ impl DatabaseModelValueRepository {
         sort_document: Option<Document>,
     ) -> Result<(Vec<DatabaseModelValue>, i64), AppError> {
         use futures::stream::TryStreamExt;
-        use mongodb::options::FindOptions;
+        use mongodb::options::{FindOptions, Collation, CollationStrength};
 
         let owner_object_id = ObjectId::parse_str(owner_id)
             .map_err(|_| AppError::BadRequest("Invalid owner_id format".to_string()))?;
@@ -475,17 +475,25 @@ impl DatabaseModelValueRepository {
             ]
         };
 
+        // Create collation for case-insensitive sorting
+        let collation = Collation::builder()
+            .locale("en")
+            .strength(CollationStrength::Secondary)
+            .build();
+        
         let find_options = if let Some(sort) = sort_document {
             FindOptions::builder()
                 .skip(skip.max(0) as u64)
                 .limit(limit)
                 .sort(sort)
+                .collation(collation.clone())
                 .build()
         } else {
             FindOptions::builder()
                 .skip(skip.max(0) as u64)
                 .limit(limit)
                 .sort(doc! { "code": 1 })
+                .collation(collation)
                 .build()
         };
 

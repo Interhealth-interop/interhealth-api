@@ -135,7 +135,7 @@ impl DatabaseModelRepository {
     }
 
     pub async fn find_all(&self, page: i64, limit: i64, type_filter: Option<String>, sort_document: Option<Document>) -> Result<(Vec<DatabaseModel>, i64), AppError> {
-        use mongodb::options::FindOptions;
+        use mongodb::options::{FindOptions, Collation, CollationStrength};
         use futures::stream::TryStreamExt;
         
         let skip = (page - 1) * limit;
@@ -145,11 +145,18 @@ impl DatabaseModelRepository {
             filter.insert("type", type_value);
         }
         
+        // Create collation for case-insensitive sorting
+        let collation = Collation::builder()
+            .locale("en")
+            .strength(CollationStrength::Secondary)
+            .build();
+        
         let find_options = if let Some(sort) = sort_document {
             FindOptions::builder()
                 .skip(skip as u64)
                 .limit(limit)
                 .sort(sort)
+                .collation(collation)
                 .build()
         } else {
             FindOptions::builder()
