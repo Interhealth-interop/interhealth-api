@@ -10,6 +10,14 @@ use crate::core::AuthUser;
 use crate::domain::dtos::{DatabaseViewEntity, CreateDatabaseViewDto, UpdateDatabaseViewDto};
 use crate::utils::{ApiResponse, AppResult, PaginationResponse, PaginationQuery};
 
+#[derive(Debug, Deserialize)]
+pub struct DatabaseViewQueryParams {
+    #[serde(flatten)]
+    pub pagination: PaginationQuery,
+    #[serde(rename = "databaseConfigurationId")]
+    pub database_configuration_id: Option<String>,
+}
+
 pub async fn create_database_view(
     State(state): State<AppState>,
     auth: AuthUser,
@@ -26,15 +34,16 @@ pub async fn create_database_view(
 
 pub async fn get_all_database_views(
     State(state): State<AppState>,
-    Query(pagination): Query<PaginationQuery>,
+    Query(params): Query<DatabaseViewQueryParams>,
 ) -> AppResult<Json<PaginationResponse<DatabaseViewEntity>>> {
     let use_case = DatabaseViewUseCase::new(state.database_view_repository.clone(), state.database_configuration_repository.clone());
     let result = use_case
         .get_all_database_views(
-            pagination.currentPage,
-            pagination.itemsPerPage,
-            pagination.order_field,
-            pagination.order_by,
+            params.pagination.currentPage,
+            params.pagination.itemsPerPage,
+            params.database_configuration_id,
+            params.pagination.order_field,
+            params.pagination.order_by,
         )
         .await?;
 

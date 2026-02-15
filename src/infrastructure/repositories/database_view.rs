@@ -262,12 +262,17 @@ impl DatabaseViewRepository {
         Ok(result.deleted_count > 0)
     }
 
-    pub async fn find_all(&self, page: i64, limit: i64, sort_document: Option<Document>) -> Result<(Vec<DatabaseView>, i64), AppError> {
+    pub async fn find_all(&self, page: i64, limit: i64, database_configuration_id: Option<String>, sort_document: Option<Document>) -> Result<(Vec<DatabaseView>, i64), AppError> {
         use mongodb::options::{FindOptions, Collation, CollationStrength};
         use futures::stream::TryStreamExt;
         
         let skip = (page - 1) * limit;
-        let filter = doc! {};
+        let mut filter = doc! {};
+        
+        // Add database_configuration_id filter if provided
+        if let Some(config_id) = database_configuration_id {
+            filter.insert("database_configuration_id", config_id);
+        }
         
         // Create collation for case-insensitive sorting
         let collation = Collation::builder()
