@@ -202,7 +202,7 @@ impl DatabaseModelValueRepository {
 
         // Enforce uniqueness based on connection_id:
         // - If connection_id is provided: remove only the entry with matching company_id AND connection_id
-        // - If connection_id is NOT provided: remove all entries with matching company_id (current behavior)
+        // - If connection_id is NOT provided: remove only the entry with matching company_id AND no connection_id (preserve connection-specific mappings)
         let filter_doc = doc! {
             "_id": value_object_id,
             "owner_id": owner_object_id,
@@ -211,7 +211,7 @@ impl DatabaseModelValueRepository {
         let pull_condition = if let Some(conn_id) = connection_object_id {
             doc! { "company_id": company_object_id, "connection_id": conn_id }
         } else {
-            doc! { "company_id": company_object_id }
+            doc! { "company_id": company_object_id, "connection_id": { "$exists": false } }
         };
 
         let pull_update = doc! {
