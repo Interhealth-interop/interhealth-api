@@ -222,6 +222,8 @@ pub struct ResourceItemDto {
     pub name: String,
     #[serde(rename = "entityType")]
     pub entity_type: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub resource: Option<String>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]

@@ -1,46 +1,99 @@
 {
-    "database_integration": [{
-        "name": "Migração Pacientes",
-        "description": "Migração completa de Pacientes para o Barramento FHIR",
-        "entityType": "PATIENT",
-        "databaseConfigurationId": "6977af945c5f584ab8f79fd6",
-        "companyId": "6977af945c5f584ab8f79fd6",
-        "status": "pending"
-    },{
-        "name": "Migração Atendimentos",
-        "description": "Migração completa de Atendimentos para o Barramento FHIR",
-        "entityType": "ENCOUNTER",
-        "databaseConfigurationId": "6977af945c5f584ab8f79fd6",
-        "companyId": "6977af945c5f584ab8f79fd6",
-        "status": "pending"
-    }, {
-        "name": "Migração Profissional",
-        "description": "Migração completa de Profissional para o Barramento FHIR",
-        "entityType": "PRACTITIONER",
-        "databaseConfigurationId": "6977af945c5f584ab8f79fd6",
-        "companyId": "6977af945c5f584ab8f79fd6",
-        "status": "pending"
-    }, {
-        "name": "Migração Organização",
-        "description": "Migração completa de Organização para o Barramento FHIR",
-        "entityType": "ORGANIZATION",
-        "databaseConfigurationId": "6977af945c5f584ab8f79fd6",
-        "companyId": "6977af945c5f584ab8f79fd6",
-        "status": "pending"
-    }, {
-        "name": "Migração Especialidade",
-        "description": "Migração completa de Especialidade para o Barramento FHIR",
-        "entityType": "SPECIALTY",
-        "databaseConfigurationId": "6977af945c5f584ab8f79fd6",
-        "companyId": "6977af945c5f584ab8f79fd6",
-        "status": "pending"
-    }, {
-        "name": "Migração Unidade",
-        "description": "Migração completa de Unidade para o Barramento FHIR",
-        "entityType": "LOCATION",
-        "databaseConfigurationId": "6977af945c5f584ab8f79fd6",
-        "companyId": "6977af945c5f584ab8f79fd6",
-        "status": "pending"
-    }
+    "database_integration": [
+        {
+            "name": "Migração Pacientes",
+            "description": "Migração completa de Pacientes para o Barramento FHIR",
+            "entityType": "PATIENT",
+            "resource": "PATIENT",
+            "databaseConfigurationId": "6977af945c5f584ab8f79fd6",
+            "companyId": "6977af945c5f584ab8f79fd6",
+            "status": "pending"
+        },
+        {
+            "name": "Migração Atendimentos",
+            "description": "Migração completa de Atendimentos para o Barramento FHIR",
+            "entityType": "ENCOUNTER",
+            "resource": "ENCOUNTER",
+            "databaseConfigurationId": "6977af945c5f584ab8f79fd6",
+            "companyId": "6977af945c5f584ab8f79fd6",
+            "status": "pending"
+        },
+        {
+            "name": "Migração Profissional",
+            "description": "Migração completa de Profissional para o Barramento FHIR",
+            "entityType": "PROVIDER",
+            "resource": "PRACTITIONER",
+            "databaseConfigurationId": "6977af945c5f584ab8f79fd6",
+            "companyId": "6977af945c5f584ab8f79fd6",
+            "status": "pending"
+        },
+        {
+            "name": "Migração Organização",
+            "description": "Migração completa de Organização para o Barramento FHIR",
+            "entityType": "ORGANIZATION",
+            "resource": "ORGANIZATION",
+            "databaseConfigurationId": "6977af945c5f584ab8f79fd6",
+            "companyId": "6977af945c5f584ab8f79fd6",
+            "status": "pending"
+        },
+        {
+            "name": "Migração Especialidade",
+            "description": "Migração completa de Especialidade para o Barramento FHIR",
+            "entityType": "SPECIALTY",
+            "resource": "PRACTITIONERROLE",
+            "databaseConfigurationId": "6977af945c5f584ab8f79fd6",
+            "companyId": "6977af945c5f584ab8f79fd6",
+            "status": "pending"
+        },
+        {
+            "name": "Migração Unidade",
+            "description": "Migração completa de Unidade para o Barramento FHIR",
+            "entityType": "LOCATION",
+            "resource": "LOCATION",
+            "databaseConfigurationId": "6977af945c5f584ab8f79fd6",
+            "companyId": "6977af945c5f584ab8f79fd6",
+            "status": "pending"
+        },
+        {
+            "name": "Migração CMD Atendimento",
+            "description": "Migração completa de Atendimentos completos para o Barramento FHIR",
+            "entityType": "BUNDLE",
+            "mainResource": "ENCOUNTER",
+            "databaseConfigurationId": "6977af945c5f584ab8f79fd6",
+            "companyId": "6977af945c5f584ab8f79fd6",
+            "status": "pending",
+            "resources": [
+                {
+                    "name": "Paciente",
+                    "entityType": "PATIENT",
+                    "resource": "PATIENT"
+                },
+                {
+                    "name": "Atendimento",
+                    "entityType": "ENCOUNTER",
+                    "resource": "ENCOUNTER"
+                },
+                {
+                    "name": "Profissional",
+                    "entityType": "PROVIDER",
+                    "resource": "PRACTITIONER"
+                },
+                {
+                    "name": "Especialidade",
+                    "entityType": "SPECIALTY",
+                    "resource": "PRACTITIONERROLE"
+                },
+                {
+                    "name": "Instituicao",
+                    "entityType": "ORGANIZATION",
+                    "resource": "ORGANIZATION"
+                },
+                {
+                    "name": "Unidade",
+                    "entityType": "LOCATION",
+                    "resource": "LOCATION"
+                }
+            ]
+        }
     ]
 }

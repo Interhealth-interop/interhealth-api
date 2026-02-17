@@ -32,7 +32,7 @@
       "id": "695ee472b82ca274f4d3af84",
       "name": "Procedimentos",
       "reference": "TUSS",
-      "type": "TUSS_PROCEDURE",
+      "type": "PROCEDURE",
       "description": "Terminologia Unificada da Saúde Suplementar - Códigos de procedimentos médicos e categorias principais"
     },
     {

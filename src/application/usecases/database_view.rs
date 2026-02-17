@@ -20,6 +20,7 @@ impl DatabaseViewUseCase {
             resources.into_iter().map(|r| ResourceItem {
                 name: r.name,
                 entity_type: r.entity_type,
+                resource: r.resource,
             }).collect()
         })
     }
@@ -29,6 +30,7 @@ impl DatabaseViewUseCase {
             resources.into_iter().map(|r| ResourceItemDto {
                 name: r.name,
                 entity_type: r.entity_type,
+                resource: r.resource,
             }).collect()
         })
     }
