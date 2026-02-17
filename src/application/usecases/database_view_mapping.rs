@@ -14,6 +14,8 @@ pub struct CreateDatabaseViewMappingDto {
     pub description: String,
     #[serde(rename = "entityType")]
     pub entity_type: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub resource: Option<String>,
     #[serde(rename = "databaseTableOriginId")]
     pub database_table_origin_id: String,
     #[serde(rename = "databaseTableDestinyId")]
@@ -36,6 +38,8 @@ pub struct UpdateDatabaseViewMappingDto {
     pub description: Option<String>,
     #[serde(rename = "entityType")]
     pub entity_type: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub resource: Option<String>,
     #[serde(rename = "databaseTableOriginId")]
     pub database_table_origin_id: Option<String>,
     #[serde(rename = "databaseTableDestinyId")]
@@ -54,6 +58,8 @@ pub struct DatabaseViewMappingEntity {
     pub description: String,
     #[serde(rename = "entityType")]
     pub entity_type: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub resource: Option<String>,
     #[serde(rename = "databaseTableOriginId")]
     pub database_table_origin_id: String,
     #[serde(rename = "databaseTableDestinyId")]
@@ -150,6 +156,7 @@ impl DatabaseViewMappingUseCase {
             data.name,
             data.description,
             data.entity_type,
+            data.resource,
             data.database_table_origin_id,
             data.database_table_destiny_id,
             data.data_view_id,
@@ -162,6 +169,7 @@ impl DatabaseViewMappingUseCase {
             name: mapping.name,
             description: mapping.description,
             entity_type: mapping.entity_type,
+            resource: mapping.resource,
             database_table_origin_id: mapping.database_table_origin_id,
             database_table_destiny_id: mapping.database_table_destiny_id,
             data_view_id: mapping.data_view_id,
@@ -196,6 +204,7 @@ impl DatabaseViewMappingUseCase {
                 name: m.name,
                 description: m.description,
                 entity_type: m.entity_type,
+                resource: m.resource,
                 database_table_origin_id: m.database_table_origin_id,
                 database_table_destiny_id: m.database_table_destiny_id,
                 data_view_id: m.data_view_id,
@@ -224,6 +233,7 @@ impl DatabaseViewMappingUseCase {
             name: mapping.name,
             description: mapping.description,
             entity_type: mapping.entity_type,
+            resource: mapping.resource,
             database_table_origin_id: mapping.database_table_origin_id,
             database_table_destiny_id: mapping.database_table_destiny_id,
             data_view_id: mapping.data_view_id,
@@ -243,6 +253,7 @@ impl DatabaseViewMappingUseCase {
             name: mapping.name,
             description: mapping.description,
             entity_type: mapping.entity_type,
+            resource: mapping.resource,
             database_table_origin_id: mapping.database_table_origin_id,
             database_table_destiny_id: mapping.database_table_destiny_id,
             data_view_id: mapping.data_view_id,
@@ -262,6 +273,7 @@ impl DatabaseViewMappingUseCase {
                 name: m.name,
                 description: m.description,
                 entity_type: m.entity_type,
+                resource: m.resource,
                 database_table_origin_id: m.database_table_origin_id,
                 database_table_destiny_id: m.database_table_destiny_id,
                 data_view_id: m.data_view_id,
@@ -284,6 +296,7 @@ impl DatabaseViewMappingUseCase {
                 name: m.name,
                 description: m.description,
                 entity_type: m.entity_type,
+                resource: m.resource,
                 database_table_origin_id: m.database_table_origin_id,
                 database_table_destiny_id: m.database_table_destiny_id,
                 data_view_id: m.data_view_id,
@@ -306,6 +319,7 @@ impl DatabaseViewMappingUseCase {
                 name: m.name,
                 description: m.description,
                 entity_type: m.entity_type,
+                resource: m.resource,
                 database_table_origin_id: m.database_table_origin_id,
                 database_table_destiny_id: m.database_table_destiny_id,
                 data_view_id: m.data_view_id,
@@ -325,6 +339,7 @@ impl DatabaseViewMappingUseCase {
             data.name,
             data.description,
             data.entity_type,
+            data.resource,
             data.database_table_origin_id,
             data.database_table_destiny_id,
             data.data_view_id,
@@ -337,6 +352,7 @@ impl DatabaseViewMappingUseCase {
             name: updated.name,
             description: updated.description,
             entity_type: updated.entity_type,
+            resource: updated.resource,
             database_table_origin_id: updated.database_table_origin_id,
             database_table_destiny_id: updated.database_table_destiny_id,
             data_view_id: updated.data_view_id,

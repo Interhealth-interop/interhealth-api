@@ -45,6 +45,8 @@ pub struct DatabaseViewMapping {
     pub description: String,
     #[serde(default, rename = "entityType", alias = "entity_type")]
     pub entity_type: String,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub resource: Option<String>,
     #[serde(default, rename = "databaseTableOriginId", alias = "database_table_origin_id")]
     pub database_table_origin_id: String,
     #[serde(default, rename = "databaseTableDestinyId", alias = "database_table_destiny_id")]

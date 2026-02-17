@@ -659,6 +659,7 @@ pub async fn seed_database(
             mapping_data.name.clone(),
             mapping_data.description,
             mapping_data.origin_entity_type,
+            Some(mapping_data.destiny_entity_type),
             origin_id,
             destiny_id,
             mapping_data.data_view_id.unwrap_or_default(),

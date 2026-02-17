@@ -28,6 +28,7 @@ impl DatabaseViewMappingRepository {
         name: String,
         description: String,
         entity_type: String,
+        resource: Option<String>,
         database_table_origin_id: String,
         database_table_destiny_id: String,
         data_view_id: String,
@@ -41,6 +42,7 @@ impl DatabaseViewMappingRepository {
             name,
             description,
             entity_type,
+            resource,
             database_table_origin_id,
             database_table_destiny_id,
             data_view_id,
@@ -132,6 +134,7 @@ impl DatabaseViewMappingRepository {
         name: Option<String>,
         description: Option<String>,
         entity_type: Option<String>,
+        resource: Option<String>,
         database_table_origin_id: Option<String>,
         database_table_destiny_id: Option<String>,
         data_view_id: Option<String>,
@@ -151,6 +154,9 @@ impl DatabaseViewMappingRepository {
         }
         if let Some(entity_type) = entity_type {
             update_doc.insert("entityType", entity_type);
+        }
+        if let Some(resource) = resource {
+            update_doc.insert("resource", resource);
         }
         if let Some(database_table_origin_id) = database_table_origin_id {
             update_doc.insert("databaseTableOriginId", database_table_origin_id);

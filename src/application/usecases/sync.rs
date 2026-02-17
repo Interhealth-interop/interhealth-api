@@ -76,6 +76,7 @@ impl SyncUseCase {
             name: mapping.name.clone(),
             description: mapping.description.clone(),
             entity_type: mapping.entity_type.clone(),
+            resource: mapping.resource.clone(),
             database_table_origin_id: mapping.database_table_origin_id.clone(),
             database_table_destiny_id: mapping.database_table_destiny_id.clone(),
             data_view_id: mapping.data_view_id.clone(),
