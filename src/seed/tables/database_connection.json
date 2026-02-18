@@ -3,7 +3,7 @@
         "id": "6977af945c5f584ab8f79fd6",
         "name": "InterHealth Prod",
         "type": "DATABASE",
-        "version": "ORACLE",
+        "version": "Oracle",
         "host": "vps61779.publiccloud.com.br",
         "port": 1539,
         "database": "XEPDB1",
