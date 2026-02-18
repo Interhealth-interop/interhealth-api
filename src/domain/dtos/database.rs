@@ -230,7 +230,7 @@ pub struct ResourceItemDto {
 pub struct CreateDatabaseViewDto {
     pub name: String,
     pub description: String,
-    pub reference: Option<String>,
+    pub resource: Option<String>,
     #[serde(rename = "entityType")]
     pub entity_type: String,
     #[serde(rename = "mainResource")]
@@ -249,7 +249,7 @@ pub struct CreateDatabaseViewDto {
 pub struct UpdateDatabaseViewDto {
     pub name: Option<String>,
     pub description: Option<String>,
-    pub reference: Option<String>,
+    pub resource: Option<String>,
     #[serde(rename = "entityType")]
     pub entity_type: Option<String>,
     #[serde(rename = "mainResource")]
@@ -270,7 +270,7 @@ pub struct DatabaseViewEntity {
     pub id: String,
     pub name: String,
     pub description: String,
-    pub reference: Option<String>,
+    pub resource: Option<String>,
     #[serde(rename = "entityType")]
     pub entity_type: String,
     #[serde(rename = "mainResource")]

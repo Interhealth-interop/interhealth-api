@@ -27,7 +27,7 @@ impl DatabaseViewRepository {
         &self,
         name: String,
         description: String,
-        reference: Option<String>,
+        resource: Option<String>,
         entity_type: String,
         main_resource: Option<String>,
         is_fhir_destination: Option<bool>,
@@ -42,7 +42,7 @@ impl DatabaseViewRepository {
             id: None,
             name,
             description,
-            reference,
+            resource,
             entity_type,
             main_resource,
             is_fhir_destination,
@@ -71,7 +71,7 @@ impl DatabaseViewRepository {
         id: &str,
         name: String,
         description: String,
-        reference: Option<String>,
+        resource: Option<String>,
         entity_type: String,
         main_resource: Option<String>,
         is_fhir_destination: Option<bool>,
@@ -90,7 +90,7 @@ impl DatabaseViewRepository {
             id: Some(object_id),
             name,
             description,
-            reference,
+            resource,
             entity_type,
             main_resource,
             is_fhir_destination,
@@ -148,7 +148,7 @@ impl DatabaseViewRepository {
         id: &str,
         name: Option<String>,
         description: Option<String>,
-        reference: Option<String>,
+        resource: Option<String>,
         entity_type: Option<String>,
         main_resource: Option<String>,
         is_fhir_destination: Option<bool>,
@@ -168,8 +168,8 @@ impl DatabaseViewRepository {
         if let Some(description) = description {
             update_doc.insert("description", description);
         }
-        if let Some(reference) = reference {
-            update_doc.insert("reference", reference);
+        if let Some(resource) = resource {
+            update_doc.insert("resource", resource);
         }
         if let Some(entity_type) = entity_type {
             update_doc.insert("entity_type", entity_type);

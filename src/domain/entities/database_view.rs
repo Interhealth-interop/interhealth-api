@@ -22,7 +22,7 @@ pub struct DatabaseView {
     pub id: Option<ObjectId>,
     pub name: String,
     pub description: String,
-    pub reference: Option<String>,
+    pub resource: Option<String>,
     pub entity_type: String,
     pub main_resource: Option<String>,
     pub is_fhir_destination: Option<bool>,
