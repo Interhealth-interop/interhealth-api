@@ -8,6 +8,8 @@ pub mod database_table;
 pub mod database_view;
 pub mod database_model;
 pub mod database_view_mapping;
+pub mod target_integration;
+pub mod integration_control;
 pub mod sync;
 pub mod metrics;
 pub mod routes;

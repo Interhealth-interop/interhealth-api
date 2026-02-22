@@ -2,17 +2,22 @@ use std::sync::Arc;
 
 use crate::domain::dtos::{CreateDatabaseViewDto, UpdateDatabaseViewDto, DatabaseViewEntity, ResourceItemDto};
 use crate::domain::entities::ResourceItem;
-use crate::infrastructure::repositories::{DatabaseViewRepository, DatabaseConfigurationRepository};
+use crate::infrastructure::repositories::{DatabaseViewRepository, DatabaseConfigurationRepository, DatabaseViewMappingRepository};
 use crate::utils::{AppError, AppResult, PaginationResponse};
 
 pub struct DatabaseViewUseCase {
     repository: Arc<DatabaseViewRepository>,
     config_repository: Arc<DatabaseConfigurationRepository>,
+    mapping_repository: Arc<DatabaseViewMappingRepository>,
 }
 
 impl DatabaseViewUseCase {
-    pub fn new(repository: Arc<DatabaseViewRepository>, config_repository: Arc<DatabaseConfigurationRepository>) -> Self {
-        Self { repository, config_repository }
+    pub fn new(
+        repository: Arc<DatabaseViewRepository>,
+        config_repository: Arc<DatabaseConfigurationRepository>,
+        mapping_repository: Arc<DatabaseViewMappingRepository>,
+    ) -> Self {
+        Self { repository, config_repository, mapping_repository }
     }
 
     fn convert_dto_to_entity_resources(dto_resources: Option<Vec<ResourceItemDto>>) -> Option<Vec<ResourceItem>> {
@@ -51,24 +56,38 @@ impl DatabaseViewUseCase {
             resources,
         ).await?;
 
+        if let Some(target_integration_id) = data.target_integration_id.clone() {
+            self
+                .repository
+                .set_target_integration_id(&view.id.as_ref().unwrap().to_hex(), Some(target_integration_id))
+                .await?;
+        }
+
+        let refreshed = self
+            .repository
+            .find_by_id(&view.id.as_ref().unwrap().to_hex())
+            .await?
+            .ok_or_else(|| AppError::NotFound("Database view not found after create".to_string()))?;
+
         Ok(DatabaseViewEntity {
-            id: view.id.unwrap().to_hex(),
-            name: view.name,
-            description: view.description,
-            resource: view.resource,
-            entity_type: view.entity_type,
-            main_resource: view.main_resource,
-            is_fhir_destination: view.is_fhir_destination.unwrap_or(false),
-            is_interhealth_destination: view.is_interhealth_destination.unwrap_or(false),
+            id: refreshed.id.unwrap().to_hex(),
+            name: refreshed.name,
+            description: refreshed.description,
+            resource: refreshed.resource,
+            entity_type: refreshed.entity_type,
+            main_resource: refreshed.main_resource,
+            is_fhir_destination: refreshed.is_fhir_destination.unwrap_or(false),
+            is_interhealth_destination: refreshed.is_interhealth_destination.unwrap_or(false),
             database_configuration_id: data.database_configuration_id.clone(),
+            target_integration_id: refreshed.target_integration_id.clone(),
             company_id: Some(company_id),
-            status: view.status,
-            job_id: view.job_id,
-            resources: Self::convert_entity_to_dto_resources(view.resources),
-            started_at: view.started_at.map(|dt| dt.to_rfc3339()),
-            cancelled_at: view.cancelled_at.map(|dt| dt.to_rfc3339()),
-            created_at: view.created_at.to_rfc3339(),
-            updated_at: view.updated_at.to_rfc3339(),
+            status: refreshed.status,
+            job_id: refreshed.job_id,
+            resources: Self::convert_entity_to_dto_resources(refreshed.resources),
+            started_at: refreshed.started_at.map(|dt| dt.to_rfc3339()),
+            cancelled_at: refreshed.cancelled_at.map(|dt| dt.to_rfc3339()),
+            created_at: refreshed.created_at.to_rfc3339(),
+            updated_at: refreshed.updated_at.to_rfc3339(),
         })
     }
 
@@ -90,6 +109,7 @@ impl DatabaseViewUseCase {
                 is_fhir_destination: view.is_fhir_destination.unwrap_or(false),
                 is_interhealth_destination: view.is_interhealth_destination.unwrap_or(false),
                 database_configuration_id: view.database_configuration_id.clone(),
+                target_integration_id: view.target_integration_id.clone(),
                 company_id: Some(view.company_id),
                 status: view.status,
                 job_id: view.job_id,
@@ -124,6 +144,7 @@ impl DatabaseViewUseCase {
             is_fhir_destination: view.is_fhir_destination.unwrap_or(false),
             is_interhealth_destination: view.is_interhealth_destination.unwrap_or(false),
             database_configuration_id: view.database_configuration_id.clone(),
+            target_integration_id: view.target_integration_id.clone(),
             company_id: Some(view.company_id),
             status: view.status,
             job_id: view.job_id,
@@ -152,28 +173,43 @@ impl DatabaseViewUseCase {
             resources,
         ).await?;
 
+        if let Some(target_integration_id) = data.target_integration_id.clone() {
+            self
+                .repository
+                .set_target_integration_id(id, Some(target_integration_id))
+                .await?;
+        }
+
+        let refreshed = self
+            .repository
+            .find_by_id(id)
+            .await?
+            .ok_or_else(|| AppError::NotFound("Database view not found after update".to_string()))?;
+
         Ok(DatabaseViewEntity {
-            id: updated.id.unwrap().to_hex(),
-            name: updated.name.clone(),
-            description: updated.description.clone(),
-            resource: updated.resource.clone(),
-            entity_type: updated.entity_type.clone(),
-            main_resource: updated.main_resource.clone(),
-            is_fhir_destination: updated.is_fhir_destination.unwrap_or(false),
-            is_interhealth_destination: updated.is_interhealth_destination.unwrap_or(false),
-            database_configuration_id: updated.database_configuration_id.clone(),
-            company_id: Some(updated.company_id),
-            status: updated.status,
-            job_id: updated.job_id,
-            resources: Self::convert_entity_to_dto_resources(updated.resources),
-            started_at: updated.started_at.map(|dt| dt.to_rfc3339()),
-            cancelled_at: updated.cancelled_at.map(|dt| dt.to_rfc3339()),
-            created_at: updated.created_at.to_rfc3339(),
-            updated_at: updated.updated_at.to_rfc3339(),
+            id: refreshed.id.unwrap().to_hex(),
+            name: refreshed.name.clone(),
+            description: refreshed.description.clone(),
+            resource: refreshed.resource.clone(),
+            entity_type: refreshed.entity_type.clone(),
+            main_resource: refreshed.main_resource.clone(),
+            is_fhir_destination: refreshed.is_fhir_destination.unwrap_or(false),
+            is_interhealth_destination: refreshed.is_interhealth_destination.unwrap_or(false),
+            database_configuration_id: refreshed.database_configuration_id.clone(),
+            target_integration_id: refreshed.target_integration_id.clone(),
+            company_id: Some(refreshed.company_id),
+            status: refreshed.status,
+            job_id: refreshed.job_id,
+            resources: Self::convert_entity_to_dto_resources(refreshed.resources),
+            started_at: refreshed.started_at.map(|dt| dt.to_rfc3339()),
+            cancelled_at: refreshed.cancelled_at.map(|dt| dt.to_rfc3339()),
+            created_at: refreshed.created_at.to_rfc3339(),
+            updated_at: refreshed.updated_at.to_rfc3339(),
         })
     }
 
     pub async fn delete_database_view(&self, id: &str) -> AppResult<bool> {
+        self.mapping_repository.delete_by_data_view_id(id).await?;
         self.repository.delete(id).await
     }
 
@@ -190,6 +226,7 @@ impl DatabaseViewUseCase {
             is_fhir_destination: view.is_fhir_destination.unwrap_or(false),
             is_interhealth_destination: view.is_interhealth_destination.unwrap_or(false),
             database_configuration_id: view.database_configuration_id.clone(),
+            target_integration_id: view.target_integration_id.clone(),
             company_id: Some(view.company_id),
             status: view.status,
             job_id: view.job_id,
@@ -214,6 +251,7 @@ impl DatabaseViewUseCase {
             is_fhir_destination: view.is_fhir_destination.unwrap_or(false),
             is_interhealth_destination: view.is_interhealth_destination.unwrap_or(false),
             database_configuration_id: view.database_configuration_id.clone(),
+            target_integration_id: view.target_integration_id.clone(),
             company_id: Some(view.company_id),
             status: view.status,
             job_id: view.job_id,

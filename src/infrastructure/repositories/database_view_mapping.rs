@@ -198,6 +198,18 @@ impl DatabaseViewMappingRepository {
         Ok(result.deleted_count > 0)
     }
 
+    pub async fn delete_by_data_view_id(&self, data_view_id: &str) -> Result<u64, AppError> {
+        let filter = doc! { "dataViewId": data_view_id };
+
+        let result = self
+            .collection
+            .delete_many(filter, None)
+            .await
+            .map_err(|e| AppError::Database(e.to_string()))?;
+
+        Ok(result.deleted_count)
+    }
+
     pub async fn find_all(
         &self,
         page: i64,

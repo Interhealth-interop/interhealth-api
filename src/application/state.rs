@@ -6,7 +6,8 @@ use crate::infrastructure::repositories::{
     CompanyRepository, UserRepository, DatabaseConfigurationRepository,
     DatabaseColumnRepository, DatabaseTableRepository, DatabaseViewRepository,
     DatabaseViewMappingRepository, DatabaseTransformationRepository, SyncJobRepository,
-    MetricsSummaryRepository, DatabaseModelRepository, DatabaseModelValueRepository
+    MetricsSummaryRepository, DatabaseModelRepository, DatabaseModelValueRepository,
+    TargetIntegrationRepository, IntegrationControlRepository
 };
 use crate::application::usecases::MetricsUseCase;
 use crate::sync::SyncManager;
@@ -23,6 +24,8 @@ pub struct AppState {
     pub database_table_repository: Arc<DatabaseTableRepository>,
     pub database_view_repository: Arc<DatabaseViewRepository>,
     pub database_view_mapping_repository: Arc<DatabaseViewMappingRepository>,
+    pub target_integration_repository: Arc<TargetIntegrationRepository>,
+    pub integration_control_repository: Arc<IntegrationControlRepository>,
     pub database_transformation_repository: Arc<DatabaseTransformationRepository>,
     pub sync_job_repository: Arc<SyncJobRepository>,
     pub metrics_summary_repository: Arc<MetricsSummaryRepository>,
@@ -42,6 +45,8 @@ impl AppState {
         let database_table_repository = DatabaseTableRepository::arc(db.clone());
         let database_view_repository = DatabaseViewRepository::arc(db.clone());
         let database_view_mapping_repository = DatabaseViewMappingRepository::arc(db.clone());
+        let target_integration_repository = TargetIntegrationRepository::arc(db.clone());
+        let integration_control_repository = IntegrationControlRepository::arc(db.clone());
         let database_transformation_repository = DatabaseTransformationRepository::arc(db.clone());
         let sync_job_repository = SyncJobRepository::arc(db.clone());
         let metrics_summary_repository = MetricsSummaryRepository::arc(db.clone());
@@ -82,6 +87,8 @@ impl AppState {
             database_table_repository,
             database_view_repository,
             database_view_mapping_repository,
+            target_integration_repository,
+            integration_control_repository,
             database_transformation_repository,
             sync_job_repository,
             metrics_summary_repository,

@@ -1,6 +1,8 @@
 use serde::{Deserialize, Serialize};
 use validator::Validate;
 use std::collections::HashMap;
+use chrono::{DateTime, Utc};
+use serde::de::Error as DeError;
 
 pub use crate::domain::entities::ValueMappingItem;
 
@@ -85,6 +87,164 @@ pub struct DatabaseConfigurationEntity {
     #[serde(rename = "authType")]
     pub auth_type: Option<String>,
     pub credentials: Option<String>,
+    pub company_id: Option<String>,
+    pub created_at: String,
+    pub updated_at: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct CreateTargetIntegrationDto {
+    pub name: String,
+    pub version: Option<String>,
+    pub host: String,
+    #[serde(rename = "authType")]
+    pub auth_type: Option<String>,
+    pub credentials: Option<String>,
+    #[serde(rename = "databaseViewId")]
+    pub database_view_id: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct UpdateTargetIntegrationDto {
+    pub name: Option<String>,
+    pub version: Option<String>,
+    pub host: Option<String>,
+    #[serde(rename = "authType")]
+    pub auth_type: Option<String>,
+    pub credentials: Option<String>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct TargetIntegrationEntity {
+    pub id: String,
+    pub name: String,
+    pub version: Option<String>,
+    pub host: String,
+    #[serde(rename = "authType")]
+    pub auth_type: Option<String>,
+    pub credentials: Option<String>,
+    #[serde(rename = "databaseViewId")]
+    pub database_view_id: String,
+    pub company_id: Option<String>,
+    pub created_at: String,
+    pub updated_at: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct CreateIntegrationControlDto {
+    pub name: String,
+    #[serde(rename = "databaseViewId")]
+    pub database_view_id: String,
+    pub cron: String,
+    #[serde(rename = "dateField")]
+    pub date_field: String,
+    #[serde(
+        rename = "startAt",
+        default,
+        skip_serializing_if = "Option::is_none",
+        deserialize_with = "deserialize_optional_datetime"
+    )]
+    pub start_at: Option<DateTime<Utc>>,
+    #[serde(
+        rename = "endAt",
+        default,
+        skip_serializing_if = "Option::is_none",
+        deserialize_with = "deserialize_optional_datetime"
+    )]
+    pub end_at: Option<DateTime<Utc>>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub status: Option<String>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct UpdateIntegrationControlDto {
+    pub name: Option<String>,
+    pub cron: Option<String>,
+    #[serde(rename = "dateField")]
+    pub date_field: Option<String>,
+    #[serde(
+        rename = "startAt",
+        default,
+        skip_serializing_if = "Option::is_none",
+        deserialize_with = "deserialize_optional_datetime"
+    )]
+    pub start_at: Option<DateTime<Utc>>,
+    #[serde(
+        rename = "endAt",
+        default,
+        skip_serializing_if = "Option::is_none",
+        deserialize_with = "deserialize_optional_datetime"
+    )]
+    pub end_at: Option<DateTime<Utc>>,
+    pub status: Option<String>,
+}
+
+fn deserialize_optional_datetime<'de, D>(deserializer: D) -> Result<Option<DateTime<Utc>>, D::Error>
+where
+    D: serde::Deserializer<'de>,
+{
+    let value: Option<serde_json::Value> = Option::deserialize(deserializer)?;
+
+    let Some(value) = value else {
+        return Ok(None);
+    };
+
+    match value {
+        serde_json::Value::String(s) => DateTime::parse_from_rfc3339(&s)
+            .map(|dt| Some(dt.with_timezone(&Utc)))
+            .map_err(|_| D::Error::custom("Invalid datetime format")),
+        serde_json::Value::Object(map) => {
+            if let Some(date_value) = map.get("$date") {
+                match date_value {
+                    serde_json::Value::String(s) => DateTime::parse_from_rfc3339(s)
+                        .map(|dt| Some(dt.with_timezone(&Utc)))
+                        .map_err(|_| D::Error::custom("Invalid datetime format")),
+                    serde_json::Value::Number(n) => {
+                        let ms = n
+                            .as_i64()
+                            .ok_or_else(|| D::Error::custom("Invalid datetime format"))?;
+                        Ok(Some(DateTime::<Utc>::from_timestamp_millis(ms).ok_or_else(|| {
+                            D::Error::custom("Invalid datetime format")
+                        })?))
+                    }
+                    serde_json::Value::Object(inner) => {
+                        if let Some(serde_json::Value::String(num)) = inner.get("$numberLong") {
+                            let ms = num
+                                .parse::<i64>()
+                                .map_err(|_| D::Error::custom("Invalid datetime format"))?;
+                            Ok(Some(DateTime::<Utc>::from_timestamp_millis(ms).ok_or_else(|| {
+                                D::Error::custom("Invalid datetime format")
+                            })?))
+                        } else {
+                            Err(D::Error::custom("Invalid datetime format"))
+                        }
+                    }
+                    _ => Err(D::Error::custom("Invalid datetime format")),
+                }
+            } else {
+                Err(D::Error::custom("Invalid datetime format"))
+            }
+        }
+        _ => Err(D::Error::custom("Invalid datetime format")),
+    }
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct IntegrationControlEntity {
+    pub id: String,
+    pub name: String,
+    #[serde(rename = "databaseViewId")]
+    pub database_view_id: String,
+    pub cron: String,
+    #[serde(rename = "dateField")]
+    pub date_field: String,
+    #[serde(rename = "startAt", default, skip_serializing_if = "Option::is_none")]
+    pub start_at: Option<String>,
+    #[serde(rename = "endAt", default, skip_serializing_if = "Option::is_none")]
+    pub end_at: Option<String>,
+    #[serde(rename = "lastRunAt", default, skip_serializing_if = "Option::is_none")]
+    pub last_run_at: Option<String>,
+    pub status: String,
     pub company_id: Option<String>,
     pub created_at: String,
     pub updated_at: String,
@@ -241,6 +401,8 @@ pub struct CreateDatabaseViewDto {
     pub is_interhealth_destination: Option<bool>,
     #[serde(rename = "databaseConfigurationId")]
     pub database_configuration_id: String,
+    #[serde(rename = "targetIntegrationId", skip_serializing_if = "Option::is_none")]
+    pub target_integration_id: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub resources: Option<Vec<ResourceItemDto>>,
 }
@@ -260,6 +422,8 @@ pub struct UpdateDatabaseViewDto {
     pub is_interhealth_destination: Option<bool>,
     #[serde(rename = "databaseConfigurationId")]
     pub database_configuration_id: Option<String>,
+    #[serde(rename = "targetIntegrationId", skip_serializing_if = "Option::is_none")]
+    pub target_integration_id: Option<String>,
     pub status: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub resources: Option<Vec<ResourceItemDto>>,
@@ -281,6 +445,8 @@ pub struct DatabaseViewEntity {
     pub is_interhealth_destination: bool,
     #[serde(rename = "databaseConfigurationId")]
     pub database_configuration_id: String,
+    #[serde(rename = "targetIntegrationId", skip_serializing_if = "Option::is_none")]
+    pub target_integration_id: Option<String>,
     pub company_id: Option<String>,
     pub status: String,
     #[serde(skip_serializing_if = "Option::is_none")]

@@ -29,6 +29,8 @@ pub struct DatabaseView {
     pub is_interhealth_destination: Option<bool>,
     pub database_configuration_id: String,
     pub company_id: String,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub target_integration_id: Option<String>,
     pub status: String,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub job_id: Option<String>,

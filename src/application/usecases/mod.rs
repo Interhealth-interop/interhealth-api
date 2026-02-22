@@ -12,6 +12,8 @@ pub mod database_model_value;
 pub mod fhir;
 pub mod sync;
 pub mod metrics;
+pub mod target_integration;
+pub mod integration_control;
 
 pub use auth::AuthUseCase;
 pub use user::UserUseCase;
@@ -32,3 +34,5 @@ pub use database_model_value::MappingValueUseCase;
 pub use fhir::FhirGenerator;
 pub use sync::SyncUseCase;
 pub use metrics::MetricsUseCase;
+pub use target_integration::TargetIntegrationUseCase;
+pub use integration_control::IntegrationControlUseCase;

@@ -1,5 +1,5 @@
 use std::sync::Arc;
-use std::collections::HashMap;
+use std::collections::{HashMap, HashSet};
 use serde::{Deserialize, Serialize};
 use serde::de::DeserializeOwned;
 use mongodb::bson::{doc, oid::ObjectId};
@@ -11,7 +11,7 @@ use crate::infrastructure::repositories::{
     DatabaseConfigurationRepository, DatabaseViewRepository,
     CreateCompanyDto,
 };
-use crate::domain::entities::{DatabaseModelValue, DatabaseModelValueClient, FieldMapping, ValueMappingItem};
+use crate::domain::entities::{DatabaseModelValue, DatabaseModelValueClient, FieldMapping, ValueMappingItem, ResourceItem};
 use crate::utils::AppResult;
 
 fn parse_seed_file<T: DeserializeOwned>(file_name: &str, content: &str) -> AppResult<Option<T>> {
@@ -115,6 +115,12 @@ struct DatabaseIntegrationData {
     description: String,
     #[serde(rename = "entityType")]
     entity_type: String,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    resource: Option<String>,
+    #[serde(default, rename = "mainResource", skip_serializing_if = "Option::is_none")]
+    main_resource: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    resources: Option<Vec<IntegrationResourceItemData>>,
     #[serde(rename = "databaseConfigurationId")]
     database_configuration_id: Option<String>,
     #[serde(default)]
@@ -122,6 +128,15 @@ struct DatabaseIntegrationData {
     company_id: Option<String>,
     #[serde(default)]
     status: Option<String>,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+struct IntegrationResourceItemData {
+    name: String,
+    #[serde(rename = "entityType")]
+    entity_type: String,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    resource: Option<String>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -480,20 +495,31 @@ pub async fn seed_database(
             ));
         }
 
+        let resources: Option<Vec<ResourceItem>> = integration.resources.as_ref().map(|items| {
+            items
+                .iter()
+                .map(|r| ResourceItem {
+                    name: r.name.clone(),
+                    entity_type: r.entity_type.clone(),
+                    resource: r.resource.clone(),
+                })
+                .collect()
+        });
+
         let created = if let Some(id) = integration.id.as_deref() {
             database_view_repo
                 .create_with_id(
                     id,
                     integration.name.clone(),
                     integration.description,
-                    None,
+                    integration.resource.clone(),
                     integration.entity_type,
-                    None,
+                    integration.main_resource.clone(),
                     None,
                     None,
                     config_id,
                     company_id.clone(),
-                    None,
+                    resources,
                 )
                 .await?
         } else {
@@ -501,14 +527,14 @@ pub async fn seed_database(
                 .create(
                     integration.name.clone(),
                     integration.description,
-                    None,
+                    integration.resource.clone(),
                     integration.entity_type,
-                    None,
+                    integration.main_resource.clone(),
                     None,
                     None,
                     config_id,
                     company_id.clone(),
-                    None,
+                    resources,
                 )
                 .await?
         };
@@ -675,6 +701,7 @@ pub async fn seed_database(
 
     println!("\n📚 Seeding database models...");
     let mut model_count = 0;
+    let mut created_model_ids: HashSet<String> = HashSet::new();
 
     for model_data in database_models {
         if model_repo.find_by_id(&model_data.id).await?.is_some() {
@@ -692,8 +719,9 @@ pub async fn seed_database(
             model_data.reference,
             values,
         ).await?;
-        
+
         model_count += 1;
+        created_model_ids.insert(model_data.id.clone());
         println!("  ✓ Model '{}' created with ID: {}", model_data.name, model_data.id);
     }
     
@@ -705,6 +733,10 @@ pub async fn seed_database(
         let Some(owner_id) = mv.owner_id.as_deref() else {
             continue;
         };
+
+        if !created_model_ids.contains(owner_id) {
+            continue;
+        }
 
         // Persist nested database_model_values document (as requested)
         let id = ObjectId::parse_str(&mv.id)

@@ -7,6 +7,7 @@ use crate::application::AppState;
 use crate::controllers::{
     user, company, auth, health, database_configuration, database_column,
     database_table, database_view, database_view_mapping,
+    target_integration, integration_control,
     sync, metrics, database_model
 };
 
@@ -64,6 +65,20 @@ pub fn create_routes(state: AppState) -> Router {
         .route("/database-view/:id", get(database_view::get_database_view_by_id))
         .route("/database-view/:id", put(database_view::update_database_view))
         .route("/database-view/:id", delete(database_view::delete_database_view))
+
+        // Target Integration routes
+        .route("/target-integration", post(target_integration::create_target_integration))
+        .route("/target-integration/:id", get(target_integration::get_target_integration_by_id))
+        .route("/target-integration/view/:view_id", get(target_integration::get_target_integration_by_database_view_id))
+        .route("/target-integration/:id", put(target_integration::update_target_integration))
+        .route("/target-integration/:id", delete(target_integration::delete_target_integration))
+
+        // Integration Control routes
+        .route("/integration-control", post(integration_control::create_integration_control))
+        .route("/integration-control/:id", get(integration_control::get_integration_control_by_id))
+        .route("/integration-control/view/:view_id", get(integration_control::get_integration_controls_by_database_view_id))
+        .route("/integration-control/:id", put(integration_control::update_integration_control))
+        .route("/integration-control/:id", delete(integration_control::delete_integration_control))
         
         // Database View Mapping routes
         .route("/database-view-mapping", post(database_view_mapping::create_database_view_mapping))

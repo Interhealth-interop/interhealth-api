@@ -49,6 +49,7 @@ impl DatabaseViewRepository {
             is_interhealth_destination,
             database_configuration_id,
             company_id,
+            target_integration_id: None,
             status: "pending".to_string(),
             job_id: None,
             resources,
@@ -97,6 +98,7 @@ impl DatabaseViewRepository {
             is_interhealth_destination,
             database_configuration_id,
             company_id,
+            target_integration_id: None,
             status: "pending".to_string(),
             job_id: None,
             resources,
@@ -260,6 +262,30 @@ impl DatabaseViewRepository {
             .map_err(|e| AppError::Database(e.to_string()))?;
         
         Ok(result.deleted_count > 0)
+    }
+
+    pub async fn set_target_integration_id(
+        &self,
+        database_view_id: &str,
+        target_integration_id: Option<String>,
+    ) -> Result<(), AppError> {
+        let object_id = ObjectId::parse_str(database_view_id)
+            .map_err(|_| AppError::BadRequest("Invalid ID format".to_string()))?;
+
+        let filter = doc! { "_id": object_id };
+
+        let update = if let Some(target_integration_id) = target_integration_id {
+            doc! { "$set": { "target_integration_id": target_integration_id, "updatedAt": Utc::now() } }
+        } else {
+            doc! { "$unset": { "target_integration_id": "" }, "$set": { "updatedAt": Utc::now() } }
+        };
+
+        self.collection
+            .update_one(filter, update, None)
+            .await
+            .map_err(|e| AppError::Database(e.to_string()))?;
+
+        Ok(())
     }
 
     pub async fn find_all(&self, page: i64, limit: i64, database_configuration_id: Option<String>, sort_document: Option<Document>) -> Result<(Vec<DatabaseView>, i64), AppError> {
