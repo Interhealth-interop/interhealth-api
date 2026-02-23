@@ -22,17 +22,6 @@ impl TargetIntegrationUseCase {
         data: CreateTargetIntegrationDto,
         company_id: String,
     ) -> AppResult<TargetIntegrationEntity> {
-        if self
-            .repository
-            .find_by_database_view_id(&data.database_view_id)
-            .await?
-            .is_some()
-        {
-            return Err(AppError::BadRequest(
-                "Target integration already exists for this databaseViewId".to_string(),
-            ));
-        }
-
         let created = self
             .repository
             .create(
@@ -41,7 +30,6 @@ impl TargetIntegrationUseCase {
                 data.host,
                 data.auth_type,
                 data.credentials,
-                data.database_view_id.clone(),
                 company_id.clone(),
             )
             .await?;
@@ -52,11 +40,6 @@ impl TargetIntegrationUseCase {
             .map(|id| id.to_hex())
             .unwrap_or_default();
 
-        self
-            .view_repository
-            .set_target_integration_id(&data.database_view_id, Some(created_id.clone()))
-            .await?;
-
         Ok(TargetIntegrationEntity {
             id: created_id,
             name: created.name,
@@ -64,7 +47,6 @@ impl TargetIntegrationUseCase {
             host: created.host,
             auth_type: created.auth_type,
             credentials: created.credentials,
-            database_view_id: created.database_view_id,
             company_id: Some(created.company_id),
             created_at: created.created_at.to_rfc3339(),
             updated_at: created.updated_at.to_rfc3339(),
@@ -85,20 +67,48 @@ impl TargetIntegrationUseCase {
             host: target.host,
             auth_type: target.auth_type,
             credentials: target.credentials,
-            database_view_id: target.database_view_id,
             company_id: Some(target.company_id),
             created_at: target.created_at.to_rfc3339(),
             updated_at: target.updated_at.to_rfc3339(),
         })
     }
 
+    pub async fn get_all_target_integrations(&self) -> AppResult<Vec<TargetIntegrationEntity>> {
+        let targets = self.repository.find_all().await?;
+
+        Ok(targets
+            .into_iter()
+            .map(|target| TargetIntegrationEntity {
+                id: target.id.unwrap().to_hex(),
+                name: target.name,
+                version: target.version,
+                host: target.host,
+                auth_type: target.auth_type,
+                credentials: target.credentials,
+                company_id: Some(target.company_id),
+                created_at: target.created_at.to_rfc3339(),
+                updated_at: target.updated_at.to_rfc3339(),
+            })
+            .collect())
+    }
+
     pub async fn get_target_integration_by_database_view_id(
         &self,
         database_view_id: &str,
     ) -> AppResult<TargetIntegrationEntity> {
+        let view = self
+            .view_repository
+            .find_by_id(database_view_id)
+            .await?
+            .ok_or_else(|| AppError::NotFound("Database view not found".to_string()))?;
+
+        let target_integration_id = view
+            .target_integration_id
+            .ok_or_else(|| AppError::NotFound("Target integration not found for this database view".to_string()))?;
+
         let target = self
             .repository
-            .find_by_database_view_id(database_view_id)
+            .find_by_id(&target_integration_id)
             .await?
             .ok_or_else(|| AppError::NotFound("Target integration not found".to_string()))?;
 
@@ -109,7 +119,6 @@ impl TargetIntegrationUseCase {
             host: target.host,
             auth_type: target.auth_type,
             credentials: target.credentials,
-            database_view_id: target.database_view_id,
             company_id: Some(target.company_id),
             created_at: target.created_at.to_rfc3339(),
             updated_at: target.updated_at.to_rfc3339(),
@@ -133,7 +142,6 @@ impl TargetIntegrationUseCase {
             host: updated.host,
             auth_type: updated.auth_type,
             credentials: updated.credentials,
-            database_view_id: updated.database_view_id,
             company_id: Some(updated.company_id),
             created_at: updated.created_at.to_rfc3339(),
             updated_at: updated.updated_at.to_rfc3339(),
@@ -141,20 +149,6 @@ impl TargetIntegrationUseCase {
     }
 
     pub async fn delete_target_integration(&self, id: &str) -> AppResult<bool> {
-        let existing = self
-            .repository
-            .find_by_id(id)
-            .await?
-            .ok_or_else(|| AppError::NotFound("Target integration not found".to_string()))?;
-
-        let deleted = self.repository.delete(id).await?;
-        if deleted {
-            self
-                .view_repository
-                .set_target_integration_id(&existing.database_view_id, None)
-                .await?;
-        }
-
-        Ok(deleted)
+        self.repository.delete(id).await
     }
 }

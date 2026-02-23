@@ -41,8 +41,8 @@ pub struct IntegrationControl {
         deserialize_with = "deserialize_optional_bson_datetime"
     )]
     pub last_run_at: Option<DateTime<Utc>>,
-    #[serde(default)]
-    pub status: String,
+    #[serde(default, rename = "controlField")]
+    pub control_field: String,
     pub company_id: String,
     #[serde(with = "crate::utils::utils::date_format")]
     pub created_at: DateTime<Utc>,

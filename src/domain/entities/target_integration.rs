@@ -17,8 +17,6 @@ pub struct TargetIntegration {
     pub host: String,
     pub auth_type: Option<String>,
     pub credentials: Option<String>,
-    #[serde(rename = "databaseViewId")]
-    pub database_view_id: String,
     pub company_id: String,
     #[serde(with = "crate::utils::utils::date_format")]
     pub created_at: DateTime<Utc>,

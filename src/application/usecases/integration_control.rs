@@ -29,7 +29,7 @@ impl IntegrationControlUseCase {
                 data.date_field,
                 data.start_at,
                 data.end_at,
-                data.status.unwrap_or_else(|| "active".to_string()),
+                data.control_field.unwrap_or_else(|| String::new()),
                 company_id,
             )
             .await?;
@@ -43,7 +43,7 @@ impl IntegrationControlUseCase {
             start_at: created.start_at.map(|dt| dt.to_rfc3339()),
             end_at: created.end_at.map(|dt| dt.to_rfc3339()),
             last_run_at: created.last_run_at.map(|dt| dt.to_rfc3339()),
-            status: created.status,
+            control_field: created.control_field,
             company_id: Some(created.company_id),
             created_at: created.created_at.to_rfc3339(),
             updated_at: created.updated_at.to_rfc3339(),
@@ -66,7 +66,7 @@ impl IntegrationControlUseCase {
             start_at: control.start_at.map(|dt| dt.to_rfc3339()),
             end_at: control.end_at.map(|dt| dt.to_rfc3339()),
             last_run_at: control.last_run_at.map(|dt| dt.to_rfc3339()),
-            status: control.status,
+            control_field: control.control_field,
             company_id: Some(control.company_id),
             created_at: control.created_at.to_rfc3339(),
             updated_at: control.updated_at.to_rfc3339(),
@@ -90,7 +90,7 @@ impl IntegrationControlUseCase {
                 start_at: control.start_at.map(|dt| dt.to_rfc3339()),
                 end_at: control.end_at.map(|dt| dt.to_rfc3339()),
                 last_run_at: control.last_run_at.map(|dt| dt.to_rfc3339()),
-                status: control.status,
+                control_field: control.control_field,
                 company_id: Some(control.company_id),
                 created_at: control.created_at.to_rfc3339(),
                 updated_at: control.updated_at.to_rfc3339(),
@@ -112,7 +112,7 @@ impl IntegrationControlUseCase {
                 data.date_field,
                 data.start_at,
                 data.end_at,
-                data.status,
+                data.control_field,
             )
             .await?;
 
@@ -125,7 +125,7 @@ impl IntegrationControlUseCase {
             start_at: updated.start_at.map(|dt| dt.to_rfc3339()),
             end_at: updated.end_at.map(|dt| dt.to_rfc3339()),
             last_run_at: updated.last_run_at.map(|dt| dt.to_rfc3339()),
-            status: updated.status,
+            control_field: updated.control_field,
             company_id: Some(updated.company_id),
             created_at: updated.created_at.to_rfc3339(),
             updated_at: updated.updated_at.to_rfc3339(),

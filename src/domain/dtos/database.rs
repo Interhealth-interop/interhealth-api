@@ -100,8 +100,6 @@ pub struct CreateTargetIntegrationDto {
     #[serde(rename = "authType")]
     pub auth_type: Option<String>,
     pub credentials: Option<String>,
-    #[serde(rename = "databaseViewId")]
-    pub database_view_id: String,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -123,8 +121,6 @@ pub struct TargetIntegrationEntity {
     #[serde(rename = "authType")]
     pub auth_type: Option<String>,
     pub credentials: Option<String>,
-    #[serde(rename = "databaseViewId")]
-    pub database_view_id: String,
     pub company_id: Option<String>,
     pub created_at: String,
     pub updated_at: String,
@@ -152,8 +148,8 @@ pub struct CreateIntegrationControlDto {
         deserialize_with = "deserialize_optional_datetime"
     )]
     pub end_at: Option<DateTime<Utc>>,
-    #[serde(default, skip_serializing_if = "Option::is_none")]
-    pub status: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none", rename = "controlField")]
+    pub control_field: Option<String>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -176,7 +172,8 @@ pub struct UpdateIntegrationControlDto {
         deserialize_with = "deserialize_optional_datetime"
     )]
     pub end_at: Option<DateTime<Utc>>,
-    pub status: Option<String>,
+    #[serde(rename = "controlField")]
+    pub control_field: Option<String>,
 }
 
 fn deserialize_optional_datetime<'de, D>(deserializer: D) -> Result<Option<DateTime<Utc>>, D::Error>
@@ -244,9 +241,12 @@ pub struct IntegrationControlEntity {
     pub end_at: Option<String>,
     #[serde(rename = "lastRunAt", default, skip_serializing_if = "Option::is_none")]
     pub last_run_at: Option<String>,
-    pub status: String,
+    #[serde(rename = "controlField")]
+    pub control_field: String,
     pub company_id: Option<String>,
+    #[serde(rename = "createdAt")]
     pub created_at: String,
+    #[serde(rename = "updatedAt")]
     pub updated_at: String,
 }
 

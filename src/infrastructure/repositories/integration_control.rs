@@ -32,7 +32,7 @@ impl IntegrationControlRepository {
         date_field: String,
         start_at: Option<DateTime<Utc>>,
         end_at: Option<DateTime<Utc>>,
-        status: String,
+        control_field: String,
         company_id: String,
     ) -> Result<IntegrationControl, AppError> {
         let now = ChronoUtc::now();
@@ -46,7 +46,7 @@ impl IntegrationControlRepository {
             start_at,
             end_at,
             last_run_at: None,
-            status,
+            control_field,
             company_id,
             created_at: now,
             updated_at: now,
@@ -108,7 +108,7 @@ impl IntegrationControlRepository {
         date_field: Option<String>,
         start_at: Option<DateTime<Utc>>,
         end_at: Option<DateTime<Utc>>,
-        status: Option<String>,
+        control_field: Option<String>,
     ) -> Result<IntegrationControl, AppError> {
         let object_id = ObjectId::parse_str(id)
             .map_err(|_| AppError::BadRequest("Invalid ID format".to_string()))?;
@@ -130,8 +130,8 @@ impl IntegrationControlRepository {
         if let Some(end_at) = end_at {
             update_doc.insert("endAt", end_at);
         }
-        if let Some(status) = status {
-            update_doc.insert("status", status);
+        if let Some(control_field) = control_field {
+            update_doc.insert("controlField", control_field);
         }
 
         update_doc.insert("updatedAt", ChronoUtc::now());

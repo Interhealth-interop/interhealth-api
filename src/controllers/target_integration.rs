@@ -47,6 +47,18 @@ pub async fn get_target_integration_by_id(
     Ok(Json(ApiResponse::success("Target integration found", target)))
 }
 
+pub async fn get_all_target_integrations(
+    State(state): State<AppState>,
+) -> AppResult<Json<ApiResponse<Vec<TargetIntegrationEntity>>>> {
+    let use_case = TargetIntegrationUseCase::new(
+        state.target_integration_repository.clone(),
+        state.database_view_repository.clone(),
+    );
+
+    let targets = use_case.get_all_target_integrations().await?;
+    Ok(Json(ApiResponse::success("Target integrations found", targets)))
+}
+
 pub async fn get_target_integration_by_database_view_id(
     State(state): State<AppState>,
     Path(view_id): Path<String>,

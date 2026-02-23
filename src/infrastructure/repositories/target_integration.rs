@@ -30,7 +30,6 @@ impl TargetIntegrationRepository {
         host: String,
         auth_type: Option<String>,
         credentials: Option<String>,
-        database_view_id: String,
         company_id: String,
     ) -> Result<TargetIntegration, AppError> {
         let now = Utc::now();
@@ -42,7 +41,6 @@ impl TargetIntegrationRepository {
             host,
             auth_type,
             credentials,
-            database_view_id,
             company_id,
             created_at: now,
             updated_at: now,
@@ -72,17 +70,25 @@ impl TargetIntegrationRepository {
         Ok(target)
     }
 
-    pub async fn find_by_database_view_id(
-        &self,
-        database_view_id: &str,
-    ) -> Result<Option<TargetIntegration>, AppError> {
-        let target = self
+    pub async fn find_all(&self) -> Result<Vec<TargetIntegration>, AppError> {
+        use futures::stream::TryStreamExt;
+
+        let mut cursor = self
             .collection
-            .find_one(doc! { "databaseViewId": database_view_id }, None)
+            .find(doc! {}, None)
             .await
             .map_err(|e| AppError::Database(e.to_string()))?;
 
-        Ok(target)
+        let mut targets = Vec::new();
+        while let Some(target) = cursor
+            .try_next()
+            .await
+            .map_err(|e| AppError::Database(e.to_string()))?
+        {
+            targets.push(target);
+        }
+
+        Ok(targets)
     }
 
     pub async fn update(

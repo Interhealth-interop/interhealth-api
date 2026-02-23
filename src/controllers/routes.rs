@@ -68,8 +68,8 @@ pub fn create_routes(state: AppState) -> Router {
 
         // Target Integration routes
         .route("/target-integration", post(target_integration::create_target_integration))
+        .route("/target-integration", get(target_integration::get_all_target_integrations))
         .route("/target-integration/:id", get(target_integration::get_target_integration_by_id))
-        .route("/target-integration/view/:view_id", get(target_integration::get_target_integration_by_database_view_id))
         .route("/target-integration/:id", put(target_integration::update_target_integration))
         .route("/target-integration/:id", delete(target_integration::delete_target_integration))
 
